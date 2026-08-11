@@ -1,51 +1,78 @@
 # Bussola Nutrizionale — Zenplicité
 
-Applicazione web (un unico file HTML, nessun server richiesto) per calcolare i fabbisogni nutrizionali personalizzati e gestire diete, database alimenti, ricette, diario alimentare e pianificazione settimanale dei pasti.
+Applicazione web (**PWA — Progressive Web App**) per calcolare i fabbisogni nutrizionali personalizzati e gestire diete, database alimenti, ricette, diario alimentare e pianificazione settimanale dei pasti. Installabile su computer, telefono e tablet direttamente dal browser, funziona anche offline dopo la prima apertura.
 
-## Funzionalità
+## Struttura del progetto
 
-- **Profilo & fabbisogni** — calcolo di energia, proteine, carboidrati, lipidi e fibre in base a sesso, età, peso, altezza, livello di attività fisica (con spiegazione dei 4 livelli LAF) e stato fisiologico (gravidanza/allattamento), basato sui valori AR/PRI/AI della tabella EFSA *Dietary Reference Values*.
-- **Tipi di dieta** — ripartizioni percentuali di macronutrienti personalizzabili per Onnivora, Vegetariana, Vegana, Mediterranea, Anti-infiammatoria, Paleo, Chetogenica (+ diete personalizzate).
-- **Guida alle diete** — spiegazione pratica di ciascun tipo di dieta: alimenti da preferire/limitare e note.
-- **Database alimenti** — oltre 100 alimenti (inclusi gli pseudocereali: quinoa, grano saraceno, amaranto, teff) con valori nutrizionali per 100 g, filtrabili per categoria/dieta, editabili, importabili/esportabili in TXT e JSON.
-- **Ricette** — composizione da alimenti del database, calcolo automatico dei valori nutrizionali totali e per porzione, passi di preparazione con **lettore vocale** (play/pausa/ripresa) e grafico di composizione calorica con indicatore di equilibrio rispetto alla dieta scelta.
-- **Diario giornaliero** — registrazione dei pasti con confronto rispetto agli obiettivi, grafici a torta e a barre, badge "Equilibrato / Sbilanciato".
-- **Piano settimanale** — pianificazione dei pasti (colazione, spuntino, pranzo, cena) con portate (antipasto, primo, secondo, contorno, dessert, bevanda) per ciascun giorno della settimana.
-- **Bilingue IT/FR** — interfaccia, diete e database alimenti completamente tradotti.
-- Esportazione **PDF, TXT, JSON** e stampa per ogni sezione.
+```
+├── index.html          la pagina dell'app
+├── styles.css           tutti gli stili
+├── app.js                tutta la logica dell'applicazione
+├── manifest.json    descrizione dell'app per l'installazione (PWA)
+├── sw.js                  service worker: abilita l'uso offline e l'installazione
+├── favicon.ico
+├── icons/                 icone dell'app in varie dimensioni (per favicon e installazione)
+│   ├── favicon-16.png
+│   ├── favicon-32.png
+│   ├── icon-192.png
+│   ├── icon-512.png
+│   └── apple-touch-icon.png
+└── assets/
+    └── logo.png         il tuo logo Zenplicité, mostrato accanto al nome dell'app
+```
 
-Tutto funziona **interamente nel browser**: nessun dato viene inviato a un server. I dati restano in memoria per la sessione corrente — usa l'esportazione JSON per conservarli.
+Nessuna build, nessuna dipendenza da installare: sono solo file statici.
 
-## Come usarla
+## Funzionalità dell'app
 
-### In locale
-Scarica il repository e apri semplicemente `index.html` in un browser moderno (Chrome, Firefox, Edge, Safari). Non serve installare nulla.
+- **Profilo & fabbisogni** — energia, proteine, carboidrati, lipidi e fibre in base a sesso, età, peso, altezza, livello di attività fisica (con spiegazione dei 4 livelli LAF) e stato fisiologico, secondo i valori EFSA (*Dietary Reference Values*).
+- **Tipi di dieta** personalizzabili (Onnivora, Vegetariana, Vegana, Mediterranea, Anti-infiammatoria, Paleo, Chetogenica, +personalizzate) e **Guida alle diete**.
+- **Database alimenti** (oltre 100 voci, incluso pseudocereali) filtrabile, editabile, importabile/esportabile.
+- **Ricette** con preparazione, lettore vocale (play/pausa/ripresa), e grafico di equilibrio nutrizionale.
+- **Diario giornaliero** con grafici a torta/barre e badge "Equilibrato / Sbilanciato".
+- **Piano settimanale** dei pasti con portate (antipasto, primo, secondo, contorno, dessert, bevanda).
+- Bilingue **IT/FR**, esportazione PDF/TXT/JSON, stampa.
 
-### Online con GitHub Pages (gratuito)
+## Come usarla in locale
 
-Lo ZIP che scarichi contiene già un repository Git inizializzato con il primo commit pronto (branch `main`). Ti basta:
+Apri semplicemente `index.html` in un browser moderno (Chrome, Firefox, Edge, Safari). Alcune funzioni PWA (installazione, uso offline) richiedono che i file siano serviti da un server web, anche locale — vedi sotto.
 
-1. Estrai lo ZIP e apri un terminale nella cartella `repo`.
-2. Crea un nuovo repository vuoto su GitHub (senza README, senza .gitignore — sono già inclusi), es. `bussola-nutrizionale`.
-3. Collega ed esegui il push:
+Per testare in locale con un piccolo server (facoltativo):
+```
+python3 -m http.server 8080
+```
+poi apri `http://localhost:8080` nel browser.
+
+## Come pubblicarla online con GitHub Pages (gratis)
+
+1. Crea un nuovo repository su GitHub (es. `bussola-nutrizionale`).
+2. Carica **tutti i file e le cartelle di questo pacchetto** così come sono (mantieni la struttura: `icons/` e `assets/` restano sottocartelle) — puoi trascinarli nella pagina "Add file → Upload files" di GitHub, oppure usare Git da terminale:
    ```
+   cd bussola-nutrizionale
+   git init
+   git add -A
+   git commit -m "Prima versione"
+   git branch -M main
    git remote add origin https://github.com/<tuo-utente>/<nome-repository>.git
    git push -u origin main
    ```
-4. Nel repository su GitHub vai su **Settings → Pages**, in **Source** seleziona il branch `main` e la cartella `/ (root)`, poi salva.
-5. Dopo qualche minuto l'app sarà online all'indirizzo `https://<tuo-utente>.github.io/<nome-repository>/`.
+3. Su GitHub vai su **Settings → Pages**, in **Source** scegli il branch `main` e la cartella `/ (root)`, salva.
+4. Dopo qualche minuto l'app è online su `https://<tuo-utente>.github.io/<nome-repository>/`.
 
-In alternativa, se preferisci non usare il terminale, puoi creare il repository su GitHub e trascinare/caricare `index.html` e `README.md` direttamente dall'interfaccia web di GitHub ("Add file → Upload files"), poi seguire i punti 4-5.
+## Installazione come app (su tutti i dispositivi)
+
+Una volta che l'app è online (serve HTTPS, che GitHub Pages fornisce automaticamente):
+
+- **Computer (Chrome/Edge)**: apri il link, clicca l'icona di installazione nella barra degli indirizzi (o menu → "Installa app").
+- **Android (Chrome)**: apri il link, il browser propone "Aggiungi a schermata Home" / "Installa app".
+- **iPhone/iPad (Safari)**: apri il link, tocca "Condividi" → "Aggiungi a Home".
+
+L'icona che vedrai è quella "a bussola" nelle tonalità verde/ocra dell'app (nella cartella `icons/`), diversa dal tuo logo Zenplicité che invece resta visibile nell'intestazione dell'app stessa.
 
 ## Fonti scientifiche
 
-I valori di riferimento per energia, proteine e fibre sono tratti dalla tabella **EFSA — Dietary Reference Values for nutrients** (Autorità Europea per la Sicurezza Alimentare). I riferimenti per zuccheri e sale, non fissati numericamente dall'EFSA a livello di popolazione, seguono le indicazioni generali dell'OMS.
+I valori di riferimento per energia, proteine e fibre sono tratti dalla tabella **EFSA — Dietary Reference Values for nutrients**. I riferimenti per zuccheri e sale seguono le indicazioni generali dell'OMS, non fissate numericamente dall'EFSA a livello di popolazione.
 
 ## Nota
 
-Questo strumento fornisce indicazioni nutrizionali generali e non sostituisce una valutazione professionale personalizzata.
-
-## Repository pubblico o privato?
-
-Contenendo il tuo logo e il nome del cabinet, se non vuoi che sia visibile a chiunque ti consiglio di creare il repository come **privato** (disponibile anche nei piani GitHub gratuiti). GitHub Pages funziona anche da repository privato se hai un account GitHub Pro/Team/Enterprise; con l'account gratuito, per pubblicare online con Pages il repository deve essere pubblico.
-
+Questo strumento fornisce indicazioni nutrizionali generali e non sostituisce una valutazione professionale personalizzata. I dati inseriti restano nel browser della persona che usa l'app (nessun invio a un server) — usa l'esportazione JSON per conservarli.
