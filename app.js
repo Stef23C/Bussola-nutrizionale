@@ -20,7 +20,7 @@ it: {
   btnCalcola:"Calcola fabbisogni →",
   lafInfoTitle:"Cosa significa il livello di attività fisica (LAF)",
   lafInfoIntro:"Il LAF stima quanta energia in più, rispetto al riposo, la persona consuma nella giornata tipo. Scegli il livello che descrive meglio la settimana media, non un singolo giorno di allenamento intenso.",
-  laf1Name:"1,4 — Sedentario", laf1Desc:"Vita perlopiù seduta, poco o nessun movimento strutturato.",
+  laf1Name:"1,4 — Sedentario", laf1Desc:"Vita per lo più seduta, poco o nessun movimento strutturato.",
   laf1Ex:"Esempi: lavoro d'ufficio o al computer, lunghi tragitti in auto o mezzi pubblici, nessuno sport regolare o al massimo una breve passeggiata occasionale.",
   laf2Name:"1,6 — Moderatamente attivo", laf2Desc:"Un po' di movimento quotidiano più attività fisica leggera qualche volta a settimana.",
   laf2Ex:"Esempi: camminate regolari, lavoro che alterna momenti seduti e in piedi, 1-3 allenamenti leggeri/moderati a settimana (es. yoga, bici, piscina).",
@@ -67,6 +67,7 @@ it: {
   rmPlaceholderGrams:"grammi", noIngredients:"Nessun ingrediente aggiunto.", btnSaveRecipe:"Salva ricetta",
   alertRecipeNameIngr:"Inserisci nome e almeno un ingrediente.",
   rmLabelSteps:"Preparazione (un passo per riga)", rmStepsPlaceholder:"1. Scalda l'olio in padella...\n2. Aggiungi...",
+  rmLabelImage:"Immagine (opzionale)",
   prepTitle:"Preparazione", nutriValuesTitle:"Valori nutrizionali",
   btnPlay:"Ascolta", btnPause:"Pausa", btnRestart:"Ricomincia",
   alertNoSpeech:"La sintesi vocale non è supportata da questo browser.",
@@ -164,6 +165,7 @@ fr: {
   rmPlaceholderGrams:"grammes", noIngredients:"Aucun ingrédient ajouté.", btnSaveRecipe:"Enregistrer la recette",
   alertRecipeNameIngr:"Indique un nom et au moins un ingrédient.",
   rmLabelSteps:"Préparation (une étape par ligne)", rmStepsPlaceholder:"1. Fais chauffer l'huile dans la poêle...\n2. Ajoute...",
+  rmLabelImage:"Image (facultatif)",
   prepTitle:"Préparation", nutriValuesTitle:"Valeurs nutritionnelles",
   btnPlay:"Écouter", btnPause:"Pause", btnRestart:"Recommencer",
   alertNoSpeech:"La synthèse vocale n'est pas prise en charge par ce navigateur.",
@@ -430,6 +432,7 @@ let MEALS = {colazione:[],pranzo:[],cena:[],spuntino:[]};
 let WEEKPLAN = { weekStart: null, slots: {} };
 let currentTargets = null;
 let recipeDraft = [];
+let recipeDraftImage = null;
 let foodIdSeq = 1;
 
 function T(vegan,veg,omni,paleo,ai){return {vegan:!!vegan,veg:!!veg,omni:!!omni,paleo:!!paleo,ai:!!ai};}
@@ -884,11 +887,23 @@ function exportFoodsJSON(){ downloadBlob(JSON.stringify(FOODS,null,2),'database_
    ========================================================================= */
 function openRecipeModal(){
   recipeDraft = [];
+  recipeDraftImage = null;
   document.getElementById('rm-name').value=''; document.getElementById('rm-servings').value=4;
   document.getElementById('rm-steps').value='';
+  document.getElementById('rm-image').value='';
+  document.getElementById('rm-image-preview').innerHTML='';
   document.getElementById('rm-food-select').innerHTML = FOODS.map(f=>`<option value="${f.id}">${FNAME(f)}</option>`).join('');
   renderRecipeDraft();
   document.getElementById('recipe-modal-bg').classList.add('active');
+}
+function handleRecipeImageUpload(evt){
+  const file = evt.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    recipeDraftImage = e.target.result;
+    document.getElementById('rm-image-preview').innerHTML = `<img src="${recipeDraftImage}" alt="">`;
+  };
+  reader.readAsDataURL(file);
 }
 function addIngredientToRecipeDraft(){
   const fid = parseInt(document.getElementById('rm-food-select').value);
@@ -910,7 +925,7 @@ function saveRecipeModal(){
   const stepsRaw = document.getElementById('rm-steps').value;
   const steps = stepsRaw.split('\n').map(s=>s.trim()).filter(Boolean).map(s=>s.replace(/^\d+[.)]\s*/,''));
   if(!name||recipeDraft.length===0){ alert(t('alertRecipeNameIngr')); return; }
-  RECIPES.push({id:'r'+Date.now(),name,servings,items:[...recipeDraft],steps});
+  RECIPES.push({id:'r'+Date.now(),name,servings,items:[...recipeDraft],steps,image:recipeDraftImage});
   closeModal('recipe-modal-bg');
   renderRecipes();
 }
@@ -964,7 +979,12 @@ function renderRecipes(){
     }
     return `<div class="recipe-card">
       <h4>${r.name} <span class="small">(${r.servings} ${t('servingsSuffix')})</span></h4>
-      <p class="small">${t('ingredientsLabel')}: ${r.items.map(it=>{const f=FOODS.find(x=>x.id===it.foodId);return (f?FNAME(f):'?')+' '+it.grams+'g';}).join(', ')}</p>
+      ${r.image ? `<img class="recipe-photo" src="${r.image}" alt="${r.name}">` : ''}
+      <p class="small ingredients-inline">${t('ingredientsLabel')}: ${r.items.map(it=>{const f=FOODS.find(x=>x.id===it.foodId);return (f?FNAME(f):'?')+' '+it.grams+'g';}).join(', ')}</p>
+      <div class="ingredients-print">
+        <h5>${t('ingredientsLabel')}</h5>
+        <ul>${r.items.map(it=>{const f=FOODS.find(x=>x.id===it.foodId);return `<li>${f?FNAME(f):'?'} — ${it.grams} g</li>`;}).join('')}</ul>
+      </div>
       ${stepsHtml}
       <h5 class="prep-title" style="margin-top:14px;">${t('nutriValuesTitle')}</h5>
       <table><thead><tr><th></th><th class="num">${t('colKcal')}</th><th class="num">${t('colProt')}</th><th class="num">${t('colCarb')}</th><th class="num">${t('colFat')}</th><th class="num">${t('colFiber')}</th><th class="num">${t('colSalt')}</th></tr></thead>
@@ -1228,17 +1248,15 @@ function renderWeekPlan(){
     for(let dayIdx=0; dayIdx<7; dayIdx++){
       body += '<td>';
       if(meal==='pranzo'||meal==='cena'){
-        COURSES.forEach(course=>{
-          const slot = getPlanSlot(dayIdx,meal,course);
-          body += `<div class="plan-course"><div class="ch"><span>${t(COURSE_I18N[course])}</span><button class="plan-add-btn" onclick="openPlanAdd(${dayIdx},'${meal}','${course}')">+</button></div>`;
-          body += slot.length ? `<ul>${slot.map((it,idx)=>{ const it2=computeMealItemTotals(it); return `<li><span>${it2.label}</span><button class="plan-rm-btn" onclick="removePlanItem(${dayIdx},'${meal}','${course}',${idx})">✕</button></li>`; }).join('')}</ul>` : '';
-          body += `</div>`;
-        });
+        const options = COURSES.map(c=>`<option value="${c}">${t(COURSE_I18N[c])}</option>`).join('');
+        body += `<div class="plan-course-picker"><select id="plan-course-sel-${dayIdx}-${meal}">${options}</select><button class="plan-add-btn" onclick="openPlanAddFromSelect(${dayIdx},'${meal}')">+</button></div>`;
+        let combined = [];
+        COURSES.forEach(course=>{ getPlanSlot(dayIdx,meal,course).forEach((it,idx)=>combined.push({course,idx,it})); });
+        body += combined.length ? `<ul class="plan-combined-list">${combined.map(ci=>{ const it2=computeMealItemTotals(ci.it); return `<li><span><b>${t(COURSE_I18N[ci.course])}:</b> ${it2.label}</span><button class="plan-rm-btn" onclick="removePlanItem(${dayIdx},'${meal}','${ci.course}',${ci.idx})">✕</button></li>`; }).join('')}</ul>` : `<p class="empty-hint" style="font-size:11.5px;margin:0;">${t('planNoItems')}</p>`;
       } else {
         const slot = getPlanSlot(dayIdx,meal,null);
-        body += `<div class="plan-course"><div class="ch"><span></span><button class="plan-add-btn" onclick="openPlanAdd(${dayIdx},'${meal}',null)">+</button></div>`;
-        body += slot.length ? `<ul>${slot.map((it,idx)=>{ const it2=computeMealItemTotals(it); return `<li><span>${it2.label}</span><button class="plan-rm-btn" onclick="removePlanItem(${dayIdx},'${meal}',null,${idx})">✕</button></li>`; }).join('')}</ul>` : '';
-        body += `</div>`;
+        body += `<div class="plan-course-picker"><button class="plan-add-btn" onclick="openPlanAdd(${dayIdx},'${meal}',null)">+</button></div>`;
+        body += slot.length ? `<ul class="plan-combined-list">${slot.map((it,idx)=>{ const it2=computeMealItemTotals(it); return `<li><span>${it2.label}</span><button class="plan-rm-btn" onclick="removePlanItem(${dayIdx},'${meal}',null,${idx})">✕</button></li>`; }).join('')}</ul>` : `<p class="empty-hint" style="font-size:11.5px;margin:0;">${t('planNoItems')}</p>`;
       }
       body += '</td>';
     }
@@ -1263,6 +1281,10 @@ function renderWeekPlan(){
   document.getElementById('plan-table').innerHTML = head + body;
 }
 
+function openPlanAddFromSelect(dayIdx,meal){
+  const sel = document.getElementById(`plan-course-sel-${dayIdx}-${meal}`);
+  openPlanAdd(dayIdx, meal, sel ? sel.value : COURSES[0]);
+}
 function openPlanAdd(dayIdx,meal,course){
   PLAN_CTX = {dayIdx,meal,course};
   const d = weekDayDate(dayIdx);

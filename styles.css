@@ -167,6 +167,9 @@ tr:hover td{background:#FAF8F1;}
 
 .recipe-card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:12px;background:#FBFAF6;}
 .recipe-card h4{margin:0 0 6px 0;font-size:15px;}
+.recipe-photo{width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-bottom:10px;display:block;}
+.ingredients-print{display:none;}
+.image-upload-preview img{max-width:160px;border-radius:8px;margin-top:8px;display:block;}
 .prep-block{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px;}
 .prep-title{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);margin:0 0 8px;}
 .player-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
@@ -177,9 +180,14 @@ tr:hover td{background:#FAF8F1;}
 
 .plan-table{border-collapse:collapse;width:100%;min-width:920px;}
 .plan-table th{white-space:nowrap;}
-.plan-table td{vertical-align:top;padding:8px;border:1px solid var(--line);min-width:150px;}
+.plan-table td{vertical-align:top;padding:8px;border:1px solid var(--line);min-width:170px;}
 .plan-day-cell{font-weight:600;background:#F7F2E4;white-space:nowrap;}
 .plan-day-cell .d{font-size:11px;color:var(--ink-soft);font-weight:500;display:block;}
+.plan-course-picker{display:flex;gap:6px;margin-bottom:8px;}
+.plan-course-picker select{flex:1;font-size:11.5px;padding:4px 6px;}
+.plan-combined-list{list-style:none;margin:0;padding:0;}
+.plan-combined-list li{display:flex;justify-content:space-between;gap:6px;font-size:12px;padding:2px 0;border-bottom:1px dashed var(--line);}
+.plan-combined-list li b{font-weight:700;color:var(--brand);}
 .plan-course{margin-bottom:8px;}
 .plan-course .ch{display:flex;justify-content:space-between;align-items:center;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--ink-soft);font-weight:700;margin-bottom:2px;}
 .plan-course ul{list-style:none;margin:0;padding:0;}
@@ -192,8 +200,49 @@ tr:hover td{background:#FAF8F1;}
 .footer-note{color:var(--ink-soft);font-size:12px;margin-top:30px;border-top:1px solid var(--line);padding-top:14px;}
 
 @media print{
-  .no-print,.tabs,.topbar .btn-row{display:none !important;}
-  body{background:#fff;}
-  .panel{display:block !important;}
-  .card{border:1px solid #ccc;break-inside:avoid;}
+  @page{ margin:16mm 14mm; }
+  .no-print,.tabs,.lang-switch{display:none !important;}
+  body{background:#fff;font-size:12.5px;color:#1a1a1a;}
+  .app-shell{max-width:100%;padding:0;}
+  .topbar{border-bottom:2px solid #20281F;padding-bottom:10px;margin-bottom:14px;}
+  .brand-mark{width:36px;height:36px;}
+
+  /* Stampa solo la scheda attualmente aperta: ogni sezione si stampa in modo elegante e indipendente */
+  .panel{display:none !important;}
+  .panel.active{display:block !important;}
+
+  .card{border:1px solid #ccc;box-shadow:none;break-inside:avoid;background:#fff;}
+  table{font-size:11.5px;}
+  th{border-bottom:1.5px solid #20281F;}
+  .badge,.badge-warn{background:none !important;border:1px solid #999;color:#333 !important;}
+  #food-table-wrap,#plan-table-wrap{max-height:none !important;overflow:visible !important;}
+  .plan-day-cell{background:none !important;border-bottom:1.5px solid #20281F !important;}
+
+  /* Ricette — ciascuna come una vera pagina di ricetta, con immagine se presente */
+  #tab-ricette > .card{border:none;padding:0;break-inside:auto;}
+  #tab-ricette > .card > h3,
+  #tab-ricette > .card > p.small,
+  #tab-ricette > .card > .btn-row{display:none !important;}
+  .recipe-card{
+    border:none;padding:0;margin:0 0 10mm 0;
+    page-break-after:always;break-after:page;
+  }
+  .recipe-card:last-child{page-break-after:auto;break-after:auto;}
+  .recipe-card h4{
+    font-family:'Fraunces',serif;font-size:30px;font-weight:700;color:#20281F;
+    border-bottom:3px solid #33513E;padding-bottom:10px;margin:0 0 14px 0;
+  }
+  .recipe-card h4 .small{display:block;font-size:14px;font-weight:400;color:#5B6357;margin-top:5px;text-transform:none;letter-spacing:0;}
+  .recipe-photo{display:block !important;width:100%;max-height:300px;object-fit:cover;border-radius:6px;margin-bottom:16px;}
+  .ingredients-inline{display:none !important;}
+  .ingredients-print{display:block !important;margin-bottom:6px;}
+  .ingredients-print h5,.prep-title,.recipe-card > h5{
+    font-family:'Inter',sans-serif;font-size:11.5px;text-transform:uppercase;letter-spacing:1px;color:#5B6357;
+    border-bottom:1px solid #ccc;padding-bottom:5px;margin:20px 0 10px;font-weight:700;
+  }
+  .ingredients-print ul{columns:2;column-gap:26px;list-style:disc;padding-left:18px;margin:0;}
+  .ingredients-print li{font-size:12.5px;margin-bottom:5px;break-inside:avoid;}
+  .prep-steps li{background:none !important;font-weight:400 !important;font-size:13px;}
+  .recipe-card .balance-block{display:none !important;}
+  .recipe-card table{margin-top:4px;}
 }

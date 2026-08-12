@@ -93,7 +93,7 @@
       <p class="small" data-i18n="lafInfoIntro">Il LAF stima quanta energia in più, rispetto al riposo, la persona consuma nella giornata tipo. Scegli il livello che descrive meglio la settimana media, non un singolo giorno di allenamento intenso.</p>
       <div class="laf-row">
         <div class="laf-tag" data-i18n="laf1Name">1,4 — Sedentario</div>
-        <div class="laf-text"><b data-i18n="laf1Desc">Vita perlopiù seduta, poco o nessun movimento strutturato.</b><span data-i18n="laf1Ex">Esempi: lavoro d'ufficio o al computer, lunghi tragitti in auto o mezzi pubblici, nessuno sport regolare o al massimo una breve passeggiata occasionale.</span></div>
+        <div class="laf-text"><b data-i18n="laf1Desc">Vita per lo più seduta, poco o nessun movimento strutturato.</b><span data-i18n="laf1Ex">Esempi: lavoro d'ufficio o al computer, lunghi tragitti in auto o mezzi pubblici, nessuno sport regolare o al massimo una breve passeggiata occasionale.</span></div>
       </div>
       <div class="laf-row">
         <div class="laf-tag" data-i18n="laf2Name">1,6 — Moderatamente attivo</div>
@@ -284,6 +284,10 @@
     <ul class="meal-items" id="rm-ingredient-list"></ul>
     <div class="field"><label data-i18n="rmLabelSteps">Preparazione (un passo per riga)</label>
       <textarea id="rm-steps" rows="6" data-i18n-placeholder="rmStepsPlaceholder" placeholder="1. Scalda l'olio in padella...&#10;2. Aggiungi..."></textarea>
+    </div>
+    <div class="field"><label data-i18n="rmLabelImage">Immagine (opzionale)</label>
+      <input type="file" id="rm-image" accept="image/*" onchange="handleRecipeImageUpload(event)">
+      <div class="image-upload-preview" id="rm-image-preview"></div>
     </div>
     <div class="btn-row"><button class="btn btn-primary" onclick="saveRecipeModal()"><span data-i18n="btnSaveRecipe">Salva ricetta</span></button></div>
   </div>
