@@ -183,8 +183,16 @@
       <h3 data-i18n="recipesTabTitle">Ricette personalizzate</h3>
       <p class="small" data-i18n="recipesTabHint">Componi una ricetta con gli alimenti del database: i valori nutrizionali totali e per porzione si calcolano automaticamente.</p>
       <div class="btn-row no-print"><button class="btn btn-primary btn-sm" onclick="openRecipeModal()"><span data-i18n="btnNewRecipe">+ Nuova ricetta</span></button>
+        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('recipe-txt-import').click()"><span data-i18n="btnImportRecipesTXT">⇧ Importa ricette da TXT</span></button>
+        <input type="file" id="recipe-txt-import" accept=".txt" style="display:none" onchange="importRecipesTXT(event)">
+        <button class="btn btn-ghost btn-sm" onclick="downloadRecipeTemplateTXT()"><span data-i18n="btnDownloadTemplate">⇩ Scarica modello TXT</span></button>
         <button class="btn btn-ghost btn-sm" onclick="exportRecipesJSON()"><span data-i18n="btnExportRecipesJSON">⇩ JSON ricette</span></button>
         <button class="btn btn-ghost btn-sm" onclick="downloadPDF('recipes-holder','Ricette')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPrint">🖨 Stampa / PDF</span></button>
+      </div>
+      <p class="small" data-i18n="recipeImportHint">Formato del file TXT: un blocco per ricetta, separato da una riga "===". Ogni blocco ha le righe NOME:, PORZIONI:, INGREDIENTI: (elenco "Nome alimento:grammi" separati da virgola) e PREPARAZIONE: seguita dai passi, uno per riga. Scarica il modello per un esempio pronto da modificare.</p>
+      <div class="field no-print" style="max-width:340px;margin-top:12px;">
+        <label data-i18n="voiceSelectLabel">Voce lettura ricette</label>
+        <select id="voice-select" onchange="setSelectedVoice(this.value)"></select>
       </div>
       <div id="recipes-holder" style="margin-top:16px;"></div>
     </div>
@@ -271,6 +279,7 @@
     <div class="field"><label data-i18n="rmLabelName">Nome ricetta</label><input type="text" id="rm-name"></div>
     <div class="field"><label data-i18n="rmLabelServings">N. porzioni</label><input type="number" id="rm-servings" value="4" min="1"></div>
     <div class="field"><label data-i18n="rmLabelAddIngredient">Aggiungi ingrediente</label>
+      <input type="text" id="rm-food-search" data-i18n-placeholder="foodSearchInSelect" placeholder="Cerca alimento…" oninput="filterFoodSelect('rm-food-select','rm-food-search')" style="margin-bottom:6px;">
       <div style="display:flex;gap:8px;">
         <select id="rm-food-select" style="flex:2;"></select>
         <input type="number" id="rm-food-grams" data-i18n-placeholder="rmPlaceholderGrams" placeholder="grammi" style="flex:1;">
@@ -299,7 +308,9 @@
     <div class="field"><label data-i18n="mmLabelType">Tipo</label>
       <select id="mm-type" onchange="toggleMealType()"><option value="food" data-i18n="mmOptFood">Alimento</option><option value="recipe" data-i18n="mmOptRecipe">Ricetta</option></select>
     </div>
-    <div class="field" id="mm-food-field"><label data-i18n="mmLabelFood">Alimento</label><select id="mm-food-select"></select></div>
+    <div class="field" id="mm-food-field"><label data-i18n="mmLabelFood">Alimento</label>
+      <input type="text" id="mm-food-search" data-i18n-placeholder="foodSearchInSelect" placeholder="Cerca alimento…" oninput="filterFoodSelect('mm-food-select','mm-food-search')" style="margin-bottom:6px;">
+      <select id="mm-food-select"></select></div>
     <div class="field" id="mm-food-grams-field"><label data-i18n="mmLabelGrams">Quantità (g)</label><input type="number" id="mm-grams" value="100"></div>
     <div class="field" id="mm-recipe-field" style="display:none;"><label data-i18n="mmLabelRecipe">Ricetta</label><select id="mm-recipe-select"></select></div>
     <div class="field" id="mm-recipe-servings-field" style="display:none;"><label data-i18n="mmLabelServings">N. porzioni</label><input type="number" id="mm-servings" value="1"></div>
@@ -315,7 +326,9 @@
     <div class="field"><label data-i18n="mmLabelType">Tipo</label>
       <select id="pm-type" onchange="togglePlanType()"><option value="food" data-i18n="mmOptFood">Alimento</option><option value="recipe" data-i18n="mmOptRecipe">Ricetta</option></select>
     </div>
-    <div class="field" id="pm-food-field"><label data-i18n="mmLabelFood">Alimento</label><select id="pm-food-select"></select></div>
+    <div class="field" id="pm-food-field"><label data-i18n="mmLabelFood">Alimento</label>
+      <input type="text" id="pm-food-search" data-i18n-placeholder="foodSearchInSelect" placeholder="Cerca alimento…" oninput="filterFoodSelect('pm-food-select','pm-food-search')" style="margin-bottom:6px;">
+      <select id="pm-food-select"></select></div>
     <div class="field" id="pm-food-grams-field"><label data-i18n="mmLabelGrams">Quantità (g)</label><input type="number" id="pm-grams" value="100"></div>
     <div class="field" id="pm-recipe-field" style="display:none;"><label data-i18n="mmLabelRecipe">Ricetta</label><select id="pm-recipe-select"></select></div>
     <div class="field" id="pm-recipe-servings-field" style="display:none;"><label data-i18n="mmLabelServings">N. porzioni</label><input type="number" id="pm-servings" value="1"></div>

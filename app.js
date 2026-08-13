@@ -66,11 +66,15 @@ it: {
   modalNewRecipeTitle:"Nuova ricetta", rmLabelName:"Nome ricetta", rmLabelServings:"N. porzioni", rmLabelAddIngredient:"Aggiungi ingrediente",
   rmPlaceholderGrams:"grammi", noIngredients:"Nessun ingrediente aggiunto.", btnSaveRecipe:"Salva ricetta",
   alertRecipeNameIngr:"Inserisci nome e almeno un ingrediente.",
+  btnImportRecipesTXT:"⇧ Importa ricette da TXT", btnDownloadTemplate:"⇩ Scarica modello TXT",
+  recipeImportHint:"Formato del file TXT: un blocco per ricetta, separato da una riga \"===\". Ogni blocco ha le righe NOME:, PORZIONI:, INGREDIENTI: (elenco \"Nome alimento:grammi\" separati da virgola, i nomi devono corrispondere a quelli del database alimenti) e PREPARAZIONE: seguita dai passi, uno per riga. Scarica il modello per un esempio pronto da modificare.",
+  alertRecipesImportedSuffix:"ricette importate.", alertIngredientsNotFound:"Ingredienti non trovati nel database (ricetta creata senza di essi):",
   rmLabelSteps:"Preparazione (un passo per riga)", rmStepsPlaceholder:"1. Scalda l'olio in padella...\n2. Aggiungi...",
   rmLabelImage:"Immagine (opzionale)",
   prepTitle:"Preparazione", nutriValuesTitle:"Valori nutrizionali",
   btnPlay:"Ascolta", btnPause:"Pausa", btnRestart:"Ricomincia",
   alertNoSpeech:"La sintesi vocale non è supportata da questo browser.",
+  voiceSelectLabel:"Voce lettura ricette", foodSearchInSelect:"Cerca alimento…", noFoodMatch:"Nessun alimento trovato",
   tab7:"7 · Piano settimanale",
   planTitle:"Piano settimanale dei pasti",
   planHint:"Assegna alimenti o ricette ai pasti della settimana. Per pranzo e cena puoi scegliere anche la portata: antipasto, primo, secondo, contorno, dessert, bevanda.",
@@ -165,11 +169,15 @@ fr: {
   modalNewRecipeTitle:"Nouvelle recette", rmLabelName:"Nom de la recette", rmLabelServings:"Nb de portions", rmLabelAddIngredient:"Ajouter un ingrédient",
   rmPlaceholderGrams:"grammes", noIngredients:"Aucun ingrédient ajouté.", btnSaveRecipe:"Enregistrer la recette",
   alertRecipeNameIngr:"Indique un nom et au moins un ingrédient.",
+  btnImportRecipesTXT:"⇧ Importer des recettes (TXT)", btnDownloadTemplate:"⇩ Télécharger le modèle TXT",
+  recipeImportHint:"Format du fichier TXT : un bloc par recette, séparé par une ligne \"===\". Chaque bloc contient les lignes NOME:, PORZIONI:, INGREDIENTI: (liste \"Nom de l'aliment:grammes\" séparés par des virgules, les noms doivent correspondre à ceux de la base d'aliments) et PREPARAZIONE: suivie des étapes, une par ligne. Télécharge le modèle pour un exemple prêt à modifier.",
+  alertRecipesImportedSuffix:"recettes importées.", alertIngredientsNotFound:"Ingrédients non trouvés dans la base (recette créée sans eux) :",
   rmLabelSteps:"Préparation (une étape par ligne)", rmStepsPlaceholder:"1. Fais chauffer l'huile dans la poêle...\n2. Ajoute...",
   rmLabelImage:"Image (facultatif)",
   prepTitle:"Préparation", nutriValuesTitle:"Valeurs nutritionnelles",
   btnPlay:"Écouter", btnPause:"Pause", btnRestart:"Recommencer",
   alertNoSpeech:"La synthèse vocale n'est pas prise en charge par ce navigateur.",
+  voiceSelectLabel:"Voix de lecture des recettes", foodSearchInSelect:"Rechercher un aliment…", noFoodMatch:"Aucun aliment trouvé",
   tab7:"7 · Planning hebdomadaire",
   planTitle:"Planning hebdomadaire des repas",
   planHint:"Attribue des aliments ou des recettes aux repas de la semaine. Pour le déjeuner et le dîner, tu peux aussi choisir le service : entrée, plat principal (primo), accompagnement, plat principal (secondo), dessert, boisson.",
@@ -223,6 +231,7 @@ function setLang(lang){
   document.getElementById('diary-date').textContent = new Date().toLocaleDateString(LANG==='fr'?'fr-FR':'it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   if(currentTargets) renderResults();
   if(typeof renderWeekPlan==='function') renderWeekPlan();
+  if(typeof loadVoiceOptions==='function') loadVoiceOptions();
 }
 
 /* =========================================================================
@@ -444,6 +453,20 @@ function addFood(name_it,name_fr,cat_it,cat_fr,kcal,prot,carb,fat,fiber,salt,tag
 }
 function FNAME(f){ return f.custom ? f.name_it : (f['name_'+LANG]||f.name_it); }
 function FCAT(f){ return f.custom ? f.cat_it : (f['cat_'+LANG]||f.cat_it); }
+function populateFoodSelectSorted(selectId, filterText){
+  filterText = (filterText||'').trim().toLowerCase();
+  const sel = document.getElementById(selectId);
+  const prevVal = sel.value;
+  const list = FOODS.filter(f=>!filterText || FNAME(f).toLowerCase().includes(filterText))
+                     .sort((a,b)=>FNAME(a).localeCompare(FNAME(b)));
+  sel.innerHTML = list.length
+    ? list.map(f=>`<option value="${f.id}">${FNAME(f)}</option>`).join('')
+    : `<option value="">${t('noFoodMatch')}</option>`;
+  if(list.some(f=>String(f.id)===prevVal)) sel.value = prevVal;
+}
+function filterFoodSelect(selectId, searchId){
+  populateFoodSelectSorted(selectId, document.getElementById(searchId).value);
+}
 
 const RAW_FOODS = [
 ["Pasta di semola (cruda)","Pâtes de semoule (crues)","Cereali","Céréales",353,12.0,71.0,1.5,3.0,0.01,T(1,1,1,0,0)],
@@ -521,6 +544,8 @@ const RAW_FOODS = [
 ["Anguria","Pastèque","Frutta","Fruits",30,0.6,7.6,0.2,0.4,0.0,T(1,1,1,1,1)],
 ["Melone","Melon","Frutta","Fruits",34,0.8,8.2,0.2,0.9,0.0,T(1,1,1,1,1)],
 ["Fichi","Figues","Frutta","Fruits",74,0.8,19.2,0.3,2.9,0.0,T(1,1,1,1,1)],
+["Albicocche fresche","Abricots frais","Frutta","Fruits",48,1.4,11.1,0.4,2.0,0.001,T(1,1,1,1,1)],
+["Fichi d'India","Figues de Barbarie","Frutta","Fruits",41,0.7,9.6,0.5,3.7,0.001,T(1,1,1,1,1)],
 ["Spinaci","Épinards","Verdura","Légumes",23,2.9,3.6,0.4,2.2,0.1,T(1,1,1,1,1)],
 ["Broccoli","Brocolis","Verdura","Légumes",34,2.8,6.6,0.4,2.6,0.03,T(1,1,1,1,1)],
 ["Zucchine","Courgettes","Verdura","Légumes",17,1.2,3.1,0.3,1.0,0.01,T(1,1,1,1,1)],
@@ -541,6 +566,7 @@ const RAW_FOODS = [
 ["Asparagi","Asperges","Verdura","Légumes",20,2.2,3.9,0.1,2.1,0.002,T(1,1,1,1,1)],
 ["Funghi champignon","Champignons de Paris","Verdura","Légumes",22,3.1,3.3,0.3,1.0,0.005,T(1,1,1,1,1)],
 ["Rucola","Roquette","Verdura","Légumes",25,2.6,3.7,0.7,1.6,0.02,T(1,1,1,1,1)],
+["Piselli congelati","Petits pois surgelés","Verdura","Légumes",65,5.4,9.0,0.5,5.1,0.003,T(1,1,1,0,1)],
 ["Mandorle","Amandes","Frutta secca","Fruits à coque",579,21.2,21.6,49.9,12.5,0.001,T(1,1,1,1,1)],
 ["Noci","Noix","Frutta secca","Fruits à coque",654,15.2,13.7,65.2,6.7,0.002,T(1,1,1,1,1)],
 ["Nocciole","Noisettes","Frutta secca","Fruits à coque",628,15.0,16.7,60.8,9.7,0.0,T(1,1,1,1,1)],
@@ -549,6 +575,16 @@ const RAW_FOODS = [
 ["Semi di chia","Graines de chia","Frutta secca","Fruits à coque",486,16.5,42.1,30.7,34.4,0.0,T(1,1,1,1,1)],
 ["Semi di lino","Graines de lin","Frutta secca","Fruits à coque",534,18.3,28.9,42.2,27.3,0.0,T(1,1,1,1,1)],
 ["Semi di zucca","Graines de courge","Frutta secca","Fruits à coque",559,30.2,10.7,49.0,6.0,0.018,T(1,1,1,1,1)],
+["Arachidi (crude)","Cacahuètes (crues)","Frutta secca","Fruits à coque",567,25.8,16.1,49.2,8.5,0.001,T(1,1,1,0,1)],
+["Noci di macadamia","Noix de macadamia","Frutta secca","Fruits à coque",718,7.9,13.8,75.8,8.6,0.005,T(1,1,1,1,1)],
+["Noci pecan","Noix de pécan","Frutta secca","Fruits à coque",691,9.2,13.9,72.0,9.6,0.0,T(1,1,1,1,1)],
+["Uvetta (uva sultanina)","Raisins secs","Frutta secca","Fruits à coque",299,3.1,79.2,0.5,3.7,0.01,T(1,1,1,1,1)],
+["Fichi secchi","Figues séchées","Frutta secca","Fruits à coque",249,3.3,63.9,0.9,9.8,0.02,T(1,1,1,1,1)],
+["Albicocche secche","Abricots secs","Frutta secca","Fruits à coque",241,3.4,62.6,0.5,7.3,0.01,T(1,1,1,1,1)],
+["Castagne fresche (crude)","Châtaignes fraîches (crues)","Frutta secca","Fruits à coque",199,2.0,42.0,1.7,8.1,0.01,T(1,1,1,1,1)],
+["Castagne lessate","Châtaignes bouillies","Frutta secca","Fruits à coque",131,2.0,27.8,1.4,4.6,0.01,T(1,1,1,1,1)],
+["Castagne secche","Châtaignes séchées","Frutta secca","Fruits à coque",349,5.9,74.3,3.2,12.0,0.02,T(1,1,1,1,1)],
+["Castagne arrosto","Châtaignes rôties","Frutta secca","Fruits à coque",196,3.2,41.1,1.6,6.2,0.01,T(1,1,1,1,1)],
 ["Olio extravergine d\'oliva","Huile d\'olive extra vierge","Grassi","Matières grasses",899,0.0,0.0,99.9,0.0,0.0,T(1,1,1,1,1)],
 ["Olio di semi di girasole","Huile de tournesol","Grassi","Matières grasses",899,0.0,0.0,99.9,0.0,0.0,T(1,1,1,1,0)],
 ["Olio di cocco","Huile de coco","Grassi","Matières grasses",862,0.0,0.0,99.1,0.0,0.0,T(1,1,1,1,1)],
@@ -899,7 +935,8 @@ function openRecipeModal(){
   document.getElementById('rm-steps').value='';
   document.getElementById('rm-image').value='';
   document.getElementById('rm-image-preview').innerHTML='';
-  document.getElementById('rm-food-select').innerHTML = FOODS.map(f=>`<option value="${f.id}">${FNAME(f)}</option>`).join('');
+  document.getElementById('rm-food-search').value='';
+  populateFoodSelectSorted('rm-food-select');
   renderRecipeDraft();
   document.getElementById('recipe-modal-bg').classList.add('active');
 }
@@ -1007,10 +1044,108 @@ function renderRecipes(){
 function deleteRecipe(id){ if(SPEECH.recipeId===id) stopSpeech(); RECIPES = RECIPES.filter(r=>r.id!==id); renderRecipes(); }
 function exportRecipesJSON(){ downloadBlob(JSON.stringify(RECIPES,null,2),'ricette.json','application/json'); }
 
+function findFoodByName(name){
+  const n = name.trim().toLowerCase();
+  if(!n) return null;
+  let f = FOODS.find(x=>x.name_it.toLowerCase()===n || (x.name_fr&&x.name_fr.toLowerCase()===n));
+  if(f) return f;
+  f = FOODS.find(x=>x.name_it.toLowerCase().startsWith(n) || (x.name_fr&&x.name_fr.toLowerCase().startsWith(n)));
+  return f || null;
+}
+function parseRecipeBlock(block){
+  const lines = block.split('\n').map(l=>l.trim()).filter(l=>l.length);
+  let name='', servings=4, ingredientsRaw='', steps=[], mode=null;
+  lines.forEach(line=>{
+    const up = line.toUpperCase();
+    if(up.startsWith('NOME:')){ name = line.slice(line.indexOf(':')+1).trim(); mode=null; }
+    else if(up.startsWith('PORZIONI:')){ servings = parseFloat(line.slice(line.indexOf(':')+1)) || 4; mode=null; }
+    else if(up.startsWith('INGREDIENTI:')){ ingredientsRaw = line.slice(line.indexOf(':')+1).trim(); mode=null; }
+    else if(up.startsWith('PREPARAZIONE:')){ mode='steps'; const rest = line.slice(line.indexOf(':')+1).trim(); if(rest) steps.push(rest.replace(/^\d+[.)]\s*/,'')); }
+    else if(mode==='steps'){ steps.push(line.replace(/^\d+[.)]\s*/,'')); }
+  });
+  if(!name) return null;
+  const items = [];
+  const notFound = [];
+  ingredientsRaw.split(',').forEach(pair=>{
+    const idx = pair.lastIndexOf(':');
+    if(idx<0) return;
+    const foodName = pair.slice(0,idx).trim();
+    const grams = parseFloat(pair.slice(idx+1));
+    if(!foodName || !grams) return;
+    const f = findFoodByName(foodName);
+    if(f) items.push({foodId:f.id, grams}); else notFound.push(foodName);
+  });
+  return {name, servings, items, steps, notFound};
+}
+function importRecipesTXT(evt){
+  const file = evt.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    const blocks = e.target.result.split(/^={3,}\s*$/m).map(b=>b.trim()).filter(Boolean);
+    let count=0; const allNotFound=[];
+    blocks.forEach(block=>{
+      const parsed = parseRecipeBlock(block);
+      if(!parsed || parsed.items.length===0) return;
+      RECIPES.push({id:'r'+Date.now()+Math.random().toString(16).slice(2), name:parsed.name, servings:parsed.servings, items:parsed.items, steps:parsed.steps, image:null});
+      if(parsed.notFound.length) allNotFound.push(`${parsed.name}: ${parsed.notFound.join(', ')}`);
+      count++;
+    });
+    let msg = count+' '+t('alertRecipesImportedSuffix');
+    if(allNotFound.length) msg += '\n\n'+t('alertIngredientsNotFound')+'\n'+allNotFound.join('\n');
+    alert(msg);
+    renderRecipes();
+    evt.target.value='';
+  };
+  reader.readAsText(file);
+}
+function downloadRecipeTemplateTXT(){
+  const txt = `NOME: Pasta al pomodoro e basilico
+PORZIONI: 2
+INGREDIENTI: Pasta di semola (cruda):160, Pomodori:300, Olio extravergine d'oliva:10, Aglio:5
+PREPARAZIONE:
+1. Cuoci la pasta in abbondante acqua salata secondo i tempi indicati.
+2. In una padella scalda l'olio con l'aglio, aggiungi i pomodori a pezzi e cuoci 10 minuti.
+3. Scola la pasta e mantecala nel sugo, aggiungi basilico fresco a piacere.
+===
+NOME: Insalata di quinoa e verdure
+PORZIONI: 2
+INGREDIENTI: Quinoa (cruda):100, Pomodori:150, Cetrioli:100, Olio extravergine d'oliva:10
+PREPARAZIONE:
+1. Sciacqua la quinoa e cuocila in acqua per 12-15 minuti, poi lasciala raffreddare.
+2. Taglia pomodori e cetrioli a cubetti.
+3. Unisci tutti gli ingredienti e condisci con olio.
+`;
+  downloadBlob(txt, 'modello_ricette.txt', 'text/plain');
+}
+
 /* =========================================================================
    LETTORE VOCALE PREPARAZIONE RICETTE (Web Speech API)
    ========================================================================= */
 const SPEECH = { recipeId:null, stepIndex:0, speaking:false, paused:false };
+let selectedVoiceURI = null;
+function loadVoiceOptions(){
+  if(!('speechSynthesis' in window)) return;
+  const sel = document.getElementById('voice-select');
+  if(!sel) return;
+  const all = window.speechSynthesis.getVoices();
+  if(!all.length) return; // verranno ricaricate all'evento 'voiceschanged'
+  const langPrefix = LANG==='fr' ? 'fr' : 'it';
+  let relevant = all.filter(v=>v.lang && v.lang.toLowerCase().startsWith(langPrefix));
+  if(!relevant.length) relevant = all; // fallback: mostra tutte le voci disponibili
+  relevant.sort((a,b)=>a.name.localeCompare(b.name));
+  const stored = selectedVoiceURI || localStorage.getItem('bn_voiceURI');
+  sel.innerHTML = relevant.map(v=>`<option value="${v.voiceURI}">${v.name} (${v.lang})</option>`).join('');
+  if(stored && relevant.some(v=>v.voiceURI===stored)){ sel.value = stored; selectedVoiceURI = stored; }
+  else if(relevant.length){ selectedVoiceURI = relevant[0].voiceURI; sel.value = selectedVoiceURI; }
+}
+function setSelectedVoice(uri){
+  selectedVoiceURI = uri;
+  try{ localStorage.setItem('bn_voiceURI', uri); }catch(e){}
+}
+if('speechSynthesis' in window){
+  window.speechSynthesis.onvoiceschanged = loadVoiceOptions;
+  loadVoiceOptions();
+}
 function getRecipeSteps(id){ const r = RECIPES.find(x=>x.id===id); return r ? (r.steps||[]) : []; }
 function updatePlayerUI(id){
   const steps = getRecipeSteps(id);
@@ -1028,6 +1163,10 @@ function speakCurrentStep(id){
   if(SPEECH.stepIndex>=steps.length){ stopSpeech(); return; }
   const utt = new SpeechSynthesisUtterance(steps[SPEECH.stepIndex]);
   utt.lang = LANG==='fr' ? 'fr-FR' : 'it-IT';
+  if(selectedVoiceURI){
+    const v = window.speechSynthesis.getVoices().find(x=>x.voiceURI===selectedVoiceURI);
+    if(v){ utt.voice = v; utt.lang = v.lang; }
+  }
   utt.onend = ()=>{
     if(SPEECH.recipeId!==id || SPEECH.paused) return;
     SPEECH.stepIndex++;
@@ -1155,7 +1294,8 @@ function renderDiarySummary(){
 }
 
 function openAddFoodToMeal(){
-  document.getElementById('mm-food-select').innerHTML = FOODS.map(f=>`<option value="${f.id}">${FNAME(f)}</option>`).join('');
+  document.getElementById('mm-food-search').value='';
+  populateFoodSelectSorted('mm-food-select');
   document.getElementById('mm-recipe-select').innerHTML = RECIPES.map(r=>`<option value="${r.id}">${r.name}</option>`).join('') || `<option value="">${t('noRecipeSaved')}</option>`;
   document.getElementById('mm-type').value='food'; toggleMealType();
   document.getElementById('meal-modal-bg').classList.add('active');
@@ -1298,7 +1438,8 @@ function openPlanAdd(dayIdx,meal,course){
   const locale = LANG==='fr' ? 'fr-FR' : 'it-IT';
   const wd = d.toLocaleDateString(locale,{weekday:'long',day:'numeric',month:'long'});
   document.getElementById('plan-modal-context').textContent = `${wd.charAt(0).toUpperCase()+wd.slice(1)} · ${t(MEAL_KEY_I18N[meal])}${course ? ' · '+t(COURSE_I18N[course]) : ''}`;
-  document.getElementById('pm-food-select').innerHTML = FOODS.map(f=>`<option value="${f.id}">${FNAME(f)}</option>`).join('');
+  document.getElementById('pm-food-search').value='';
+  populateFoodSelectSorted('pm-food-select');
   document.getElementById('pm-recipe-select').innerHTML = RECIPES.map(r=>`<option value="${r.id}">${r.name}</option>`).join('') || `<option value="">${t('noRecipeSaved')}</option>`;
   document.getElementById('pm-type').value='food'; togglePlanType();
   document.getElementById('plan-modal-bg').classList.add('active');
