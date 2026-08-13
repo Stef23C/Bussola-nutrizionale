@@ -108,6 +108,7 @@ it: {
   btnPDFdiary:"⇩ PDF diario", btnTXTdiary:"⇩ TXT diario", btnJSONdiary:"⇩ JSON diario",
   modalAddDiaryTitle:"Aggiungi al diario", mmLabelMeal:"Pasto", mmLabelType:"Tipo", mmOptFood:"Alimento", mmOptRecipe:"Ricetta",
   mmLabelFood:"Alimento", mmLabelGrams:"Quantità (g)", mmLabelRecipe:"Ricetta", mmLabelServings:"N. porzioni", btnAdd:"Aggiungi",
+  btnAddAnother:"+ Aggiungi", mmCurrentItemsLabel:"Già aggiunti a questo pasto", btnDone:"Fatto / Chiudi",
   alertQty:"Inserisci una quantità valida.", alertCreateRecipeFirst:"Crea prima una ricetta nella scheda Ricette.", noRecipeSaved:"Nessuna ricetta salvata",
   footerNote:"Valori energetici e proteici di riferimento (AR/PRI) ricavati dalla tabella EFSA \"Dietary Reference Values for nutrients\" caricata. I target di zucchero/sale seguono le indicazioni generali OMS dove l'EFSA non fissa un valore numerico di popolazione. Questo strumento fornisce indicazioni generali e non sostituisce una valutazione nutrizionale personalizzata.",
   badgeVegan:"Vegana", badgeVeg:"Vegetariana", badgeOmni:"Onnivora", badgePaleo:"Paleo", badgeAI:"Anti-infiamm.",
@@ -219,6 +220,7 @@ fr: {
   btnPDFdiary:"⇩ PDF journal", btnTXTdiary:"⇩ TXT journal", btnJSONdiary:"⇩ JSON journal",
   modalAddDiaryTitle:"Ajouter au journal", mmLabelMeal:"Repas", mmLabelType:"Type", mmOptFood:"Aliment", mmOptRecipe:"Recette",
   mmLabelFood:"Aliment", mmLabelGrams:"Quantité (g)", mmLabelRecipe:"Recette", mmLabelServings:"Nb de portions", btnAdd:"Ajouter",
+  btnAddAnother:"+ Ajouter", mmCurrentItemsLabel:"Déjà ajoutés à ce repas", btnDone:"Terminé / Fermer",
   alertQty:"Indique une quantité valide.", alertCreateRecipeFirst:"Crée d'abord une recette dans l'onglet Recettes.", noRecipeSaved:"Aucune recette enregistrée",
   footerNote:"Les valeurs énergétiques et protéiques de référence (AR/PRI) proviennent du tableau EFSA \"Dietary Reference Values for nutrients\" chargé. Les repères de sucre/sel suivent les indications générales de l'OMS lorsque l'EFSA ne fixe pas de valeur numérique de population. Cet outil fournit des indications générales et ne remplace pas une évaluation nutritionnelle personnalisée.",
   badgeVegan:"Végane", badgeVeg:"Végétarienne", badgeOmni:"Omnivore", badgePaleo:"Paléo", badgeAI:"Anti-inflamm.",
@@ -455,8 +457,13 @@ function downloadTXT_guida(){
 // alimento: {id,name,cat,kcal,prot,carb,fat,fiber,salt,tags:{vegan,veg,omni,paleo,ai}}
 let FOODS = [];
 let RECIPES = [];
-let DIARY_DATA = {}; // diario per giorno della settimana: {0:{colazione:[],...}, 1:{...}, ..., 6:{...}}
-function ensureDiaryDay(dayIdx){ if(!DIARY_DATA[dayIdx]) DIARY_DATA[dayIdx] = {colazione:[],pranzo:[],cena:[],spuntino:[]}; return DIARY_DATA[dayIdx]; }
+let DIARY_DATA = {}; // diario per data reale del calendario: {"2026-08-11":{colazione:[],...}, ...}
+function diaryDateKey(dayIdx){ return toISODate(weekDayDate(dayIdx)); }
+function ensureDiaryDay(dayIdx){
+  const key = diaryDateKey(dayIdx);
+  if(!DIARY_DATA[key]) DIARY_DATA[key] = {colazione:[],pranzo:[],cena:[],spuntino:[]};
+  return DIARY_DATA[key];
+}
 let WEEKPLAN = { weekStart: null, slots: {} };
 let currentTargets = null;
 let recipeDraft = [];
@@ -1284,7 +1291,7 @@ function refreshMealsView(){
   renderDiaryWeekSummary();
 }
 function removeMealItem(mk,idx){ ensureDiaryDay(diaryCurrentDay)[mk].splice(idx,1); refreshMealsView(); }
-function clearDiary(){ if(!confirm(t('confirmClearDiary'))) return; DIARY_DATA[diaryCurrentDay] = {colazione:[],pranzo:[],cena:[],spuntino:[]}; refreshMealsView(); }
+function clearDiary(){ if(!confirm(t('confirmClearDiary'))) return; DIARY_DATA[diaryDateKey(diaryCurrentDay)] = {colazione:[],pranzo:[],cena:[],spuntino:[]}; refreshMealsView(); }
 
 const FRUIT_VEG_PORTION_G = 80; // porzione di riferimento indicativa (CREA/LARN)
 const VEG_TARGET_PORTIONS = 3; // riferimento indicativo: almeno 3 porzioni di verdura al giorno
@@ -1399,6 +1406,8 @@ function openAddFoodToMeal(){
   populateFoodSelectSorted('mm-food-select');
   document.getElementById('mm-recipe-select').innerHTML = RECIPES.map(r=>`<option value="${r.id}">${r.name}</option>`).join('') || `<option value="">${t('noRecipeSaved')}</option>`;
   document.getElementById('mm-type').value='food'; toggleMealType();
+  document.getElementById('mm-grams').value=100;
+  renderMmCurrentItems();
   document.getElementById('meal-modal-bg').classList.add('active');
 }
 function toggleMealType(){
@@ -1407,6 +1416,15 @@ function toggleMealType(){
   document.getElementById('mm-food-grams-field').style.display = isFood?'block':'none';
   document.getElementById('mm-recipe-field').style.display = isFood?'none':'block';
   document.getElementById('mm-recipe-servings-field').style.display = isFood?'none':'block';
+}
+function renderMmCurrentItems(){
+  const meal = document.getElementById('mm-meal').value;
+  const day = ensureDiaryDay(diaryCurrentDay);
+  const list = day[meal] || [];
+  document.getElementById('mm-current-items').innerHTML = list.map((it,idx)=>{
+    const it2 = computeMealItemTotals(it);
+    return `<li><span>${it2.label}</span><span class="r">${it2.kcal.toFixed(0)} kcal <button class="btn btn-danger btn-sm" onclick="removeMealItem('${meal}',${idx});renderMmCurrentItems()">✕</button></span></li>`;
+  }).join('') || `<li class="empty-hint">${t('noFoodAdded')}</li>`;
 }
 function confirmAddToMeal(){
   const meal = document.getElementById('mm-meal').value;
@@ -1423,7 +1441,11 @@ function confirmAddToMeal(){
     const servings = parseFloat(document.getElementById('mm-servings').value)||1;
     day[meal].push({type:'recipe',recipeId,servings});
   }
-  closeModal('meal-modal-bg');
+  document.getElementById('mm-food-search').value='';
+  populateFoodSelectSorted('mm-food-select');
+  document.getElementById('mm-grams').value=100;
+  document.getElementById('mm-servings').value=1;
+  renderMmCurrentItems();
   refreshMealsView();
 }
 function exportDiaryJSON(){ downloadBlob(JSON.stringify({weekStart:WEEKPLAN.weekStart,currentDay:diaryCurrentDay,diary:DIARY_DATA,totals:dayTotals(),targets:currentTargets},null,2),'diario.json','application/json'); }
@@ -1514,7 +1536,7 @@ function loadDayIntoDiary(dayIdx){
       getPlanSlot(dayIdx,meal,null).forEach(it=>fresh[meal].push({...it}));
     }
   });
-  DIARY_DATA[dayIdx] = fresh;
+  DIARY_DATA[diaryDateKey(dayIdx)] = fresh;
   diaryCurrentDay = dayIdx;
   refreshMealsView();
   const diarioBtn = document.querySelector('.tab-btn[data-tab="diario"]');
@@ -1611,6 +1633,8 @@ function openPlanAdd(dayIdx,meal,course){
   populateFoodSelectSorted('pm-food-select');
   document.getElementById('pm-recipe-select').innerHTML = RECIPES.map(r=>`<option value="${r.id}">${r.name}</option>`).join('') || `<option value="">${t('noRecipeSaved')}</option>`;
   document.getElementById('pm-type').value='food'; togglePlanType();
+  document.getElementById('pm-grams').value=100;
+  renderPmCurrentItems();
   document.getElementById('plan-modal-bg').classList.add('active');
 }
 function togglePlanType(){
@@ -1619,6 +1643,14 @@ function togglePlanType(){
   document.getElementById('pm-food-grams-field').style.display = isFood?'block':'none';
   document.getElementById('pm-recipe-field').style.display = isFood?'none':'block';
   document.getElementById('pm-recipe-servings-field').style.display = isFood?'none':'block';
+}
+function renderPmCurrentItems(){
+  if(!PLAN_CTX) return;
+  const slot = getPlanSlot(PLAN_CTX.dayIdx, PLAN_CTX.meal, PLAN_CTX.course);
+  document.getElementById('pm-current-items').innerHTML = slot.map((it,idx)=>{
+    const it2 = computeMealItemTotals(it);
+    return `<li><span>${it2.label}</span><span class="r">${it2.kcal.toFixed(0)} kcal <button class="btn btn-danger btn-sm" onclick="removePlanItem(${PLAN_CTX.dayIdx},'${PLAN_CTX.meal}',${PLAN_CTX.course?`'${PLAN_CTX.course}'`:null},${idx});renderPmCurrentItems()">✕</button></span></li>`;
+  }).join('') || `<li class="empty-hint">${t('planNoItems')}</li>`;
 }
 function confirmAddToPlan(){
   if(!PLAN_CTX) return;
@@ -1635,7 +1667,11 @@ function confirmAddToPlan(){
     const servings = parseFloat(document.getElementById('pm-servings').value)||1;
     slot.push({type:'recipe',recipeId,servings});
   }
-  closeModal('plan-modal-bg');
+  document.getElementById('pm-food-search').value='';
+  populateFoodSelectSorted('pm-food-select');
+  document.getElementById('pm-grams').value=100;
+  document.getElementById('pm-servings').value=1;
+  renderPmCurrentItems();
   renderWeekPlan();
 }
 function removePlanItem(dayIdx,meal,course,idx){

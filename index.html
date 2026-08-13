@@ -317,7 +317,7 @@
     <button class="close-x" onclick="closeModal('meal-modal-bg')">×</button>
     <h3 data-i18n="modalAddDiaryTitle">Aggiungi al diario</h3>
     <div class="field"><label data-i18n="mmLabelMeal">Pasto</label>
-      <select id="mm-meal"><option value="colazione" data-i18n="mealColazione">Colazione</option><option value="pranzo" data-i18n="mealPranzo">Pranzo</option><option value="cena" data-i18n="mealCena">Cena</option><option value="spuntino" data-i18n="mealSpuntino">Spuntino</option></select>
+      <select id="mm-meal" onchange="renderMmCurrentItems()"><option value="colazione" data-i18n="mealColazione">Colazione</option><option value="pranzo" data-i18n="mealPranzo">Pranzo</option><option value="cena" data-i18n="mealCena">Cena</option><option value="spuntino" data-i18n="mealSpuntino">Spuntino</option></select>
     </div>
     <div class="field"><label data-i18n="mmLabelType">Tipo</label>
       <select id="mm-type" onchange="toggleMealType()"><option value="food" data-i18n="mmOptFood">Alimento</option><option value="recipe" data-i18n="mmOptRecipe">Ricetta</option></select>
@@ -328,7 +328,11 @@
     <div class="field" id="mm-food-grams-field"><label data-i18n="mmLabelGrams">Quantità (g)</label><input type="number" id="mm-grams" value="100"></div>
     <div class="field" id="mm-recipe-field" style="display:none;"><label data-i18n="mmLabelRecipe">Ricetta</label><select id="mm-recipe-select"></select></div>
     <div class="field" id="mm-recipe-servings-field" style="display:none;"><label data-i18n="mmLabelServings">N. porzioni</label><input type="number" id="mm-servings" value="1"></div>
-    <div class="btn-row"><button class="btn btn-primary" onclick="confirmAddToMeal()"><span data-i18n="btnAdd">Aggiungi</span></button></div>
+    <div class="btn-row"><button class="btn btn-primary" onclick="confirmAddToMeal()"><span data-i18n="btnAddAnother">+ Aggiungi</span></button></div>
+    <div class="field" style="margin-top:14px;"><label data-i18n="mmCurrentItemsLabel">Già aggiunti a questo pasto</label>
+      <ul class="meal-items" id="mm-current-items"></ul>
+    </div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal('meal-modal-bg')"><span data-i18n="btnDone">Fatto / Chiudi</span></button></div>
   </div>
 </div>
 
@@ -346,7 +350,11 @@
     <div class="field" id="pm-food-grams-field"><label data-i18n="mmLabelGrams">Quantità (g)</label><input type="number" id="pm-grams" value="100"></div>
     <div class="field" id="pm-recipe-field" style="display:none;"><label data-i18n="mmLabelRecipe">Ricetta</label><select id="pm-recipe-select"></select></div>
     <div class="field" id="pm-recipe-servings-field" style="display:none;"><label data-i18n="mmLabelServings">N. porzioni</label><input type="number" id="pm-servings" value="1"></div>
-    <div class="btn-row"><button class="btn btn-primary" onclick="confirmAddToPlan()"><span data-i18n="btnAdd">Aggiungi</span></button></div>
+    <div class="btn-row"><button class="btn btn-primary" onclick="confirmAddToPlan()"><span data-i18n="btnAddAnother">+ Aggiungi</span></button></div>
+    <div class="field" style="margin-top:14px;"><label data-i18n="mmCurrentItemsLabel">Già aggiunti a questo pasto</label>
+      <ul class="meal-items" id="pm-current-items"></ul>
+    </div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal('plan-modal-bg')"><span data-i18n="btnDone">Fatto / Chiudi</span></button></div>
   </div>
 </div>
 
