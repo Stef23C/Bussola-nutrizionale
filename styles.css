@@ -200,6 +200,10 @@ tr:hover td{background:#FAF8F1;}
 .plan-summary-table td{padding:6px 10px;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono',monospace;text-align:right;}
 .plan-summary-table td.plan-cell-ok{color:var(--brand);}
 .plan-summary-table td.plan-cell-warn{color:var(--danger);font-weight:600;}
+.day-tabs{display:flex;gap:4px;flex-wrap:wrap;margin:12px 0 10px;}
+.day-tab-btn{border:1px solid var(--line);background:var(--card);color:var(--ink-soft);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;}
+.day-tab-btn.active{background:var(--brand);border-color:var(--brand);color:#fff;}
+.day-tab-btn:hover:not(.active){border-color:var(--brand-2);color:var(--brand);}
 .small{font-size:12px;color:var(--ink-soft);}
 .diet-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
 .footer-note{color:var(--ink-soft);font-size:12px;margin-top:30px;border-top:1px solid var(--line);padding-top:14px;}

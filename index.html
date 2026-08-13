@@ -201,7 +201,14 @@
   <!-- ============ TAB 6 : DIARIO ============ -->
   <div class="panel" id="tab-diario">
     <div class="card" id="diary-card">
-      <h3><span data-i18n="diaryTitle">Diario alimentare del giorno</span> <span class="badge gray" id="diary-date"></span></h3>
+      <h3><span data-i18n="diaryTitle">Diario alimentare della settimana</span></h3>
+      <div class="btn-row no-print" style="align-items:center;">
+        <button class="btn btn-ghost btn-sm" onclick="shiftWeek(-1)">← <span data-i18n="planPrevWeek">Settimana precedente</span></button>
+        <span class="badge gray" id="diary-week-label" style="font-size:13px;padding:6px 12px;"></span>
+        <button class="btn btn-ghost btn-sm" onclick="shiftWeek(1)"><span data-i18n="planNextWeek">Settimana successiva</span> →</button>
+      </div>
+      <div class="day-tabs no-print" id="diary-day-tabs"></div>
+      <div class="badge gray" id="diary-date" style="margin-bottom:10px;display:inline-block;"></div>
       <div id="meals-holder"></div>
       <div class="btn-row no-print" style="margin-top:16px;">
         <button class="btn btn-primary btn-sm" onclick="openAddFoodToMeal()"><span data-i18n="btnAddFoodDiary">+ Aggiungi alimento</span></button>
@@ -217,6 +224,12 @@
         <button class="btn btn-ghost btn-sm" onclick="exportDiaryJSON()"><span data-i18n="btnJSONdiary">⇩ JSON diario</span></button>
         <button class="btn btn-ghost btn-sm" onclick="downloadPDF('diary-card','Diario_alimentare')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPrint">🖨 Stampa / PDF</span></button>
       </div>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="diaryWeekSummaryTitle">Riepilogo settimanale del consumo reale</h3>
+      <p class="small" data-i18n="diaryWeekSummaryHint">Confronta cosa hai effettivamente registrato ogni giorno con il piano settimanale e con il tuo obiettivo.</p>
+      <div id="diary-week-summary-wrap" style="overflow:auto;"></div>
     </div>
   </div>
 

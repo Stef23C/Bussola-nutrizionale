@@ -91,11 +91,13 @@ it: {
   balanceMoreFat:"più ricco di lipidi del previsto", balanceLessFat:"più povero di lipidi del previsto",
   barChartTitle:"Confronto valori vs obiettivo", compositionTitle:"Composizione calorica",
   recipeBalanceVsDiet:"rispetto a", noTargetForRecipe:"Calcola i fabbisogni per confrontare la ricetta con la dieta scelta.",
-  diaryTitle:"Diario alimentare del giorno",
+  diaryTitle:"Diario alimentare della settimana",
   mealColazione:"Colazione", mealPranzo:"Pranzo", mealCena:"Cena", mealSpuntino:"Spuntino",
   noFoodAdded:"Nessun alimento aggiunto.", btnAddFoodDiary:"+ Aggiungi alimento", btnClearDiary:"Svuota giornata", confirmClearDiary:"Svuotare tutta la giornata?",
   diarySummaryTitle:"Totale giornata vs obiettivo",
   diaryNoTargetHint:"Calcola prima i fabbisogni nella scheda \"Profilo & fabbisogni\" per confrontare il diario con un obiettivo personalizzato.",
+  diaryWeekSummaryTitle:"Riepilogo settimanale del consumo reale",
+  diaryWeekSummaryHint:"Confronta cosa hai effettivamente registrato ogni giorno con il piano settimanale e con il tuo obiettivo.",
   rowTotalDay:"Totale giornata", saltNotePre:"Sale assunto:", saltNotePost:"(riferimento indicativo OMS &lt; 5 g/giorno — non è un valore di popolazione EFSA).",
   nutriSale:"Sale", minLabel:"minimo", maxLabel:"massimo",
   rowVeg:"Porzioni verdura", vegTargetNote:"obiettivo indicativo: almeno 3 porzioni al giorno da 80 g, preferibile alla frutta",
@@ -200,11 +202,13 @@ fr: {
   balanceMoreFat:"plus riche en lipides que prévu", balanceLessFat:"plus pauvre en lipides que prévu",
   barChartTitle:"Comparaison des valeurs vs objectif", compositionTitle:"Composition calorique",
   recipeBalanceVsDiet:"par rapport à", noTargetForRecipe:"Calcule tes besoins pour comparer la recette au régime choisi.",
-  diaryTitle:"Journal alimentaire du jour",
+  diaryTitle:"Journal alimentaire de la semaine",
   mealColazione:"Petit-déjeuner", mealPranzo:"Déjeuner", mealCena:"Dîner", mealSpuntino:"Collation",
   noFoodAdded:"Aucun aliment ajouté.", btnAddFoodDiary:"+ Ajouter un aliment", btnClearDiary:"Vider la journée", confirmClearDiary:"Vider toute la journée ?",
   diarySummaryTitle:"Total du jour vs objectif",
   diaryNoTargetHint:"Calcule d'abord tes besoins dans l'onglet \"Profil & besoins\" pour comparer le journal à un objectif personnalisé.",
+  diaryWeekSummaryTitle:"Récapitulatif hebdomadaire de la consommation réelle",
+  diaryWeekSummaryHint:"Compare ce que tu as réellement enregistré chaque jour avec le planning de la semaine et avec ton objectif.",
   rowTotalDay:"Total du jour", saltNotePre:"Sel consommé :", saltNotePost:"(référence indicative OMS &lt; 5 g/jour — ce n'est pas une valeur de population EFSA).",
   nutriSale:"Sel", minLabel:"minimum", maxLabel:"maximum",
   rowVeg:"Portions de légumes", vegTargetNote:"objectif indicatif : au moins 3 portions de 80 g par jour, à privilégier par rapport aux fruits",
@@ -240,7 +244,6 @@ function setLang(lang){
   renderFoodTable();
   renderRecipes();
   refreshMealsView();
-  document.getElementById('diary-date').textContent = new Date().toLocaleDateString(LANG==='fr'?'fr-FR':'it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   if(currentTargets) renderResults();
   if(typeof renderWeekPlan==='function') renderWeekPlan();
   if(typeof loadVoiceOptions==='function') loadVoiceOptions();
@@ -452,7 +455,8 @@ function downloadTXT_guida(){
 // alimento: {id,name,cat,kcal,prot,carb,fat,fiber,salt,tags:{vegan,veg,omni,paleo,ai}}
 let FOODS = [];
 let RECIPES = [];
-let MEALS = {colazione:[],pranzo:[],cena:[],spuntino:[]};
+let DIARY_DATA = {}; // diario per giorno della settimana: {0:{colazione:[],...}, 1:{...}, ..., 6:{...}}
+function ensureDiaryDay(dayIdx){ if(!DIARY_DATA[dayIdx]) DIARY_DATA[dayIdx] = {colazione:[],pranzo:[],cena:[],spuntino:[]}; return DIARY_DATA[dayIdx]; }
 let WEEKPLAN = { weekStart: null, slots: {} };
 let currentTargets = null;
 let recipeDraft = [];
@@ -1221,7 +1225,6 @@ function stopSpeech(){
 /* =========================================================================
    TAB 6 — DIARIO
    ========================================================================= */
-document.getElementById('diary-date').textContent = new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 const MEAL_KEY_I18N = {colazione:'mealColazione',pranzo:'mealPranzo',cena:'mealCena',spuntino:'mealSpuntino'};
 
 function computeMealItemTotals(item){
@@ -1236,10 +1239,41 @@ function computeMealItemTotals(item){
     return {kcal:tot.kcal*fac,prot:tot.prot*fac,carb:tot.carb*fac,fat:tot.fat*fac,fiber:tot.fiber*fac,salt:tot.salt*fac,label:`${r.name} — ${item.servings} ${t('servingsSuffix')}`};
   }
 }
+function updateDiaryDateLabel(){
+  const locale = LANG==='fr' ? 'fr-FR' : 'it-IT';
+  const el = document.getElementById('diary-date');
+  if(el) el.textContent = weekDayDate(diaryCurrentDay).toLocaleDateString(locale,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const wl = document.getElementById('diary-week-label');
+  if(wl){
+    const startD = weekDayDate(0), endD = weekDayDate(6);
+    const fmtRange = (d)=>d.toLocaleDateString(locale,{day:'numeric',month:'short'});
+    wl.textContent = `${t('planWeekOf')} ${fmtRange(startD)} – ${fmtRange(endD)} ${endD.getFullYear()}`;
+  }
+}
+function renderDiaryDayTabs(){
+  const holder = document.getElementById('diary-day-tabs');
+  if(!holder) return;
+  const locale = LANG==='fr' ? 'fr-FR' : 'it-IT';
+  holder.innerHTML = [0,1,2,3,4,5,6].map(i=>{
+    const d = weekDayDate(i);
+    const wd = d.toLocaleDateString(locale,{weekday:'short'});
+    return `<button class="day-tab-btn ${i===diaryCurrentDay?'active':''}" onclick="setDiaryDay(${i})">${wd.charAt(0).toUpperCase()+wd.slice(1)} ${d.getDate()}</button>`;
+  }).join('');
+}
+function setDiaryDay(dayIdx){
+  diaryCurrentDay = dayIdx;
+  renderDiaryDayTabs();
+  updateDiaryDateLabel();
+  refreshMealsView();
+}
 function refreshMealsView(){
   const holder = document.getElementById('meals-holder');
-  holder.innerHTML = Object.keys(MEALS).map(mk=>{
-    const items = MEALS[mk];
+  if(!holder) return;
+  renderDiaryDayTabs();
+  updateDiaryDateLabel();
+  const day = ensureDiaryDay(diaryCurrentDay);
+  holder.innerHTML = Object.keys(day).map(mk=>{
+    const items = day[mk];
     const rows = items.map((it,idx)=>{
       const it2 = computeMealItemTotals(it);
       return `<li><span>${it2.label}</span><span class="r">${it2.kcal.toFixed(0)} kcal <button class="btn btn-danger btn-sm no-print" onclick="removeMealItem('${mk}',${idx})">✕</button></span></li>`;
@@ -1247,9 +1281,10 @@ function refreshMealsView(){
     return `<div class="meal-block"><h4>${t(MEAL_KEY_I18N[mk])}</h4><ul class="meal-items">${rows}</ul></div>`;
   }).join('');
   renderDiarySummary();
+  renderDiaryWeekSummary();
 }
-function removeMealItem(mk,idx){ MEALS[mk].splice(idx,1); refreshMealsView(); }
-function clearDiary(){ if(!confirm(t('confirmClearDiary'))) return; Object.keys(MEALS).forEach(k=>MEALS[k]=[]); refreshMealsView(); }
+function removeMealItem(mk,idx){ ensureDiaryDay(diaryCurrentDay)[mk].splice(idx,1); refreshMealsView(); }
+function clearDiary(){ if(!confirm(t('confirmClearDiary'))) return; DIARY_DATA[diaryCurrentDay] = {colazione:[],pranzo:[],cena:[],spuntino:[]}; refreshMealsView(); }
 
 const FRUIT_VEG_PORTION_G = 80; // porzione di riferimento indicativa (CREA/LARN)
 const VEG_TARGET_PORTIONS = 3; // riferimento indicativo: almeno 3 porzioni di verdura al giorno
@@ -1271,15 +1306,40 @@ function itemCategoryGrams(item, categoryIT){
     return g;
   }
 }
-function dayTotals(){
+function dayTotals(dayIdx){
+  dayIdx = dayIdx===undefined ? diaryCurrentDay : dayIdx;
+  const day = ensureDiaryDay(dayIdx);
   const tot = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,fruit:0,veg:0};
-  Object.values(MEALS).forEach(items=>items.forEach(it=>{
+  Object.values(day).forEach(items=>items.forEach(it=>{
     const it2 = computeMealItemTotals(it);
     tot.kcal+=it2.kcal; tot.prot+=it2.prot; tot.carb+=it2.carb; tot.fat+=it2.fat; tot.fiber+=it2.fiber; tot.salt+=it2.salt;
     tot.fruit += itemCategoryGrams(it,'Frutta');
     tot.veg += itemCategoryGrams(it,'Verdura');
   }));
   return tot;
+}
+function renderDiaryWeekSummary(){
+  const holder = document.getElementById('diary-week-summary-wrap');
+  if(!holder) return;
+  const locale = LANG==='fr' ? 'fr-FR' : 'it-IT';
+  const days = [0,1,2,3,4,5,6].map(i=>dayTotals(i));
+  const dayLabels = [0,1,2,3,4,5,6].map(i=>weekDayDate(i).toLocaleDateString(locale,{weekday:'short'}));
+  function cell(val, target, invert){
+    if(!currentTargets || target===undefined) return `<td class="num">${val}</td>`;
+    const bad = invert ? (parseFloat(val)<target) : (parseFloat(val)>target*1.15);
+    return `<td class="num ${bad?'plan-cell-warn':'plan-cell-ok'}">${val}</td>`;
+  }
+  const tgt = currentTargets;
+  let rows = '';
+  rows += `<tr><th>${t('nutriEnergia')}</th>${days.map(d=>cell(d.kcal.toFixed(0), tgt&&tgt.kcal)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriProteine')} (g)</th>${days.map(d=>cell(d.prot.toFixed(1), tgt&&tgt.protG)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriCarboidrati')} (g)</th>${days.map(d=>cell(d.carb.toFixed(1), tgt&&tgt.carbG)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriLipidi')} (g)</th>${days.map(d=>cell(d.fat.toFixed(1), tgt&&tgt.fatG)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriFibre')} (g, ${t('minLabel')})</th>${days.map(d=>cell(d.fiber.toFixed(1), tgt&&tgt.fiberG, true)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriSale')} (g, ${t('maxLabel')})</th>${days.map(d=>cell(d.salt.toFixed(2), SALT_MAX_G)).join('')}</tr>`;
+  rows += `<tr><th>${t('rowVeg')}</th>${days.map(d=>cell((d.veg/FRUIT_VEG_PORTION_G).toFixed(1), VEG_TARGET_PORTIONS, true)).join('')}</tr>`;
+  rows += `<tr><th>${t('rowFruit')}</th>${days.map(d=>cell((d.fruit/FRUIT_VEG_PORTION_G).toFixed(1), FRUIT_TARGET_PORTIONS, true)).join('')}</tr>`;
+  holder.innerHTML = `<table class="plan-summary-table"><thead><tr><th></th>${dayLabels.map((l,i)=>`<th class="${i===diaryCurrentDay?'plan-cell-ok':''}">${l.charAt(0).toUpperCase()+l.slice(1)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;
 }
 function renderDiarySummary(){
   const tot = dayTotals();
@@ -1351,27 +1411,30 @@ function toggleMealType(){
 function confirmAddToMeal(){
   const meal = document.getElementById('mm-meal').value;
   const isFood = document.getElementById('mm-type').value==='food';
+  const day = ensureDiaryDay(diaryCurrentDay);
   if(isFood){
     const foodId = parseInt(document.getElementById('mm-food-select').value);
     const grams = parseFloat(document.getElementById('mm-grams').value)||0;
     if(grams<=0){ alert(t('alertQty')); return; }
-    MEALS[meal].push({type:'food',foodId,grams});
+    day[meal].push({type:'food',foodId,grams});
   } else {
     const recipeId = document.getElementById('mm-recipe-select').value;
     if(!recipeId){ alert(t('alertCreateRecipeFirst')); return; }
     const servings = parseFloat(document.getElementById('mm-servings').value)||1;
-    MEALS[meal].push({type:'recipe',recipeId,servings});
+    day[meal].push({type:'recipe',recipeId,servings});
   }
   closeModal('meal-modal-bg');
   refreshMealsView();
 }
-function exportDiaryJSON(){ downloadBlob(JSON.stringify({date:new Date().toISOString(),meals:MEALS,totals:dayTotals(),targets:currentTargets},null,2),'diario.json','application/json'); }
+function exportDiaryJSON(){ downloadBlob(JSON.stringify({weekStart:WEEKPLAN.weekStart,currentDay:diaryCurrentDay,diary:DIARY_DATA,totals:dayTotals(),targets:currentTargets},null,2),'diario.json','application/json'); }
 function downloadTXT_diario(){
-  let txt = `DIARIO ALIMENTARE — ${new Date().toLocaleDateString(LANG==='fr'?'fr-FR':'it-IT')}\n=========================================\n\n`;
-  Object.keys(MEALS).forEach(mk=>{
+  const locale = LANG==='fr' ? 'fr-FR' : 'it-IT';
+  const day = ensureDiaryDay(diaryCurrentDay);
+  let txt = `DIARIO ALIMENTARE — ${weekDayDate(diaryCurrentDay).toLocaleDateString(locale)}\n=========================================\n\n`;
+  Object.keys(day).forEach(mk=>{
     txt += t(MEAL_KEY_I18N[mk]).toUpperCase()+'\n';
-    if(MEALS[mk].length===0) txt+='  (-)\n';
-    MEALS[mk].forEach(it=>{ const it2=computeMealItemTotals(it); txt += `  - ${it2.label} — ${it2.kcal.toFixed(0)} kcal, P ${it2.prot.toFixed(1)}g, C ${it2.carb.toFixed(1)}g, L ${it2.fat.toFixed(1)}g\n`; });
+    if(day[mk].length===0) txt+='  (-)\n';
+    day[mk].forEach(it=>{ const it2=computeMealItemTotals(it); txt += `  - ${it2.label} — ${it2.kcal.toFixed(0)} kcal, P ${it2.prot.toFixed(1)}g, C ${it2.carb.toFixed(1)}g, L ${it2.fat.toFixed(1)}g\n`; });
     txt += '\n';
   });
   const tot = dayTotals();
@@ -1398,6 +1461,7 @@ function isoMonday(d){
 }
 function toISODate(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 if(!WEEKPLAN.weekStart) WEEKPLAN.weekStart = toISODate(isoMonday(new Date()));
+let diaryCurrentDay = Math.min(6, Math.max(0, Math.round((new Date().setHours(0,0,0,0) - new Date(WEEKPLAN.weekStart).setHours(0,0,0,0)) / 86400000)));
 
 function planKey(dayIdx,meal,course){ return dayIdx+'_'+meal+'_'+(course||'none'); }
 function getPlanSlot(dayIdx,meal,course){ const k=planKey(dayIdx,meal,course); if(!WEEKPLAN.slots[k]) WEEKPLAN.slots[k]=[]; return WEEKPLAN.slots[k]; }
@@ -1407,6 +1471,7 @@ function shiftWeek(deltaWeeks){
   d.setDate(d.getDate()+deltaWeeks*7);
   WEEKPLAN.weekStart = toISODate(isoMonday(d));
   renderWeekPlan();
+  if(typeof refreshMealsView==='function') refreshMealsView();
 }
 
 function weekDayDate(dayIdx){
@@ -1439,15 +1504,18 @@ function dayPlanTotals(dayIdx){
   return tot;
 }
 function loadDayIntoDiary(dayIdx){
-  if(Object.values(MEALS).some(arr=>arr.length) && !confirm(t('confirmOverwriteDiary'))) return;
-  MEALS = {colazione:[],pranzo:[],cena:[],spuntino:[]};
+  const existing = ensureDiaryDay(dayIdx);
+  if(Object.values(existing).some(arr=>arr.length) && !confirm(t('confirmOverwriteDiary'))) return;
+  const fresh = {colazione:[],pranzo:[],cena:[],spuntino:[]};
   PLAN_MEALS.forEach(meal=>{
     if(meal==='pranzo'||meal==='cena'){
-      COURSES.forEach(course=>{ getPlanSlot(dayIdx,meal,course).forEach(it=>MEALS[meal].push({...it})); });
+      COURSES.forEach(course=>{ getPlanSlot(dayIdx,meal,course).forEach(it=>fresh[meal].push({...it})); });
     } else {
-      getPlanSlot(dayIdx,meal,null).forEach(it=>MEALS[meal].push({...it}));
+      getPlanSlot(dayIdx,meal,null).forEach(it=>fresh[meal].push({...it}));
     }
   });
+  DIARY_DATA[dayIdx] = fresh;
+  diaryCurrentDay = dayIdx;
   refreshMealsView();
   const diarioBtn = document.querySelector('.tab-btn[data-tab="diario"]');
   if(diarioBtn) diarioBtn.click();
@@ -1608,7 +1676,7 @@ function downloadBlob(content,filename,type){
   URL.revokeObjectURL(url);
 }
 function exportAllJSON(){
-  downloadBlob(JSON.stringify({foods:FOODS,recipes:RECIPES,diets:DIETS,meals:MEALS,weekplan:WEEKPLAN,targets:currentTargets},null,2),'bussola_nutrizionale_export.json','application/json');
+  downloadBlob(JSON.stringify({foods:FOODS,recipes:RECIPES,diets:DIETS,diary:DIARY_DATA,weekplan:WEEKPLAN,targets:currentTargets},null,2),'bussola_nutrizionale_export.json','application/json');
 }
 function downloadPDF(elId,filename){
   // Usa la funzione di stampa nativa del browser (scelta "Salva come PDF" nella finestra di stampa):
