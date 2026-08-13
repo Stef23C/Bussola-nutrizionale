@@ -97,6 +97,12 @@ it: {
   diarySummaryTitle:"Totale giornata vs obiettivo",
   diaryNoTargetHint:"Calcola prima i fabbisogni nella scheda \"Profilo & fabbisogni\" per confrontare il diario con un obiettivo personalizzato.",
   rowTotalDay:"Totale giornata", saltNotePre:"Sale assunto:", saltNotePost:"(riferimento indicativo OMS &lt; 5 g/giorno — non è un valore di popolazione EFSA).",
+  nutriSale:"Sale", minLabel:"minimo", maxLabel:"massimo",
+  rowVeg:"Porzioni verdura", vegTargetNote:"obiettivo indicativo: almeno 3 porzioni al giorno da 80 g, preferibile alla frutta",
+  rowFruit:"Porzioni frutta", fruitTargetNote:"obiettivo indicativo: almeno 2 porzioni al giorno da 80 g",
+  btnLoadIntoDiary:"→ Diario", confirmOverwriteDiary:"Il diario di oggi contiene già dei pasti: sovrascriverli con quelli pianificati per questo giorno?",
+  planSummaryTitle:"Riepilogo nutrizionale della settimana", planSummaryHint:"Valori totali per ciascun giorno pianificato, confrontati con il tuo obiettivo se hai calcolato i fabbisogni nella scheda Profilo. Usa \"→ Diario\" per caricare un giorno nel Diario giornaliero e vederne l'analisi completa.",
+  planSummaryNoTarget:"Calcola i fabbisogni nella scheda \"Profilo & fabbisogni\" per vedere anche il confronto con l'obiettivo.",
   btnPDFdiary:"⇩ PDF diario", btnTXTdiary:"⇩ TXT diario", btnJSONdiary:"⇩ JSON diario",
   modalAddDiaryTitle:"Aggiungi al diario", mmLabelMeal:"Pasto", mmLabelType:"Tipo", mmOptFood:"Alimento", mmOptRecipe:"Ricetta",
   mmLabelFood:"Alimento", mmLabelGrams:"Quantità (g)", mmLabelRecipe:"Ricetta", mmLabelServings:"N. porzioni", btnAdd:"Aggiungi",
@@ -200,6 +206,12 @@ fr: {
   diarySummaryTitle:"Total du jour vs objectif",
   diaryNoTargetHint:"Calcule d'abord tes besoins dans l'onglet \"Profil & besoins\" pour comparer le journal à un objectif personnalisé.",
   rowTotalDay:"Total du jour", saltNotePre:"Sel consommé :", saltNotePost:"(référence indicative OMS &lt; 5 g/jour — ce n'est pas une valeur de population EFSA).",
+  nutriSale:"Sel", minLabel:"minimum", maxLabel:"maximum",
+  rowVeg:"Portions de légumes", vegTargetNote:"objectif indicatif : au moins 3 portions de 80 g par jour, à privilégier par rapport aux fruits",
+  rowFruit:"Portions de fruits", fruitTargetNote:"objectif indicatif : au moins 2 portions de 80 g par jour",
+  btnLoadIntoDiary:"→ Journal", confirmOverwriteDiary:"Le journal d'aujourd'hui contient déjà des repas : les remplacer par ceux prévus pour ce jour ?",
+  planSummaryTitle:"Récapitulatif nutritionnel de la semaine", planSummaryHint:"Valeurs totales pour chaque jour planifié, comparées à ton objectif si tu as calculé tes besoins dans l'onglet Profil. Utilise \"→ Journal\" pour charger un jour dans le Journal quotidien et voir son analyse complète.",
+  planSummaryNoTarget:"Calcule tes besoins dans l'onglet \"Profil & besoins\" pour voir aussi la comparaison avec l'objectif.",
   btnPDFdiary:"⇩ PDF journal", btnTXTdiary:"⇩ TXT journal", btnJSONdiary:"⇩ JSON journal",
   modalAddDiaryTitle:"Ajouter au journal", mmLabelMeal:"Repas", mmLabelType:"Type", mmOptFood:"Aliment", mmOptRecipe:"Recette",
   mmLabelFood:"Aliment", mmLabelGrams:"Quantité (g)", mmLabelRecipe:"Recette", mmLabelServings:"Nb de portions", btnAdd:"Ajouter",
@@ -1239,22 +1251,47 @@ function refreshMealsView(){
 function removeMealItem(mk,idx){ MEALS[mk].splice(idx,1); refreshMealsView(); }
 function clearDiary(){ if(!confirm(t('confirmClearDiary'))) return; Object.keys(MEALS).forEach(k=>MEALS[k]=[]); refreshMealsView(); }
 
+const FRUIT_VEG_PORTION_G = 80; // porzione di riferimento indicativa (CREA/LARN)
+const VEG_TARGET_PORTIONS = 3; // riferimento indicativo: almeno 3 porzioni di verdura al giorno
+const FRUIT_TARGET_PORTIONS = 2; // riferimento indicativo: almeno 2 porzioni di frutta al giorno
+const SALT_MAX_G = 5; // riferimento OMS, non un valore di popolazione EFSA
+function itemCategoryGrams(item, categoryIT){
+  if(item.type==='food'){
+    const f = FOODS.find(x=>x.id===item.foodId);
+    return (f && f.cat_it===categoryIT) ? item.grams : 0;
+  } else {
+    const r = RECIPES.find(x=>x.id===item.recipeId);
+    if(!r) return 0;
+    const factor = item.servings / r.servings;
+    let g = 0;
+    r.items.forEach(it=>{
+      const f = FOODS.find(x=>x.id===it.foodId);
+      if(f && f.cat_it===categoryIT) g += it.grams*factor;
+    });
+    return g;
+  }
+}
 function dayTotals(){
-  const tot = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0};
+  const tot = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,fruit:0,veg:0};
   Object.values(MEALS).forEach(items=>items.forEach(it=>{
     const it2 = computeMealItemTotals(it);
     tot.kcal+=it2.kcal; tot.prot+=it2.prot; tot.carb+=it2.carb; tot.fat+=it2.fat; tot.fiber+=it2.fiber; tot.salt+=it2.salt;
+    tot.fruit += itemCategoryGrams(it,'Frutta');
+    tot.veg += itemCategoryGrams(it,'Verdura');
   }));
   return tot;
 }
 function renderDiarySummary(){
   const tot = dayTotals();
+  const fruitPortions = tot.fruit/FRUIT_VEG_PORTION_G;
+  const vegPortions = tot.veg/FRUIT_VEG_PORTION_G;
   const holder = document.getElementById('diary-summary');
   const actualPct = macroPctFromGrams(tot.prot,tot.carb,tot.fat);
   if(!currentTargets){
     holder.innerHTML = `<p class="empty-hint">${t('diaryNoTargetHint')}</p>
       <table><thead><tr><th></th><th class="num">${t('colKcal')}</th><th class="num">${t('colProt')}</th><th class="num">${t('colCarb')}</th><th class="num">${t('colFat')}</th><th class="num">${t('colFiber')}</th><th class="num">${t('colSalt')}</th></tr></thead>
       <tbody><tr><td>${t('rowTotalDay')}</td><td class="num">${tot.kcal.toFixed(0)}</td><td class="num">${tot.prot.toFixed(1)}</td><td class="num">${tot.carb.toFixed(1)}</td><td class="num">${tot.fat.toFixed(1)}</td><td class="num">${tot.fiber.toFixed(1)}</td><td class="num">${tot.salt.toFixed(2)}</td></tr></tbody></table>
+      <p class="small" style="margin-top:8px;">${t('rowVeg')}: <b>${vegPortions.toFixed(1)}</b> (${t('vegTargetNote')})<br>${t('rowFruit')}: <b>${fruitPortions.toFixed(1)}</b> (${t('fruitTargetNote')})</p>
       <div class="balance-block"><h5>${t('compositionTitle')}</h5>
         <div class="donut-row"><div class="donut-col">${donutSVG(macroSegments(actualPct))}</div>${donutLegendHTML(macroSegments(actualPct))}</div>
       </div>
@@ -1262,10 +1299,10 @@ function renderDiarySummary(){
     return;
   }
   const tgt = currentTargets;
-  function row(label,val,target,unit){
+  function row(label,val,target,unit,invert){
     const pct = target>0?Math.min(140,(val/target)*100):0;
-    const over = val>target;
-    return `<div class="macro-target-row"><div class="lbl">${label}</div><div class="track"><div class="progress ${over?'over':''}"><div style="width:${Math.min(100,pct)}%"></div></div></div><div class="figs">${val.toFixed(1)} / ${target}${unit}</div></div>`;
+    const bad = invert ? (val<target) : (val>target);
+    return `<div class="macro-target-row"><div class="lbl">${label}</div><div class="track"><div class="progress ${bad?'over':''}"><div style="width:${Math.min(100,pct)}%"></div></div></div><div class="figs">${val.toFixed(1)} / ${target}${unit}</div></div>`;
   }
   const ratio = DIETS[tgt.dietId];
   const targetPct = {protein:ratio.protein, carbs:ratio.carbs, fat:ratio.fat};
@@ -1277,8 +1314,12 @@ function renderDiarySummary(){
     {label:t('nutriLipidi'), actual:tot.fat, target:tgt.fatG},
     {label:t('nutriFibre'), actual:tot.fiber, target:tgt.fiberG}
   ];
-  holder.innerHTML = row(t('nutriEnergia'),tot.kcal,tgt.kcal,' kcal')+row(t('nutriProteine'),tot.prot,tgt.protG,' g')+row(t('nutriCarboidrati'),tot.carb,tgt.carbG,' g')+row(t('nutriLipidi'),tot.fat,tgt.fatG,' g')+row(t('nutriFibre'),tot.fiber,tgt.fiberG,' g')
-    + `<p class="small" style="margin-top:10px;">${t('saltNotePre')} <b>${tot.salt.toFixed(2)} g</b> ${t('saltNotePost')}</p>`
+  holder.innerHTML = row(t('nutriEnergia'),tot.kcal,tgt.kcal,' kcal')+row(t('nutriProteine'),tot.prot,tgt.protG,' g')+row(t('nutriCarboidrati'),tot.carb,tgt.carbG,' g')+row(t('nutriLipidi'),tot.fat,tgt.fatG,' g')
+    + row(t('nutriFibre')+' ('+t('minLabel')+')',tot.fiber,tgt.fiberG,' g',true)
+    + row(t('nutriSale')+' ('+t('maxLabel')+')',tot.salt,SALT_MAX_G,' g',false)
+    + row(t('rowVeg')+' ('+t('minLabel')+')',vegPortions,VEG_TARGET_PORTIONS,'',true)
+    + row(t('rowFruit')+' ('+t('minLabel')+')',fruitPortions,FRUIT_TARGET_PORTIONS,'',true)
+    + `<p class="small" style="margin-top:6px;">${t('saltNotePre')} <b>${tot.salt.toFixed(2)} g</b> ${t('saltNotePost')}</p>`
     + `<div class="balance-block">
         <h5>${t('balanceSectionTitle')} ${balanceBadgeHTML(status)}</h5>
         <div class="donut-row">
@@ -1374,6 +1415,43 @@ function weekDayDate(dayIdx){
   return d;
 }
 
+function dayPlanTotals(dayIdx){
+  const tot = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,fruit:0,veg:0};
+  PLAN_MEALS.forEach(meal=>{
+    if(meal==='pranzo'||meal==='cena'){
+      COURSES.forEach(course=>{
+        getPlanSlot(dayIdx,meal,course).forEach(it=>{
+          const it2 = computeMealItemTotals(it);
+          tot.kcal+=it2.kcal; tot.prot+=it2.prot; tot.carb+=it2.carb; tot.fat+=it2.fat; tot.fiber+=it2.fiber; tot.salt+=it2.salt;
+          tot.fruit += itemCategoryGrams(it,'Frutta');
+          tot.veg += itemCategoryGrams(it,'Verdura');
+        });
+      });
+    } else {
+      getPlanSlot(dayIdx,meal,null).forEach(it=>{
+        const it2 = computeMealItemTotals(it);
+        tot.kcal+=it2.kcal; tot.prot+=it2.prot; tot.carb+=it2.carb; tot.fat+=it2.fat; tot.fiber+=it2.fiber; tot.salt+=it2.salt;
+        tot.fruit += itemCategoryGrams(it,'Frutta');
+        tot.veg += itemCategoryGrams(it,'Verdura');
+      });
+    }
+  });
+  return tot;
+}
+function loadDayIntoDiary(dayIdx){
+  if(Object.values(MEALS).some(arr=>arr.length) && !confirm(t('confirmOverwriteDiary'))) return;
+  MEALS = {colazione:[],pranzo:[],cena:[],spuntino:[]};
+  PLAN_MEALS.forEach(meal=>{
+    if(meal==='pranzo'||meal==='cena'){
+      COURSES.forEach(course=>{ getPlanSlot(dayIdx,meal,course).forEach(it=>MEALS[meal].push({...it})); });
+    } else {
+      getPlanSlot(dayIdx,meal,null).forEach(it=>MEALS[meal].push({...it}));
+    }
+  });
+  refreshMealsView();
+  const diarioBtn = document.querySelector('.tab-btn[data-tab="diario"]');
+  if(diarioBtn) diarioBtn.click();
+}
 function renderWeekPlan(){
   const locale = LANG==='fr' ? 'fr-FR' : 'it-IT';
   const startD = weekDayDate(0), endD = weekDayDate(6);
@@ -1385,7 +1463,7 @@ function renderWeekPlan(){
     const d = weekDayDate(i);
     const wd = d.toLocaleDateString(locale,{weekday:'long'});
     const dm = d.toLocaleDateString(locale,{day:'numeric',month:'long'});
-    head += `<th class="plan-day-cell">${wd.charAt(0).toUpperCase()+wd.slice(1)}<span class="d">${dm}</span></th>`;
+    head += `<th class="plan-day-cell">${wd.charAt(0).toUpperCase()+wd.slice(1)}<span class="d">${dm}</span><button class="btn btn-ghost btn-sm no-print" style="margin-top:4px;font-size:10.5px;padding:3px 7px;" onclick="loadDayIntoDiary(${i})">${t('btnLoadIntoDiary')}</button></th>`;
   }
   head += `</tr></thead>`;
 
@@ -1409,23 +1487,46 @@ function renderWeekPlan(){
     }
     body += '</tr>';
   });
-  // day total row
-  body += `<tr><th>${t('planDayTotal')}</th>`;
-  for(let dayIdx=0; dayIdx<7; dayIdx++){
-    let kcalSum = 0;
-    PLAN_MEALS.forEach(meal=>{
-      if(meal==='pranzo'||meal==='cena'){
-        COURSES.forEach(course=>{ getPlanSlot(dayIdx,meal,course).forEach(it=>{ kcalSum += computeMealItemTotals(it).kcal; }); });
-      } else {
-        getPlanSlot(dayIdx,meal,null).forEach(it=>{ kcalSum += computeMealItemTotals(it).kcal; });
-      }
-    });
-    body += `<td class="plan-day-total">${kcalSum.toFixed(0)} kcal</td>`;
-  }
-  body += `</tr></tbody>`;
+  body += `</tbody>`;
 
   document.getElementById('plan-table').className = 'plan-table';
   document.getElementById('plan-table').innerHTML = head + body;
+
+  renderPlanSummary();
+}
+function renderPlanSummary(){
+  const holder = document.getElementById('plan-summary-wrap');
+  if(!holder) return;
+  const locale = LANG==='fr' ? 'fr-FR' : 'it-IT';
+  const days = [];
+  for(let i=0;i<7;i++){ days.push(dayPlanTotals(i)); }
+  const dayLabels = [];
+  for(let i=0;i<7;i++){ const d=weekDayDate(i); dayLabels.push(d.toLocaleDateString(locale,{weekday:'short'})); }
+
+  function cell(val, target, unit, invert){
+    if(!currentTargets || target===undefined) return `<td class="num">${val}</td>`;
+    const bad = invert ? (val<target) : (val>target*1.15);
+    return `<td class="num ${bad?'plan-cell-warn':'plan-cell-ok'}">${val}</td>`;
+  }
+  const tgt = currentTargets;
+  let rows = '';
+  rows += `<tr><th>${t('nutriEnergia')}</th>${days.map(d=>cell(d.kcal.toFixed(0), tgt&&tgt.kcal,' kcal')).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriProteine')} (g)</th>${days.map(d=>cell(d.prot.toFixed(1), tgt&&tgt.protG)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriCarboidrati')} (g)</th>${days.map(d=>cell(d.carb.toFixed(1), tgt&&tgt.carbG)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriLipidi')} (g)</th>${days.map(d=>cell(d.fat.toFixed(1), tgt&&tgt.fatG)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriFibre')} (g, ${t('minLabel')})</th>${days.map(d=>cell(d.fiber.toFixed(1), tgt&&tgt.fiberG, '', true)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriSale')} (g, ${t('maxLabel')})</th>${days.map(d=>cell(d.salt.toFixed(2), SALT_MAX_G)).join('')}</tr>`;
+  rows += `<tr><th>${t('rowVeg')}</th>${days.map(d=>cell((d.veg/FRUIT_VEG_PORTION_G).toFixed(1), VEG_TARGET_PORTIONS, '', true)).join('')}</tr>`;
+  rows += `<tr><th>${t('rowFruit')}</th>${days.map(d=>cell((d.fruit/FRUIT_VEG_PORTION_G).toFixed(1), FRUIT_TARGET_PORTIONS, '', true)).join('')}</tr>`;
+
+  holder.innerHTML = `
+    <h5 style="margin-top:0;">${t('planSummaryTitle')}</h5>
+    <p class="small">${t('planSummaryHint')}</p>
+    ${!currentTargets ? `<p class="small" style="font-style:italic;">${t('planSummaryNoTarget')}</p>` : ''}
+    <div style="overflow:auto;">
+    <table class="plan-summary-table"><thead><tr><th></th>${dayLabels.map(l=>`<th>${l.charAt(0).toUpperCase()+l.slice(1)}</th>`).join('')}</tr></thead>
+    <tbody>${rows}</tbody></table>
+    </div>`;
 }
 
 function openPlanAddFromSelect(dayIdx,meal){
