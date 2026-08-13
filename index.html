@@ -15,7 +15,6 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 <div class="app-shell">
@@ -124,7 +123,7 @@
         </div>
       </div>
       <div class="btn-row no-print">
-        <button class="btn btn-accent btn-sm" onclick="downloadPDF('risultati-card','Fabbisogni_nutrizionali')"><span data-i18n="btnPDF">⇩ PDF</span></button>
+        <button class="btn btn-accent btn-sm" onclick="downloadPDF('risultati-card','Fabbisogni_nutrizionali')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPDF">⇩ PDF</span></button>
         <button class="btn btn-ghost btn-sm" onclick="downloadTXT_profilo()"><span data-i18n="btnTXT">⇩ TXT</span></button>
         <button class="btn btn-ghost btn-sm" onclick="window.print()"><span data-i18n="btnPrint">🖨 Stampa</span></button>
       </div>
@@ -147,7 +146,7 @@
       <h3 data-i18n="guideTabTitle">Guida pratica ai tipi di dieta</h3>
       <p class="small" data-i18n="guideTabHint">Una spiegazione semplice di cosa caratterizza ogni pattern alimentare, quali alimenti privilegiare e quali limitare, e per chi è pensato. Le percentuali di macronutrienti richiamano quelle impostate nella scheda "Tipi di dieta" e possono quindi differire se le modifichi lì.</p>
       <div class="btn-row no-print">
-        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('guida-holder','Guida_alle_diete')"><span data-i18n="btnPDF">⇩ PDF</span></button>
+        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('guida-holder','Guida_alle_diete')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPDF">⇩ PDF</span></button>
         <button class="btn btn-ghost btn-sm" onclick="downloadTXT_guida()"><span data-i18n="btnTXT">⇩ TXT</span></button>
         <button class="btn btn-ghost btn-sm" onclick="window.print()"><span data-i18n="btnPrint">🖨 Stampa</span></button>
       </div>
@@ -168,7 +167,7 @@
         <input type="file" id="txt-import" accept=".txt,.csv" style="display:none" onchange="importTXT(event)">
         <button class="btn btn-ghost btn-sm" onclick="exportFoodsJSON()">⇩ JSON</button>
         <button class="btn btn-ghost btn-sm" onclick="exportFoodsTXT()"><span data-i18n="btnTXT">⇩ TXT</span></button>
-        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('food-table-wrap','Database_alimenti')"><span data-i18n="btnPDF">⇩ PDF</span></button>
+        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('food-table-wrap','Database_alimenti')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPDF">⇩ PDF</span></button>
       </div>
       <p class="small"><span data-i18n="importHintPre">Formato riga per import TXT:</span> <code>nome;categoria;kcal;proteine;carboidrati;lipidi;fibre;sale</code> <span data-i18n="importHintPost">(valori per 100 g).</span></p>
       <div id="food-table-wrap" style="overflow:auto;max-height:560px;">
@@ -207,7 +206,7 @@
       <h3 data-i18n="diarySummaryTitle">Totale giornata vs obiettivo</h3>
       <div id="diary-summary"></div>
       <div class="btn-row no-print">
-        <button class="btn btn-accent btn-sm" onclick="downloadPDF('diary-card','Diario_alimentare')"><span data-i18n="btnPDFdiary">⇩ PDF diario</span></button>
+        <button class="btn btn-accent btn-sm" onclick="downloadPDF('diary-card','Diario_alimentare')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPDFdiary">⇩ PDF diario</span></button>
         <button class="btn btn-ghost btn-sm" onclick="downloadTXT_diario()"><span data-i18n="btnTXTdiary">⇩ TXT diario</span></button>
         <button class="btn btn-ghost btn-sm" onclick="exportDiaryJSON()"><span data-i18n="btnJSONdiary">⇩ JSON diario</span></button>
         <button class="btn btn-ghost btn-sm" onclick="window.print()"><span data-i18n="btnPrint">🖨 Stampa</span></button>
@@ -229,7 +228,7 @@
         <table id="plan-table"></table>
       </div>
       <div class="btn-row no-print">
-        <button class="btn btn-accent btn-sm" onclick="downloadPDF('plan-card','Piano_settimanale')"><span data-i18n="btnPDF">⇩ PDF</span></button>
+        <button class="btn btn-accent btn-sm" onclick="downloadPDF('plan-card','Piano_settimanale')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPDF">⇩ PDF</span></button>
         <button class="btn btn-ghost btn-sm" onclick="downloadTXT_plan()"><span data-i18n="btnTXT">⇩ TXT</span></button>
         <button class="btn btn-ghost btn-sm" onclick="window.print()"><span data-i18n="btnPrint">🖨 Stampa</span></button>
       </div>

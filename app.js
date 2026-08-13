@@ -99,6 +99,7 @@ it: {
   alertQty:"Inserisci una quantità valida.", alertCreateRecipeFirst:"Crea prima una ricetta nella scheda Ricette.", noRecipeSaved:"Nessuna ricetta salvata",
   footerNote:"Valori energetici e proteici di riferimento (AR/PRI) ricavati dalla tabella EFSA \"Dietary Reference Values for nutrients\" caricata. I target di zucchero/sale seguono le indicazioni generali OMS dove l'EFSA non fissa un valore numerico di popolazione. Questo strumento fornisce indicazioni generali e non sostituisce una valutazione nutrizionale personalizzata.",
   badgeVegan:"Vegana", badgeVeg:"Vegetariana", badgeOmni:"Onnivora", badgePaleo:"Paleo", badgeAI:"Anti-infiamm.",
+  pdfHintTitle:"Si aprirà la finestra di stampa: scegli \"Salva come PDF\" tra le stampanti disponibili.",
   closeX:"×"
 },
 fr: {
@@ -197,6 +198,7 @@ fr: {
   alertQty:"Indique une quantité valide.", alertCreateRecipeFirst:"Crée d'abord une recette dans l'onglet Recettes.", noRecipeSaved:"Aucune recette enregistrée",
   footerNote:"Les valeurs énergétiques et protéiques de référence (AR/PRI) proviennent du tableau EFSA \"Dietary Reference Values for nutrients\" chargé. Les repères de sucre/sel suivent les indications générales de l'OMS lorsque l'EFSA ne fixe pas de valeur numérique de population. Cet outil fournit des indications générales et ne remplace pas une évaluation nutritionnelle personnalisée.",
   badgeVegan:"Végane", badgeVeg:"Végétarienne", badgeOmni:"Omnivore", badgePaleo:"Paléo", badgeAI:"Anti-inflamm.",
+  pdfHintTitle:"La fenêtre d'impression va s'ouvrir : choisis \"Enregistrer au format PDF\" parmi les imprimantes disponibles.",
   closeX:"×"
 }
 };
@@ -205,6 +207,7 @@ function applyStaticI18n(){
   document.documentElement.lang = LANG;
   document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent = t(el.getAttribute('data-i18n')); });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{ el.placeholder = t(el.getAttribute('data-i18n-placeholder')); });
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{ el.title = t(el.getAttribute('data-i18n-title')); });
   document.title = LANG==='fr' ? "Boussole Nutritionnelle — Zenplicité" : "Bussola Nutrizionale — Zenplicité";
 }
 function setLang(lang){
@@ -1362,13 +1365,15 @@ function exportAllJSON(){
   downloadBlob(JSON.stringify({foods:FOODS,recipes:RECIPES,diets:DIETS,meals:MEALS,weekplan:WEEKPLAN,targets:currentTargets},null,2),'bussola_nutrizionale_export.json','application/json');
 }
 function downloadPDF(elId,filename){
-  const {jsPDF} = window.jspdf;
-  const el = document.getElementById(elId);
-  const doc = new jsPDF('p','pt','a4');
-  doc.html(el,{
-    callback: function(doc){ doc.save(filename+'.pdf'); },
-    x:20,y:20, width:550, windowWidth:900
-  });
+  // Usa la funzione di stampa nativa del browser (scelta "Salva come PDF" nella finestra di stampa):
+  // molto più affidabile di librerie esterne, funziona offline e su qualsiasi dispositivo.
+  // Il titolo della pagina diventa il nome file suggerito nella finestra di salvataggio.
+  const prevTitle = document.title;
+  document.title = filename;
+  const restoreTitle = ()=>{ document.title = prevTitle; window.removeEventListener('afterprint', restoreTitle); };
+  window.addEventListener('afterprint', restoreTitle);
+  setTimeout(restoreTitle, 30000); // rete di sicurezza se 'afterprint' non scatta
+  window.print();
 }
 
 /* init */
