@@ -123,9 +123,8 @@
         </div>
       </div>
       <div class="btn-row no-print">
-        <button class="btn btn-accent btn-sm" onclick="downloadPDF('risultati-card','Fabbisogni_nutrizionali')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPDF">⇩ PDF</span></button>
         <button class="btn btn-ghost btn-sm" onclick="downloadTXT_profilo()"><span data-i18n="btnTXT">⇩ TXT</span></button>
-        <button class="btn btn-ghost btn-sm" onclick="window.print()"><span data-i18n="btnPrint">🖨 Stampa</span></button>
+        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('risultati-card','Fabbisogni_nutrizionali')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPrint">🖨 Stampa / PDF</span></button>
       </div>
     </div>
   </div>
@@ -146,9 +145,8 @@
       <h3 data-i18n="guideTabTitle">Guida pratica ai tipi di dieta</h3>
       <p class="small" data-i18n="guideTabHint">Una spiegazione semplice di cosa caratterizza ogni pattern alimentare, quali alimenti privilegiare e quali limitare, e per chi è pensato. Le percentuali di macronutrienti richiamano quelle impostate nella scheda "Tipi di dieta" e possono quindi differire se le modifichi lì.</p>
       <div class="btn-row no-print">
-        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('guida-holder','Guida_alle_diete')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPDF">⇩ PDF</span></button>
         <button class="btn btn-ghost btn-sm" onclick="downloadTXT_guida()"><span data-i18n="btnTXT">⇩ TXT</span></button>
-        <button class="btn btn-ghost btn-sm" onclick="window.print()"><span data-i18n="btnPrint">🖨 Stampa</span></button>
+        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('guida-holder','Guida_alle_diete')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPrint">🖨 Stampa / PDF</span></button>
       </div>
     </div>
     <div id="guida-holder"></div>
@@ -167,7 +165,7 @@
         <input type="file" id="txt-import" accept=".txt,.csv" style="display:none" onchange="importTXT(event)">
         <button class="btn btn-ghost btn-sm" onclick="exportFoodsJSON()">⇩ JSON</button>
         <button class="btn btn-ghost btn-sm" onclick="exportFoodsTXT()"><span data-i18n="btnTXT">⇩ TXT</span></button>
-        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('food-table-wrap','Database_alimenti')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPDF">⇩ PDF</span></button>
+        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('food-table-wrap','Database_alimenti')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPrint">🖨 Stampa / PDF</span></button>
       </div>
       <p class="small"><span data-i18n="importHintPre">Formato riga per import TXT:</span> <code>nome;categoria;kcal;proteine;carboidrati;lipidi;fibre;sale</code> <span data-i18n="importHintPost">(valori per 100 g).</span></p>
       <div id="food-table-wrap" style="overflow:auto;max-height:560px;">
@@ -184,8 +182,9 @@
     <div class="card">
       <h3 data-i18n="recipesTabTitle">Ricette personalizzate</h3>
       <p class="small" data-i18n="recipesTabHint">Componi una ricetta con gli alimenti del database: i valori nutrizionali totali e per porzione si calcolano automaticamente.</p>
-      <div class="btn-row"><button class="btn btn-primary btn-sm" onclick="openRecipeModal()"><span data-i18n="btnNewRecipe">+ Nuova ricetta</span></button>
+      <div class="btn-row no-print"><button class="btn btn-primary btn-sm" onclick="openRecipeModal()"><span data-i18n="btnNewRecipe">+ Nuova ricetta</span></button>
         <button class="btn btn-ghost btn-sm" onclick="exportRecipesJSON()"><span data-i18n="btnExportRecipesJSON">⇩ JSON ricette</span></button>
+        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('recipes-holder','Ricette')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPrint">🖨 Stampa / PDF</span></button>
       </div>
       <div id="recipes-holder" style="margin-top:16px;"></div>
     </div>
@@ -206,10 +205,9 @@
       <h3 data-i18n="diarySummaryTitle">Totale giornata vs obiettivo</h3>
       <div id="diary-summary"></div>
       <div class="btn-row no-print">
-        <button class="btn btn-accent btn-sm" onclick="downloadPDF('diary-card','Diario_alimentare')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPDFdiary">⇩ PDF diario</span></button>
         <button class="btn btn-ghost btn-sm" onclick="downloadTXT_diario()"><span data-i18n="btnTXTdiary">⇩ TXT diario</span></button>
         <button class="btn btn-ghost btn-sm" onclick="exportDiaryJSON()"><span data-i18n="btnJSONdiary">⇩ JSON diario</span></button>
-        <button class="btn btn-ghost btn-sm" onclick="window.print()"><span data-i18n="btnPrint">🖨 Stampa</span></button>
+        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('diary-card','Diario_alimentare')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPrint">🖨 Stampa / PDF</span></button>
       </div>
     </div>
   </div>
@@ -228,9 +226,8 @@
         <table id="plan-table"></table>
       </div>
       <div class="btn-row no-print">
-        <button class="btn btn-accent btn-sm" onclick="downloadPDF('plan-card','Piano_settimanale')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPDF">⇩ PDF</span></button>
         <button class="btn btn-ghost btn-sm" onclick="downloadTXT_plan()"><span data-i18n="btnTXT">⇩ TXT</span></button>
-        <button class="btn btn-ghost btn-sm" onclick="window.print()"><span data-i18n="btnPrint">🖨 Stampa</span></button>
+        <button class="btn btn-ghost btn-sm" onclick="downloadPDF('plan-card','Piano_settimanale')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPrint">🖨 Stampa / PDF</span></button>
       </div>
     </div>
   </div>

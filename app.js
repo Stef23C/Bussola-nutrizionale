@@ -5,7 +5,7 @@ let LANG = 'it';
 const I18N = {
 it: {
   brandSubtitle:"Basata sui Dietary Reference Values EFSA",
-  btnExportAll:"⇩ Esporta tutto (JSON)", btnPrint:"🖨 Stampa",
+  btnExportAll:"⇩ Esporta tutto (JSON)", btnPrint:"🖨 Stampa / PDF",
   tab1:"1 · Profilo & fabbisogni", tab2:"2 · Tipi di dieta", tab3:"3 · Guida alle diete",
   tab4:"4 · Database alimenti", tab5:"5 · Ricette", tab6:"6 · Diario giornaliero",
   cardProfileTitle:"Dati della persona",
@@ -104,7 +104,7 @@ it: {
 },
 fr: {
   brandSubtitle:"Basée sur les Dietary Reference Values EFSA",
-  btnExportAll:"⇩ Tout exporter (JSON)", btnPrint:"🖨 Imprimer",
+  btnExportAll:"⇩ Tout exporter (JSON)", btnPrint:"🖨 Imprimer / PDF",
   tab1:"1 · Profil & besoins", tab2:"2 · Types de régime", tab3:"3 · Guide des régimes",
   tab4:"4 · Base d'aliments", tab5:"5 · Recettes", tab6:"6 · Journal quotidien",
   cardProfileTitle:"Données de la personne",
