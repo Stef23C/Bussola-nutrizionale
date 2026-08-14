@@ -231,6 +231,18 @@
       <p class="small" data-i18n="diaryWeekSummaryHint">Confronta cosa hai effettivamente registrato ogni giorno con il piano settimanale e con il tuo obiettivo.</p>
       <div id="diary-week-summary-wrap" style="overflow:auto;"></div>
     </div>
+
+    <div class="card">
+      <h3 data-i18n="monthSummaryTitle">Andamento mensile</h3>
+      <p class="small" data-i18n="monthSummaryHint">Uno sguardo d'insieme su tutto il mese: calendario con lo stato di ogni giorno registrato e medie mensili. Clicca su un giorno per aprirlo nel diario qui sopra.</p>
+      <div class="btn-row no-print" style="align-items:center;">
+        <button class="btn btn-ghost btn-sm" onclick="shiftMonth(-1)">← <span data-i18n="planPrevMonth">Mese precedente</span></button>
+        <span class="badge gray" id="month-label" style="font-size:13px;padding:6px 12px;"></span>
+        <button class="btn btn-ghost btn-sm" onclick="shiftMonth(1)"><span data-i18n="planNextMonth">Mese successivo</span> →</button>
+      </div>
+      <div id="month-calendar-wrap" style="margin-top:14px;"></div>
+      <div id="month-avg-wrap" style="margin-top:16px;overflow:auto;"></div>
+    </div>
   </div>
 
   <!-- ============ TAB 7 : PIANO SETTIMANALE ============ -->

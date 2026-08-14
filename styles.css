@@ -204,6 +204,20 @@ tr:hover td{background:#FAF8F1;}
 .day-tab-btn{border:1px solid var(--line);background:var(--card);color:var(--ink-soft);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;}
 .day-tab-btn.active{background:var(--brand);border-color:var(--brand);color:#fff;}
 .day-tab-btn:hover:not(.active){border-color:var(--brand-2);color:var(--brand);}
+.month-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.month-cal .mc-wd{font-size:10.5px;text-transform:uppercase;color:var(--ink-soft);text-align:center;font-weight:700;padding-bottom:3px;}
+.month-cal .mc-day{border:1px solid var(--line);border-radius:8px;padding:6px 4px;min-height:52px;background:#FBFAF6;cursor:pointer;font-size:11px;display:flex;flex-direction:column;gap:2px;}
+.month-cal .mc-day:hover{border-color:var(--brand-2);}
+.month-cal .mc-day.mc-empty{visibility:hidden;cursor:default;}
+.month-cal .mc-day .mc-num{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--ink);}
+.month-cal .mc-day .mc-kcal{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);}
+.month-cal .mc-day.mc-today{border-color:var(--brand);border-width:2px;}
+.month-cal .mc-day.mc-ok{background:#E5EEE2;}
+.month-cal .mc-day.mc-warn{background:#F5E1DA;}
+.month-cal .mc-day.mc-selected{outline:2px solid var(--accent);outline-offset:-2px;}
+.month-avg-table{border-collapse:collapse;width:100%;font-size:12px;}
+.month-avg-table th{white-space:nowrap;padding:6px 10px;border-bottom:2px solid var(--ink);text-align:left;font-size:11px;}
+.month-avg-table td{padding:6px 10px;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono',monospace;text-align:right;}
 .small{font-size:12px;color:var(--ink-soft);}
 .diet-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
 .footer-note{color:var(--ink-soft);font-size:12px;margin-top:30px;border-top:1px solid var(--line);padding-top:14px;}

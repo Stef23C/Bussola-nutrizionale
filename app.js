@@ -98,6 +98,10 @@ it: {
   diaryNoTargetHint:"Calcola prima i fabbisogni nella scheda \"Profilo & fabbisogni\" per confrontare il diario con un obiettivo personalizzato.",
   diaryWeekSummaryTitle:"Riepilogo settimanale del consumo reale",
   diaryWeekSummaryHint:"Confronta cosa hai effettivamente registrato ogni giorno con il piano settimanale e con il tuo obiettivo.",
+  monthSummaryTitle:"Andamento mensile",
+  monthSummaryHint:"Uno sguardo d'insieme su tutto il mese: calendario con lo stato di ogni giorno registrato e medie mensili. Clicca su un giorno per aprirlo nel diario qui sopra.",
+  planPrevMonth:"Mese precedente", planNextMonth:"Mese successivo",
+  monthAvgLabel:"Media del mese", daysLoggedLabel:"giorni registrati nel mese",
   rowTotalDay:"Totale giornata", saltNotePre:"Sale assunto:", saltNotePost:"(riferimento indicativo OMS &lt; 5 g/giorno — non è un valore di popolazione EFSA).",
   nutriSale:"Sale", minLabel:"minimo", maxLabel:"massimo",
   rowVeg:"Porzioni verdura", vegTargetNote:"obiettivo indicativo: almeno 3 porzioni al giorno da 80 g, preferibile alla frutta",
@@ -210,6 +214,10 @@ fr: {
   diaryNoTargetHint:"Calcule d'abord tes besoins dans l'onglet \"Profil & besoins\" pour comparer le journal à un objectif personnalisé.",
   diaryWeekSummaryTitle:"Récapitulatif hebdomadaire de la consommation réelle",
   diaryWeekSummaryHint:"Compare ce que tu as réellement enregistré chaque jour avec le planning de la semaine et avec ton objectif.",
+  monthSummaryTitle:"Évolution mensuelle",
+  monthSummaryHint:"Une vue d'ensemble sur tout le mois : calendrier avec le statut de chaque jour enregistré et moyennes mensuelles. Clique sur un jour pour l'ouvrir dans le journal ci-dessus.",
+  planPrevMonth:"Mois précédent", planNextMonth:"Mois suivant",
+  monthAvgLabel:"Moyenne du mois", daysLoggedLabel:"jours enregistrés dans le mois",
   rowTotalDay:"Total du jour", saltNotePre:"Sel consommé :", saltNotePost:"(référence indicative OMS &lt; 5 g/jour — ce n'est pas une valeur de population EFSA).",
   nutriSale:"Sel", minLabel:"minimum", maxLabel:"maximum",
   rowVeg:"Portions de légumes", vegTargetNote:"objectif indicatif : au moins 3 portions de 80 g par jour, à privilégier par rapport aux fruits",
@@ -1289,6 +1297,7 @@ function refreshMealsView(){
   }).join('');
   renderDiarySummary();
   renderDiaryWeekSummary();
+  if(typeof renderMonthSummary==='function') renderMonthSummary();
 }
 function removeMealItem(mk,idx){ ensureDiaryDay(diaryCurrentDay)[mk].splice(idx,1); refreshMealsView(); }
 function clearDiary(){ if(!confirm(t('confirmClearDiary'))) return; DIARY_DATA[diaryDateKey(diaryCurrentDay)] = {colazione:[],pranzo:[],cena:[],spuntino:[]}; refreshMealsView(); }
@@ -1313,9 +1322,8 @@ function itemCategoryGrams(item, categoryIT){
     return g;
   }
 }
-function dayTotals(dayIdx){
-  dayIdx = dayIdx===undefined ? diaryCurrentDay : dayIdx;
-  const day = ensureDiaryDay(dayIdx);
+function computeDayTotalsForKey(dateKey){
+  const day = DIARY_DATA[dateKey] || {colazione:[],pranzo:[],cena:[],spuntino:[]};
   const tot = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,fruit:0,veg:0};
   Object.values(day).forEach(items=>items.forEach(it=>{
     const it2 = computeMealItemTotals(it);
@@ -1324,6 +1332,11 @@ function dayTotals(dayIdx){
     tot.veg += itemCategoryGrams(it,'Verdura');
   }));
   return tot;
+}
+function dayTotals(dayIdx){
+  dayIdx = dayIdx===undefined ? diaryCurrentDay : dayIdx;
+  ensureDiaryDay(dayIdx); // assicura che il giorno esista nello store
+  return computeDayTotalsForKey(diaryDateKey(dayIdx));
 }
 function renderDiaryWeekSummary(){
   const holder = document.getElementById('diary-week-summary-wrap');
@@ -1348,6 +1361,85 @@ function renderDiaryWeekSummary(){
   rows += `<tr><th>${t('rowFruit')}</th>${days.map(d=>cell((d.fruit/FRUIT_VEG_PORTION_G).toFixed(1), FRUIT_TARGET_PORTIONS, true)).join('')}</tr>`;
   holder.innerHTML = `<table class="plan-summary-table"><thead><tr><th></th>${dayLabels.map((l,i)=>`<th class="${i===diaryCurrentDay?'plan-cell-ok':''}">${l.charAt(0).toUpperCase()+l.slice(1)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;
 }
+
+/* =========================================================================
+   ANDAMENTO MENSILE (calendario + medie del mese)
+   ========================================================================= */
+let monthViewDate = new Date();
+function shiftMonth(delta){
+  monthViewDate.setMonth(monthViewDate.getMonth()+delta);
+  renderMonthSummary();
+}
+function jumpDiaryToDate(dateKey){
+  const d = new Date(dateKey+'T00:00:00');
+  WEEKPLAN.weekStart = toISODate(isoMonday(d));
+  diaryCurrentDay = Math.round((d.setHours(0,0,0,0) - new Date(WEEKPLAN.weekStart).setHours(0,0,0,0)) / 86400000);
+  refreshMealsView();
+  if(typeof renderWeekPlan==='function') renderWeekPlan();
+  const card = document.getElementById('diary-card');
+  if(card) card.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function renderMonthSummary(){
+  const calHolder = document.getElementById('month-calendar-wrap');
+  const avgHolder = document.getElementById('month-avg-wrap');
+  if(!calHolder || !avgHolder) return;
+  const locale = LANG==='fr' ? 'fr-FR' : 'it-IT';
+  const year = monthViewDate.getFullYear(), month = monthViewDate.getMonth();
+  document.getElementById('month-label').textContent = monthViewDate.toLocaleDateString(locale,{month:'long',year:'numeric'}).replace(/^./,c=>c.toUpperCase());
+
+  const firstOfMonth = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const leadBlanks = (firstOfMonth.getDay()+6)%7; // lunedì=0
+  const todayKey = toISODate(new Date());
+  const selectedKey = diaryDateKey(diaryCurrentDay);
+
+  const wdNames = [0,1,2,3,4,5,6].map(i=>{ const d=new Date(2024,0,1+i); return d.toLocaleDateString(locale,{weekday:'short'}).charAt(0).toUpperCase(); });
+  let html = `<div class="month-cal">`;
+  wdNames.forEach(w=>html+=`<div class="mc-wd">${w}</div>`);
+  for(let i=0;i<leadBlanks;i++) html += `<div class="mc-day mc-empty"></div>`;
+
+  const monthTotals = []; // per medie
+  for(let day=1; day<=daysInMonth; day++){
+    const dateKey = toISODate(new Date(year, month, day));
+    const tot = computeDayTotalsForKey(dateKey);
+    const hasData = tot.kcal>0;
+    if(hasData) monthTotals.push(tot);
+    let cls = 'mc-day';
+    if(dateKey===todayKey) cls += ' mc-today';
+    if(dateKey===selectedKey) cls += ' mc-selected';
+    if(hasData && currentTargets){
+      const within = tot.kcal <= currentTargets.kcal*1.15 && tot.kcal >= currentTargets.kcal*0.7;
+      cls += within ? ' mc-ok' : ' mc-warn';
+    }
+    html += `<div class="${cls}" onclick="jumpDiaryToDate('${dateKey}')"><span class="mc-num">${day}</span>${hasData?`<span class="mc-kcal">${tot.kcal.toFixed(0)} kcal</span>`:''}</div>`;
+  }
+  html += `</div>`;
+  calHolder.innerHTML = html;
+
+  const n = monthTotals.length;
+  const avg = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,fruit:0,veg:0};
+  monthTotals.forEach(t=>{ Object.keys(avg).forEach(k=>avg[k]+=t[k]); });
+  if(n>0) Object.keys(avg).forEach(k=>avg[k]/=n);
+
+  function cellA(val, target, invert){
+    if(!currentTargets || target===undefined || n===0) return `<td class="num">${val}</td>`;
+    const bad = invert ? (parseFloat(val)<target) : (parseFloat(val)>target*1.15);
+    return `<td class="num ${bad?'plan-cell-warn':'plan-cell-ok'}">${val}</td>`;
+  }
+  const tgt = currentTargets;
+  let rows = '';
+  rows += `<tr><th>${t('nutriEnergia')}</th>${cellA(avg.kcal.toFixed(0), tgt&&tgt.kcal)}</tr>`;
+  rows += `<tr><th>${t('nutriProteine')} (g)</th>${cellA(avg.prot.toFixed(1), tgt&&tgt.protG)}</tr>`;
+  rows += `<tr><th>${t('nutriCarboidrati')} (g)</th>${cellA(avg.carb.toFixed(1), tgt&&tgt.carbG)}</tr>`;
+  rows += `<tr><th>${t('nutriLipidi')} (g)</th>${cellA(avg.fat.toFixed(1), tgt&&tgt.fatG)}</tr>`;
+  rows += `<tr><th>${t('nutriFibre')} (g, ${t('minLabel')})</th>${cellA(avg.fiber.toFixed(1), tgt&&tgt.fiberG, true)}</tr>`;
+  rows += `<tr><th>${t('nutriSale')} (g, ${t('maxLabel')})</th>${cellA(avg.salt.toFixed(2), SALT_MAX_G)}</tr>`;
+  rows += `<tr><th>${t('rowVeg')}</th>${cellA((avg.veg/FRUIT_VEG_PORTION_G).toFixed(1), VEG_TARGET_PORTIONS, true)}</tr>`;
+  rows += `<tr><th>${t('rowFruit')}</th>${cellA((avg.fruit/FRUIT_VEG_PORTION_G).toFixed(1), FRUIT_TARGET_PORTIONS, true)}</tr>`;
+  avgHolder.innerHTML = `<p class="small" style="margin-bottom:8px;"><b>${n}</b> ${t('daysLoggedLabel')}</p>
+    <table class="month-avg-table"><thead><tr><th></th><th>${t('monthAvgLabel')}</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
 function renderDiarySummary(){
   const tot = dayTotals();
   const fruitPortions = tot.fruit/FRUIT_VEG_PORTION_G;

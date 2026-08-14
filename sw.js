@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bussola-nutrizionale-v2';
+const CACHE_NAME = 'bussola-nutrizionale-v3';
 const CORE_ASSETS = [
   './',
   './index.html',
