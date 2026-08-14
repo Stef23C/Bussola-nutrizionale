@@ -1382,10 +1382,11 @@ function jumpDiaryToDate(dateKey){
 function renderMonthSummary(){
   const calHolder = document.getElementById('month-calendar-wrap');
   const avgHolder = document.getElementById('month-avg-wrap');
+  const monthLabelEl = document.getElementById('month-label');
   if(!calHolder || !avgHolder) return;
   const locale = LANG==='fr' ? 'fr-FR' : 'it-IT';
   const year = monthViewDate.getFullYear(), month = monthViewDate.getMonth();
-  document.getElementById('month-label').textContent = monthViewDate.toLocaleDateString(locale,{month:'long',year:'numeric'}).replace(/^./,c=>c.toUpperCase());
+  if(monthLabelEl) monthLabelEl.textContent = monthViewDate.toLocaleDateString(locale,{month:'long',year:'numeric'}).replace(/^./,c=>c.toUpperCase());
 
   const firstOfMonth = new Date(year, month, 1);
   const daysInMonth = new Date(year, month+1, 0).getDate();
