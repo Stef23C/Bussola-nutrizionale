@@ -122,6 +122,24 @@
           <p class="small" id="ref-note" style="margin-top:14px;"></p>
         </div>
       </div>
+      <div class="field no-print" style="margin-top:16px;max-width:520px;">
+        <label data-i18n="customTargetsLabel">Personalizza gli obiettivi (facoltativo)</label>
+        <p class="small" data-i18n="customTargetsHint">Se il tuo medico o specialista ti ha indicato valori diversi da quelli generici EFSA/OMS mostrati sopra, inseriscili qui: verranno usati al posto dei valori di riferimento in tutte le schede dell'app (Diario, Piano, Ricette).</p>
+        <p class="small" style="margin-top:8px;"><b data-i18n="macroTargetsLabel">Macronutrienti (grammi)</b> <span data-i18n="macroRebalanceHint">— modificandone uno, gli altri due si riequilibrano da soli per riempire le stesse kcal totali, mantenendo tra loro la proporzione attuale.</span></p>
+        <div class="grid grid-3">
+          <div class="field"><label style="font-size:10px;" data-i18n="nutriProteine">Proteine</label><input type="number" id="custom-prot-target" onchange="rebalanceMacros('prot')" placeholder="g"></div>
+          <div class="field"><label style="font-size:10px;" data-i18n="nutriCarboidrati">Carboidrati</label><input type="number" id="custom-carb-target" onchange="rebalanceMacros('carb')" placeholder="g"></div>
+          <div class="field"><label style="font-size:10px;" data-i18n="nutriLipidi">Lipidi</label><input type="number" id="custom-fat-target" onchange="rebalanceMacros('fat')" placeholder="g"></div>
+        </div>
+        <p class="small" style="margin-top:14px;"><b data-i18n="mineralsProtTypeTitle">Fosforo, potassio e tipo di proteina</b></p>
+        <div class="grid grid-4">
+          <div class="field"><label style="font-size:10px;" data-i18n="nutriCalc">Calcio</label><input type="number" id="custom-calcium-target" onchange="applyCustomMineralTargets()" placeholder="mg"></div>
+          <div class="field"><label style="font-size:10px;" data-i18n="nutriPhos">Fosforo</label><input type="number" id="custom-phos-target" onchange="applyCustomMineralTargets()" placeholder="mg"></div>
+          <div class="field"><label style="font-size:10px;" data-i18n="nutriPot">Potassio</label><input type="number" id="custom-pot-target" onchange="applyCustomMineralTargets()" placeholder="mg"></div>
+          <div class="field"><label style="font-size:10px;" data-i18n="saltMaxLabel">Sale massimo</label><input type="number" id="custom-salt-target" onchange="applyCustomMineralTargets()" placeholder="g" step="0.1"></div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="resetCustomTargets()"><span data-i18n="btnResetTargets">Ripristina valori di riferimento</span></button>
+      </div>
       <div class="btn-row no-print">
         <button class="btn btn-ghost btn-sm" onclick="downloadTXT_profilo()"><span data-i18n="btnTXT">⇩ TXT</span></button>
         <button class="btn btn-ghost btn-sm" onclick="downloadPDF('risultati-card','Fabbisogni_nutrizionali')" data-i18n-title="pdfHintTitle"><span data-i18n="btnPrint">🖨 Stampa / PDF</span></button>
@@ -170,7 +188,7 @@
       <p class="small"><span data-i18n="importHintPre">Formato riga per import TXT:</span> <code>nome;categoria;kcal;proteine;carboidrati;lipidi;fibre;sale</code> <span data-i18n="importHintPost">(valori per 100 g).</span></p>
       <div id="food-table-wrap" style="overflow:auto;max-height:560px;">
         <table>
-          <thead><tr><th data-i18n="colFood">Alimento</th><th data-i18n="colCat">Categoria</th><th class="num" data-i18n="colKcal">Kcal</th><th class="num" data-i18n="colProt">Prot g</th><th class="num" data-i18n="colCarb">Carb g</th><th class="num" data-i18n="colFat">Lip g</th><th class="num" data-i18n="colFiber">Fibre g</th><th class="num" data-i18n="colSalt">Sale g</th><th class="num" data-i18n="colPhos">Fosforo mg</th><th class="num" data-i18n="colPot">Potassio mg</th><th data-i18n="colProtType">Proteina</th><th data-i18n="colDiets">Diete</th><th class="no-print"></th></tr></thead>
+          <thead><tr><th data-i18n="colFood">Alimento</th><th data-i18n="colCat">Categoria</th><th class="num" data-i18n="colKcal">Kcal</th><th class="num" data-i18n="colProt">Prot g</th><th class="num" data-i18n="colCarb">Carb g</th><th class="num" data-i18n="colFat">Lip g</th><th class="num" data-i18n="colFiber">Fibre g</th><th class="num" data-i18n="colSalt">Sale g</th><th class="num" data-i18n="colPhos">Fosforo mg</th><th class="num" data-i18n="colPot">Potassio mg</th><th class="num" data-i18n="colCalc">Calcio mg</th><th data-i18n="colProtType">Proteina</th><th data-i18n="colDiets">Diete</th><th class="no-print"></th></tr></thead>
           <tbody id="food-tbody"></tbody>
         </table>
       </div>
@@ -288,6 +306,7 @@
     <div class="grid grid-3">
       <div class="field"><label data-i18n="fmLabelPhos">Fosforo mg</label><input type="number" id="fm-phos"></div>
       <div class="field"><label data-i18n="fmLabelPot">Potassio mg</label><input type="number" id="fm-pot"></div>
+      <div class="field"><label data-i18n="fmLabelCalc">Calcio mg</label><input type="number" id="fm-calc"></div>
       <div class="field"><label data-i18n="fmLabelProtType">Tipo proteina</label>
         <select id="fm-prottype">
           <option value="animal" data-i18n="protTypeAnimal">Animale</option>
