@@ -777,23 +777,27 @@ function renderResults(){
 function rebalanceMacros(changedKey){
   if(!currentTargets) return;
   const kcal = currentTargets.kcal;
+  const ratio = DIETS[currentTargets.dietId]; // proporzione di riserva se i due campi da bilanciare sono entrambi 0
   let protG = parseFloat(document.getElementById('custom-prot-target').value)||0;
   let carbG = parseFloat(document.getElementById('custom-carb-target').value)||0;
   let fatG = parseFloat(document.getElementById('custom-fat-target').value)||0;
-  const protKcal = protG*4, carbKcal = carbG*4, fatKcal = fatG*9;
+  let protKcal = protG*4, carbKcal = carbG*4, fatKcal = fatG*9;
   if(changedKey==='prot'){
     const remaining = Math.max(0, kcal - protKcal);
-    const otherTotal = carbKcal+fatKcal || 1;
+    let otherTotal = carbKcal+fatKcal;
+    if(otherTotal<=0){ carbKcal = ratio.carbs; fatKcal = ratio.fat; otherTotal = carbKcal+fatKcal; }
     carbG = Math.round(remaining*(carbKcal/otherTotal)/4);
     fatG = Math.round(remaining*(fatKcal/otherTotal)/9);
   } else if(changedKey==='carb'){
     const remaining = Math.max(0, kcal - carbKcal);
-    const otherTotal = protKcal+fatKcal || 1;
+    let otherTotal = protKcal+fatKcal;
+    if(otherTotal<=0){ protKcal = ratio.protein; fatKcal = ratio.fat; otherTotal = protKcal+fatKcal; }
     protG = Math.round(remaining*(protKcal/otherTotal)/4);
     fatG = Math.round(remaining*(fatKcal/otherTotal)/9);
   } else if(changedKey==='fat'){
     const remaining = Math.max(0, kcal - fatKcal);
-    const otherTotal = protKcal+carbKcal || 1;
+    let otherTotal = protKcal+carbKcal;
+    if(otherTotal<=0){ protKcal = ratio.protein; carbKcal = ratio.carbs; otherTotal = protKcal+carbKcal; }
     protG = Math.round(remaining*(protKcal/otherTotal)/4);
     carbG = Math.round(remaining*(carbKcal/otherTotal)/4);
   }
