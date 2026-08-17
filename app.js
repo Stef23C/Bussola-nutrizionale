@@ -51,7 +51,12 @@ it: {
   searchPlaceholder:"Cerca alimento…", allCategories:"Tutte le categorie", allDiets:"Tutte le diete",
   btnNewFood:"+ Nuovo alimento", btnImportTXT:"⇧ Importa TXT",
   importHintPre:"Formato riga per import TXT:", importHintPost:"(valori per 100 g).",
-  colFood:"Alimento", colCat:"Categoria", colKcal:"Kcal", colProt:"Prot g", colCarb:"Carb g", colFat:"Lip g", colFiber:"Fibre g", colSalt:"Sale g", colDiets:"Diete",
+  colFood:"Alimento", colCat:"Categoria", colKcal:"Kcal", colProt:"Prot g", colCarb:"Carb g", colFat:"Lip g", colFiber:"Fibre g", colSalt:"Sale g", colPhos:"Fosforo mg", colPot:"Potassio mg", colProtType:"Proteina", colDiets:"Diete",
+  fmLabelPhos:"Fosforo mg", fmLabelPot:"Potassio mg", fmLabelProtType:"Tipo proteina",
+  protTypeAnimal:"Animale", protTypeVeg:"Vegetale", protTypeNone:"Non significativa",
+  nutriPhos:"Fosforo", nutriPot:"Potassio", efsaAIRef:"riferimento EFSA AI",
+  mineralsProtTypeTitle:"Fosforo, potassio e tipo di proteina", protSplitLabel:"Ripartizione proteine", noProteinData:"Nessun dato proteico disponibile per questo pasto.",
+  mineralsGeneralNote:"Informazioni nutrizionali generali, non un consiglio per patologie: in presenza di problemi renali, ossei o di altro tipo, i valori di riferimento vanno definiti con il proprio medico o specialista.",
   modalNewFoodTitle:"Nuovo alimento", modalEditFoodTitle:"Modifica alimento",
   fmLabelName:"Nome", fmLabelCat:"Categoria", fmPlaceholderCat:"es. Verdura",
   fmLabelKcal:"Kcal /100g", fmLabelProt:"Proteine g", fmLabelCarb:"Carboidrati g", fmLabelFat:"Lipidi g", fmLabelFiber:"Fibre g", fmLabelSalt:"Sale g",
@@ -114,7 +119,7 @@ it: {
   mmLabelFood:"Alimento", mmLabelGrams:"Quantità (g)", mmLabelRecipe:"Ricetta", mmLabelServings:"N. porzioni", btnAdd:"Aggiungi",
   btnAddAnother:"+ Aggiungi", mmCurrentItemsLabel:"Già aggiunti a questo pasto", btnDone:"Fatto / Chiudi",
   alertQty:"Inserisci una quantità valida.", alertCreateRecipeFirst:"Crea prima una ricetta nella scheda Ricette.", noRecipeSaved:"Nessuna ricetta salvata",
-  footerNote:"Valori energetici e proteici di riferimento (AR/PRI) ricavati dalla tabella EFSA \"Dietary Reference Values for nutrients\" caricata. I target di zucchero/sale seguono le indicazioni generali OMS dove l'EFSA non fissa un valore numerico di popolazione. Questo strumento fornisce indicazioni generali e non sostituisce una valutazione nutrizionale personalizzata.",
+  footerNote:"Valori energetici e proteici di riferimento (AR/PRI) ricavati dalla tabella EFSA \"Dietary Reference Values for nutrients\" caricata. I target di zucchero/sale seguono le indicazioni generali OMS dove l'EFSA non fissa un valore numerico di popolazione. Questo strumento fornisce indicazioni di benessere generale rivolte a persone sane e non sostituisce una valutazione medica, dietistica o nutrizionale personalizzata. In presenza di patologie (es. renali, metaboliche, ossee) o condizioni cliniche specifiche, rivolgersi sempre al proprio medico o specialista di riferimento.",
   badgeVegan:"Vegana", badgeVeg:"Vegetariana", badgeOmni:"Onnivora", badgePaleo:"Paleo", badgeAI:"Anti-infiamm.",
   pdfHintTitle:"Si aprirà la finestra di stampa: scegli \"Salva come PDF\" tra le stampanti disponibili.",
   closeX:"×"
@@ -167,7 +172,12 @@ fr: {
   searchPlaceholder:"Rechercher un aliment…", allCategories:"Toutes les catégories", allDiets:"Tous les régimes",
   btnNewFood:"+ Nouvel aliment", btnImportTXT:"⇧ Importer TXT",
   importHintPre:"Format de ligne pour l'import TXT :", importHintPost:"(valeurs pour 100 g).",
-  colFood:"Aliment", colCat:"Catégorie", colKcal:"Kcal", colProt:"Prot g", colCarb:"Gluc g", colFat:"Lip g", colFiber:"Fibres g", colSalt:"Sel g", colDiets:"Régimes",
+  colFood:"Aliment", colCat:"Catégorie", colKcal:"Kcal", colProt:"Prot g", colCarb:"Gluc g", colFat:"Lip g", colFiber:"Fibres g", colSalt:"Sel g", colPhos:"Phosphore mg", colPot:"Potassium mg", colProtType:"Protéine", colDiets:"Régimes",
+  fmLabelPhos:"Phosphore mg", fmLabelPot:"Potassium mg", fmLabelProtType:"Type de protéine",
+  protTypeAnimal:"Animale", protTypeVeg:"Végétale", protTypeNone:"Non significative",
+  nutriPhos:"Phosphore", nutriPot:"Potassium", efsaAIRef:"référence EFSA AI",
+  mineralsProtTypeTitle:"Phosphore, potassium et type de protéine", protSplitLabel:"Répartition des protéines", noProteinData:"Aucune donnée protéique disponible pour ce repas.",
+  mineralsGeneralNote:"Informations nutritionnelles générales, pas un conseil pour une pathologie : en cas de problèmes rénaux, osseux ou autres, les repères doivent être définis avec ton médecin ou un(e) spécialiste.",
   modalNewFoodTitle:"Nouvel aliment", modalEditFoodTitle:"Modifier l'aliment",
   fmLabelName:"Nom", fmLabelCat:"Catégorie", fmPlaceholderCat:"ex. Légumes",
   fmLabelKcal:"Kcal /100g", fmLabelProt:"Protéines g", fmLabelCarb:"Glucides g", fmLabelFat:"Lipides g", fmLabelFiber:"Fibres g", fmLabelSalt:"Sel g",
@@ -230,7 +240,7 @@ fr: {
   mmLabelFood:"Aliment", mmLabelGrams:"Quantité (g)", mmLabelRecipe:"Recette", mmLabelServings:"Nb de portions", btnAdd:"Ajouter",
   btnAddAnother:"+ Ajouter", mmCurrentItemsLabel:"Déjà ajoutés à ce repas", btnDone:"Terminé / Fermer",
   alertQty:"Indique une quantité valide.", alertCreateRecipeFirst:"Crée d'abord une recette dans l'onglet Recettes.", noRecipeSaved:"Aucune recette enregistrée",
-  footerNote:"Les valeurs énergétiques et protéiques de référence (AR/PRI) proviennent du tableau EFSA \"Dietary Reference Values for nutrients\" chargé. Les repères de sucre/sel suivent les indications générales de l'OMS lorsque l'EFSA ne fixe pas de valeur numérique de population. Cet outil fournit des indications générales et ne remplace pas une évaluation nutritionnelle personnalisée.",
+  footerNote:"Les valeurs énergétiques et protéiques de référence (AR/PRI) proviennent du tableau EFSA \"Dietary Reference Values for nutrients\" chargé. Les repères de sucre/sel suivent les indications générales de l'OMS lorsque l'EFSA ne fixe pas de valeur numérique de population. Cet outil fournit des indications de bien-être général destinées à des personnes en bonne santé et ne remplace pas une évaluation médicale, diététique ou nutritionnelle personnalisée. En cas de pathologie (rénale, métabolique, osseuse, etc.) ou de situation clinique spécifique, consulte toujours ton médecin ou le spécialiste concerné.",
   badgeVegan:"Végane", badgeVeg:"Végétarienne", badgeOmni:"Omnivore", badgePaleo:"Paléo", badgeAI:"Anti-inflamm.",
   pdfHintTitle:"La fenêtre d'impression va s'ouvrir : choisis \"Enregistrer au format PDF\" parmi les imprimantes disponibles.",
   closeX:"×"
@@ -479,8 +489,8 @@ let recipeDraftImage = null;
 let foodIdSeq = 1;
 
 function T(vegan,veg,omni,paleo,ai){return {vegan:!!vegan,veg:!!veg,omni:!!omni,paleo:!!paleo,ai:!!ai};}
-function addFood(name_it,name_fr,cat_it,cat_fr,kcal,prot,carb,fat,fiber,salt,tags){
-  FOODS.push({id:foodIdSeq++,name_it,name_fr,cat_it,cat_fr,kcal,prot,carb,fat,fiber,salt,tags,custom:false});
+function addFood(name_it,name_fr,cat_it,cat_fr,kcal,prot,carb,fat,fiber,salt,phos,pot,protType,tags){
+  FOODS.push({id:foodIdSeq++,name_it,name_fr,cat_it,cat_fr,kcal,prot,carb,fat,fiber,salt,phos,pot,protType,tags,custom:false});
 }
 function FNAME(f){ return f.custom ? f.name_it : (f['name_'+LANG]||f.name_it); }
 function FCAT(f){ return f.custom ? f.cat_it : (f['cat_'+LANG]||f.cat_it); }
@@ -500,141 +510,141 @@ function filterFoodSelect(selectId, searchId){
 }
 
 const RAW_FOODS = [
-["Pasta di semola (cruda)","Pâtes de semoule (crues)","Cereali","Céréales",353,12.0,71.0,1.5,3.0,0.01,T(1,1,1,0,0)],
-["Pasta integrale (cruda)","Pâtes complètes (crues)","Cereali","Céréales",337,13.0,66.0,2.5,8.0,0.01,T(1,1,1,0,1)],
-["Riso bianco (crudo)","Riz blanc (cru)","Cereali","Céréales",332,6.7,80.0,0.6,1.0,0.0,T(1,1,1,0,0)],
-["Riso integrale (crudo)","Riz complet (cru)","Cereali","Céréales",337,7.5,77.0,2.7,3.5,0.0,T(1,1,1,0,1)],
-["Pane bianco","Pain blanc","Cereali","Céréales",267,8.1,53.0,1.0,2.7,1.4,T(1,1,1,0,0)],
-["Pane integrale","Pain complet","Cereali","Céréales",224,9.0,42.0,2.0,7.0,1.3,T(1,1,1,0,1)],
-["Farro perlato (crudo)","Épeautre perlé (cru)","Cereali","Céréales",335,13.0,67.0,2.5,8.0,0.02,T(1,1,1,0,1)],
-["Quinoa (cruda)","Quinoa (cru)","Pseudocereali","Pseudo-céréales",368,14.1,64.2,6.1,7.0,0.01,T(1,1,1,1,1)],
-["Avena in fiocchi","Flocons d\'avoine","Cereali","Céréales",389,16.9,66.3,6.9,10.6,0.01,T(1,1,1,0,1)],
-["Orzo perlato (crudo)","Orge perlé (crue)","Cereali","Céréales",350,10.4,73.5,1.2,9.0,0.02,T(1,1,1,0,1)],
-["Grano saraceno (crudo)","Sarrasin (cru)","Pseudocereali","Pseudo-céréales",343,13.3,71.5,3.4,10.0,0.0,T(1,1,1,1,1)],
-["Amaranto (crudo)","Amarante (crue)","Pseudocereali","Pseudo-céréales",371,13.6,65.2,7.0,6.7,0.02,T(1,1,1,1,1)],
-["Teff (crudo)","Teff (cru)","Pseudocereali","Pseudo-céréales",367,13.3,73.0,2.4,8.0,0.01,T(1,1,1,1,1)],
-["Monococco / piccolo farro (crudo)","Petit épeautre / engrain (cru)","Cereali","Céréales",340,14.7,65.4,2.5,9.0,0.01,T(1,1,1,0,1)],
-["Farro dicocco (crudo)","Blé amidonnier / emmer (cru)","Cereali","Céréales",335,14.6,67.1,2.4,9.0,0.01,T(1,1,1,0,1)],
-["Kamut (grano khorasan, crudo)","Kamut (blé de Khorasan, cru)","Cereali","Céréales",337,14.7,70.0,2.2,9.5,0.01,T(1,1,1,0,1)],
-["Miglio (crudo)","Millet (cru)","Cereali","Céréales",378,11.0,72.9,4.2,8.5,0.005,T(1,1,1,0,1)],
-["Farina di mais (polenta)","Farine de maïs (polenta)","Cereali","Céréales",353,8.5,73.0,3.5,5.0,0.0,T(1,1,1,0,0)],
-["Cous cous (crudo)","Couscous (cru)","Cereali","Céréales",376,12.8,72.4,1.1,5.0,0.01,T(1,1,1,0,0)],
-["Lenticchie secche (crude)","Lentilles sèches (crues)","Legumi","Légumineuses",353,25.0,52.0,1.0,17.0,0.01,T(1,1,1,0,1)],
-["Ceci secchi (crudi)","Pois chiches secs (crus)","Legumi","Légumineuses",364,20.9,54.3,6.0,17.0,0.02,T(1,1,1,0,1)],
-["Fagioli borlotti secchi","Haricots borlotti secs","Legumi","Légumineuses",337,23.6,44.0,1.6,17.0,0.01,T(1,1,1,0,1)],
-["Fagioli cannellini secchi","Haricots blancs secs","Legumi","Légumineuses",333,23.4,45.0,1.5,17.0,0.01,T(1,1,1,0,1)],
-["Piselli secchi","Pois secs","Legumi","Légumineuses",340,24.0,53.0,1.5,16.5,0.02,T(1,1,1,0,1)],
-["Soia secca","Soja sec","Legumi","Légumineuses",446,36.0,30.0,20.0,15.0,0.0,T(1,1,1,0,1)],
-["Tofu","Tofu","Legumi","Légumineuses",76,8.0,0.7,4.8,0.3,0.01,T(1,1,1,0,1)],
-["Tempeh","Tempeh","Legumi","Légumineuses",190,19.0,9.0,11.0,5.0,0.01,T(1,1,1,0,1)],
-["Edamame","Edamame","Legumi","Légumineuses",122,11.9,10.0,5.2,5.2,0.0,T(1,1,1,0,1)],
-["Petto di pollo","Blanc de poulet","Carne","Viande",165,31.0,0.0,3.6,0.0,0.1,T(0,0,1,1,1)],
-["Petto di tacchino","Blanc de dinde","Carne","Viande",157,29.0,0.0,3.0,0.0,0.1,T(0,0,1,1,1)],
-["Manzo magro","Bœuf maigre","Carne","Viande",187,26.0,0.0,9.0,0.0,0.1,T(0,0,1,1,0)],
-["Vitello","Veau","Carne","Viande",172,25.0,0.0,7.0,0.0,0.1,T(0,0,1,1,0)],
-["Lonza di maiale","Filet de porc","Carne","Viande",143,22.0,0.0,5.7,0.0,0.1,T(0,0,1,1,0)],
-["Agnello","Agneau","Carne","Viande",294,25.0,0.0,21.0,0.0,0.1,T(0,0,1,1,0)],
-["Prosciutto crudo","Jambon cru","Carne","Viande",268,28.0,0.0,17.0,0.0,4.7,T(0,0,1,0,0)],
-["Prosciutto cotto","Jambon cuit","Carne","Viande",145,20.0,1.0,7.0,0.0,2.5,T(0,0,1,0,0)],
-["Bresaola","Bresaola","Carne","Viande",151,32.0,0.0,2.6,0.0,3.0,T(0,0,1,1,0)],
-["Salame","Saucisson","Carne","Viande",380,25.0,1.0,31.0,0.0,3.6,T(0,0,1,0,0)],
-["Coniglio","Lapin","Carne","Viande",173,21.0,0.0,9.0,0.0,0.1,T(0,0,1,1,1)],
-["Salmone","Saumon","Pesce","Poisson",208,20.0,0.0,13.0,0.0,0.1,T(0,0,1,1,1)],
-["Tonno fresco","Thon frais","Pesce","Poisson",144,23.3,0.0,4.9,0.0,0.1,T(0,0,1,1,1)],
-["Tonno in scatola sott\'olio (sgocc.)","Thon en conserve à l\'huile (égoutté)","Pesce","Poisson",189,25.0,0.0,10.0,0.0,0.6,T(0,0,1,1,0)],
-["Merluzzo / Nasello","Cabillaud / Merlu","Pesce","Poisson",82,17.8,0.0,0.7,0.0,0.2,T(0,0,1,1,1)],
-["Orata","Dorade","Pesce","Poisson",121,20.0,0.0,4.5,0.0,0.1,T(0,0,1,1,1)],
-["Branzino","Bar (loup de mer)","Pesce","Poisson",97,18.4,0.0,2.5,0.0,0.1,T(0,0,1,1,1)],
-["Sgombro","Maquereau","Pesce","Poisson",205,19.0,0.0,14.0,0.0,0.15,T(0,0,1,1,1)],
-["Sardine","Sardines","Pesce","Poisson",135,20.0,0.0,5.8,0.0,0.4,T(0,0,1,1,1)],
-["Gamberi","Crevettes","Pesce","Poisson",71,17.6,0.9,0.5,0.0,0.4,T(0,0,1,1,1)],
-["Polpo","Poulpe","Pesce","Poisson",82,14.9,2.2,1.0,0.0,0.3,T(0,0,1,1,1)],
-["Cozze","Moules","Pesce","Poisson",86,11.9,3.7,2.2,0.0,0.6,T(0,0,1,1,1)],
-["Uovo intero","Œuf entier","Uova","Œufs",143,12.6,0.7,9.5,0.0,0.35,T(0,1,1,1,1)],
-["Albume d\'uovo","Blanc d\'œuf","Uova","Œufs",48,10.9,0.7,0.2,0.0,0.3,T(0,1,1,1,1)],
-["Latte intero","Lait entier","Latticini","Produits laitiers",64,3.3,4.9,3.6,0.0,0.1,T(0,1,1,0,0)],
-["Latte scremato","Lait écrémé","Latticini","Produits laitiers",36,3.4,5.0,0.2,0.0,0.1,T(0,1,1,0,0)],
-["Yogurt bianco intero","Yaourt nature entier","Latticini","Produits laitiers",66,3.5,4.7,3.6,0.0,0.1,T(0,1,1,0,1)],
-["Yogurt greco 0%","Yaourt grec 0%","Latticini","Produits laitiers",59,10.0,3.6,0.4,0.0,0.1,T(0,1,1,0,1)],
-["Mozzarella","Mozzarella","Latticini","Produits laitiers",253,18.7,0.7,19.5,0.0,0.6,T(0,1,1,0,0)],
-["Parmigiano Reggiano","Parmesan","Latticini","Produits laitiers",392,33.0,0.0,28.0,0.0,1.4,T(0,1,1,0,0)],
-["Ricotta","Ricotta","Latticini","Produits laitiers",146,8.8,3.5,10.9,0.0,0.15,T(0,1,1,0,0)],
-["Feta","Feta","Latticini","Produits laitiers",264,14.2,4.1,21.3,0.0,3.0,T(0,1,1,0,0)],
-["Mela","Pomme","Frutta","Fruits",52,0.3,13.8,0.2,2.4,0.0,T(1,1,1,1,1)],
-["Banana","Banane","Frutta","Fruits",89,1.1,22.8,0.3,2.6,0.0,T(1,1,1,0,1)],
-["Arancia","Orange","Frutta","Fruits",47,0.9,11.8,0.1,2.4,0.0,T(1,1,1,1,1)],
-["Pera","Poire","Frutta","Fruits",57,0.4,15.2,0.1,3.1,0.0,T(1,1,1,1,1)],
-["Fragole","Fraises","Frutta","Fruits",32,0.7,7.7,0.3,2.0,0.0,T(1,1,1,1,1)],
-["Mirtilli","Myrtilles","Frutta","Fruits",57,0.7,14.5,0.3,2.4,0.0,T(1,1,1,1,1)],
-["Kiwi","Kiwi","Frutta","Fruits",61,1.1,14.7,0.5,3.0,0.0,T(1,1,1,1,1)],
-["Uva","Raisin","Frutta","Fruits",69,0.7,18.1,0.2,0.9,0.0,T(1,1,1,1,1)],
-["Ananas","Ananas","Frutta","Fruits",50,0.5,13.1,0.1,1.4,0.0,T(1,1,1,1,1)],
-["Avocado","Avocat","Frutta","Fruits",160,2.0,8.5,14.7,6.7,0.01,T(1,1,1,1,1)],
-["Limone","Citron","Frutta","Fruits",29,1.1,9.3,0.3,2.8,0.0,T(1,1,1,1,1)],
-["Pesca","Pêche","Frutta","Fruits",39,0.9,9.5,0.3,1.5,0.0,T(1,1,1,1,1)],
-["Anguria","Pastèque","Frutta","Fruits",30,0.6,7.6,0.2,0.4,0.0,T(1,1,1,1,1)],
-["Melone","Melon","Frutta","Fruits",34,0.8,8.2,0.2,0.9,0.0,T(1,1,1,1,1)],
-["Fichi","Figues","Frutta","Fruits",74,0.8,19.2,0.3,2.9,0.0,T(1,1,1,1,1)],
-["Albicocche fresche","Abricots frais","Frutta","Fruits",48,1.4,11.1,0.4,2.0,0.001,T(1,1,1,1,1)],
-["Fichi d'India","Figues de Barbarie","Frutta","Fruits",41,0.7,9.6,0.5,3.7,0.001,T(1,1,1,1,1)],
-["Spinaci","Épinards","Verdura","Légumes",23,2.9,3.6,0.4,2.2,0.1,T(1,1,1,1,1)],
-["Broccoli","Brocolis","Verdura","Légumes",34,2.8,6.6,0.4,2.6,0.03,T(1,1,1,1,1)],
-["Zucchine","Courgettes","Verdura","Légumes",17,1.2,3.1,0.3,1.0,0.01,T(1,1,1,1,1)],
-["Carote","Carottes","Verdura","Légumes",41,0.9,9.6,0.2,2.8,0.07,T(1,1,1,1,1)],
-["Pomodori","Tomates","Verdura","Légumes",18,0.9,3.9,0.2,1.2,0.005,T(1,1,1,1,1)],
-["Insalata / lattuga","Salade / laitue","Verdura","Légumes",15,1.4,2.9,0.2,1.3,0.03,T(1,1,1,1,1)],
-["Peperoni","Poivrons","Verdura","Légumes",31,1.0,6.0,0.3,2.1,0.0,T(1,1,1,1,1)],
-["Melanzane","Aubergines","Verdura","Légumes",25,1.0,5.9,0.2,3.0,0.0,T(1,1,1,1,1)],
-["Cavolfiore","Chou-fleur","Verdura","Légumes",25,1.9,5.0,0.3,2.0,0.03,T(1,1,1,1,1)],
-["Cavolo verza","Chou frisé","Verdura","Légumes",27,1.8,5.8,0.2,2.5,0.03,T(1,1,1,1,1)],
-["Cetrioli","Concombres","Verdura","Légumes",15,0.7,3.6,0.1,0.5,0.0,T(1,1,1,1,1)],
-["Patate","Pommes de terre","Verdura","Légumes",77,2.0,17.5,0.1,2.1,0.007,T(1,1,1,0,0)],
-["Patate dolci","Patates douces","Verdura","Légumes",86,1.6,20.1,0.1,3.0,0.05,T(1,1,1,1,1)],
-["Cipolla","Oignon","Verdura","Légumes",40,1.1,9.3,0.1,1.7,0.004,T(1,1,1,1,1)],
-["Aglio","Ail","Verdura","Légumes",149,6.4,33.1,0.5,2.1,0.017,T(1,1,1,1,1)],
-["Zucca","Courge / potiron","Verdura","Légumes",26,1.0,6.5,0.1,0.5,0.0,T(1,1,1,1,1)],
-["Finocchio","Fenouil","Verdura","Légumes",31,1.2,7.3,0.2,3.1,0.06,T(1,1,1,1,1)],
-["Asparagi","Asperges","Verdura","Légumes",20,2.2,3.9,0.1,2.1,0.002,T(1,1,1,1,1)],
-["Funghi champignon","Champignons de Paris","Verdura","Légumes",22,3.1,3.3,0.3,1.0,0.005,T(1,1,1,1,1)],
-["Rucola","Roquette","Verdura","Légumes",25,2.6,3.7,0.7,1.6,0.02,T(1,1,1,1,1)],
-["Piselli congelati","Petits pois surgelés","Verdura","Légumes",65,5.4,9.0,0.5,5.1,0.003,T(1,1,1,0,1)],
-["Mandorle","Amandes","Frutta secca","Fruits à coque",579,21.2,21.6,49.9,12.5,0.001,T(1,1,1,1,1)],
-["Noci","Noix","Frutta secca","Fruits à coque",654,15.2,13.7,65.2,6.7,0.002,T(1,1,1,1,1)],
-["Nocciole","Noisettes","Frutta secca","Fruits à coque",628,15.0,16.7,60.8,9.7,0.0,T(1,1,1,1,1)],
-["Pistacchi","Pistaches","Frutta secca","Fruits à coque",560,20.2,27.2,45.3,10.3,0.001,T(1,1,1,1,1)],
-["Anacardi","Noix de cajou","Frutta secca","Fruits à coque",553,18.2,30.2,43.9,3.3,0.012,T(1,1,1,1,1)],
-["Semi di chia","Graines de chia","Frutta secca","Fruits à coque",486,16.5,42.1,30.7,34.4,0.0,T(1,1,1,1,1)],
-["Semi di lino","Graines de lin","Frutta secca","Fruits à coque",534,18.3,28.9,42.2,27.3,0.0,T(1,1,1,1,1)],
-["Semi di zucca","Graines de courge","Frutta secca","Fruits à coque",559,30.2,10.7,49.0,6.0,0.018,T(1,1,1,1,1)],
-["Arachidi (crude)","Cacahuètes (crues)","Frutta secca","Fruits à coque",567,25.8,16.1,49.2,8.5,0.001,T(1,1,1,0,1)],
-["Noci di macadamia","Noix de macadamia","Frutta secca","Fruits à coque",718,7.9,13.8,75.8,8.6,0.005,T(1,1,1,1,1)],
-["Noci pecan","Noix de pécan","Frutta secca","Fruits à coque",691,9.2,13.9,72.0,9.6,0.0,T(1,1,1,1,1)],
-["Uvetta (uva sultanina)","Raisins secs","Frutta secca","Fruits à coque",299,3.1,79.2,0.5,3.7,0.01,T(1,1,1,1,1)],
-["Fichi secchi","Figues séchées","Frutta secca","Fruits à coque",249,3.3,63.9,0.9,9.8,0.02,T(1,1,1,1,1)],
-["Albicocche secche","Abricots secs","Frutta secca","Fruits à coque",241,3.4,62.6,0.5,7.3,0.01,T(1,1,1,1,1)],
-["Castagne fresche (crude)","Châtaignes fraîches (crues)","Frutta secca","Fruits à coque",199,2.0,42.0,1.7,8.1,0.01,T(1,1,1,1,1)],
-["Castagne lessate","Châtaignes bouillies","Frutta secca","Fruits à coque",131,2.0,27.8,1.4,4.6,0.01,T(1,1,1,1,1)],
-["Castagne secche","Châtaignes séchées","Frutta secca","Fruits à coque",349,5.9,74.3,3.2,12.0,0.02,T(1,1,1,1,1)],
-["Castagne arrosto","Châtaignes rôties","Frutta secca","Fruits à coque",196,3.2,41.1,1.6,6.2,0.01,T(1,1,1,1,1)],
-["Olio extravergine d\'oliva","Huile d\'olive extra vierge","Grassi","Matières grasses",899,0.0,0.0,99.9,0.0,0.0,T(1,1,1,1,1)],
-["Olio di semi di girasole","Huile de tournesol","Grassi","Matières grasses",899,0.0,0.0,99.9,0.0,0.0,T(1,1,1,1,0)],
-["Olio di cocco","Huile de coco","Grassi","Matières grasses",862,0.0,0.0,99.1,0.0,0.0,T(1,1,1,1,1)],
-["Burro","Beurre","Grassi","Matières grasses",717,0.9,0.1,81.1,0.0,0.02,T(0,1,1,0,0)],
-["Ghee (burro chiarificato)","Ghee (beurre clarifié)","Grassi","Matières grasses",900,0.0,0.0,99.8,0.0,0.0,T(0,1,1,1,0)],
-["Zucchero bianco","Sucre blanc","Dolcificanti","Édulcorants",400,0.0,100.0,0.0,0.0,0.0,T(1,1,1,0,0)],
-["Miele","Miel","Dolcificanti","Édulcorants",304,0.3,82.4,0.0,0.2,0.01,T(0,1,1,1,0)],
-["Sciroppo d\'acero","Sirop d\'érable","Dolcificanti","Édulcorants",260,0.0,67.0,0.0,0.0,0.01,T(1,1,1,0,0)],
-["Cioccolato fondente 70%","Chocolat noir 70%","Dolcificanti","Édulcorants",598,7.8,45.9,42.6,10.9,0.02,T(1,1,1,0,1)],
-["Bevanda di soia","Boisson au soja","Bevande","Boissons",33,3.3,0.9,1.8,0.4,0.05,T(1,1,1,0,1)],
-["Bevanda di mandorla","Boisson à l\'amande","Bevande","Boissons",24,0.4,3.0,1.1,0.4,0.1,T(1,1,1,0,1)],
-["Bevanda di avena","Boisson à l\'avoine","Bevande","Boissons",47,1.0,7.0,1.5,0.8,0.1,T(1,1,1,0,1)],
-["Caffè (tazzina)","Café (tasse)","Bevande","Boissons",2,0.1,0.0,0.0,0.0,0.0,T(1,1,1,1,1)],
-["Tè verde","Thé vert","Bevande","Boissons",1,0.0,0.2,0.0,0.0,0.0,T(1,1,1,1,1)],
-["Curcuma in polvere","Curcuma en poudre","Spezie","Épices",354,7.8,64.9,9.9,21.1,0.038,T(1,1,1,1,1)],
-["Zenzero fresco","Gingembre frais","Spezie","Épices",80,1.8,17.8,0.8,2.0,0.013,T(1,1,1,1,1)],
-["Cannella in polvere","Cannelle en poudre","Spezie","Épices",247,4.0,80.6,1.2,53.1,0.01,T(1,1,1,1,1)],
-["Pepe nero","Poivre noir","Spezie","Épices",251,10.4,63.9,3.3,25.3,0.02,T(1,1,1,1,1)],
-["Sale marino","Sel marin","Spezie","Épices",0,0,0,0,0,97,T(1,1,1,1,0)],
+["Pasta di semola (cruda)","Pâtes de semoule (crues)","Cereali","Céréales",353,12.0,71.0,1.5,3.0,0.01,189,223,"veg",T(1,1,1,0,0)],
+["Pasta integrale (cruda)","Pâtes complètes (crues)","Cereali","Céréales",337,13.0,66.0,2.5,8.0,0.01,250,300,"veg",T(1,1,1,0,1)],
+["Riso bianco (crudo)","Riz blanc (cru)","Cereali","Céréales",332,6.7,80.0,0.6,1.0,0.0,130,115,"veg",T(1,1,1,0,0)],
+["Riso integrale (crudo)","Riz complet (cru)","Cereali","Céréales",337,7.5,77.0,2.7,3.5,0.0,333,223,"veg",T(1,1,1,0,1)],
+["Pane bianco","Pain blanc","Cereali","Céréales",267,8.1,53.0,1.0,2.7,1.4,97,127,"veg",T(1,1,1,0,0)],
+["Pane integrale","Pain complet","Cereali","Céréales",224,9.0,42.0,2.0,7.0,1.3,229,248,"veg",T(1,1,1,0,1)],
+["Farro perlato (crudo)","Épeautre perlé (cru)","Cereali","Céréales",335,13.0,67.0,2.5,8.0,0.02,320,350,"veg",T(1,1,1,0,1)],
+["Quinoa (cruda)","Quinoa (cru)","Pseudocereali","Pseudo-céréales",368,14.1,64.2,6.1,7.0,0.01,457,563,"veg",T(1,1,1,1,1)],
+["Avena in fiocchi","Flocons d\'avoine","Cereali","Céréales",389,16.9,66.3,6.9,10.6,0.01,523,429,"veg",T(1,1,1,0,1)],
+["Orzo perlato (crudo)","Orge perlé (crue)","Cereali","Céréales",350,10.4,73.5,1.2,9.0,0.02,264,280,"veg",T(1,1,1,0,1)],
+["Grano saraceno (crudo)","Sarrasin (cru)","Pseudocereali","Pseudo-céréales",343,13.3,71.5,3.4,10.0,0.0,347,460,"veg",T(1,1,1,1,1)],
+["Amaranto (crudo)","Amarante (crue)","Pseudocereali","Pseudo-céréales",371,13.6,65.2,7.0,6.7,0.02,557,508,"veg",T(1,1,1,1,1)],
+["Teff (crudo)","Teff (cru)","Pseudocereali","Pseudo-céréales",367,13.3,73.0,2.4,8.0,0.01,429,427,"veg",T(1,1,1,1,1)],
+["Monococco / piccolo farro (crudo)","Petit épeautre / engrain (cru)","Cereali","Céréales",340,14.7,65.4,2.5,9.0,0.01,300,320,"veg",T(1,1,1,0,1)],
+["Farro dicocco (crudo)","Blé amidonnier / emmer (cru)","Cereali","Céréales",335,14.6,67.1,2.4,9.0,0.01,310,340,"veg",T(1,1,1,0,1)],
+["Kamut (grano khorasan, crudo)","Kamut (blé de Khorasan, cru)","Cereali","Céréales",337,14.7,70.0,2.2,9.5,0.01,340,370,"veg",T(1,1,1,0,1)],
+["Miglio (crudo)","Millet (cru)","Cereali","Céréales",378,11.0,72.9,4.2,8.5,0.005,285,195,"veg",T(1,1,1,0,1)],
+["Farina di mais (polenta)","Farine de maïs (polenta)","Cereali","Céréales",353,8.5,73.0,3.5,5.0,0.0,210,287,"veg",T(1,1,1,0,0)],
+["Cous cous (crudo)","Couscous (cru)","Cereali","Céréales",376,12.8,72.4,1.1,5.0,0.01,170,180,"veg",T(1,1,1,0,0)],
+["Lenticchie secche (crude)","Lentilles sèches (crues)","Legumi","Légumineuses",353,25.0,52.0,1.0,17.0,0.01,451,955,"veg",T(1,1,1,0,1)],
+["Ceci secchi (crudi)","Pois chiches secs (crus)","Legumi","Légumineuses",364,20.9,54.3,6.0,17.0,0.02,366,875,"veg",T(1,1,1,0,1)],
+["Fagioli borlotti secchi","Haricots borlotti secs","Legumi","Légumineuses",337,23.6,44.0,1.6,17.0,0.01,407,1406,"veg",T(1,1,1,0,1)],
+["Fagioli cannellini secchi","Haricots blancs secs","Legumi","Légumineuses",333,23.4,45.0,1.5,17.0,0.01,406,1195,"veg",T(1,1,1,0,1)],
+["Piselli secchi","Pois secs","Legumi","Légumineuses",340,24.0,53.0,1.5,16.5,0.02,366,981,"veg",T(1,1,1,0,1)],
+["Soia secca","Soja sec","Legumi","Légumineuses",446,36.0,30.0,20.0,15.0,0.0,704,1797,"veg",T(1,1,1,0,1)],
+["Tofu","Tofu","Legumi","Légumineuses",76,8.0,0.7,4.8,0.3,0.01,97,121,"veg",T(1,1,1,0,1)],
+["Tempeh","Tempeh","Legumi","Légumineuses",190,19.0,9.0,11.0,5.0,0.01,266,412,"veg",T(1,1,1,0,1)],
+["Edamame","Edamame","Legumi","Légumineuses",122,11.9,10.0,5.2,5.2,0.0,194,436,"veg",T(1,1,1,0,1)],
+["Petto di pollo","Blanc de poulet","Carne","Viande",165,31.0,0.0,3.6,0.0,0.1,220,256,"animal",T(0,0,1,1,1)],
+["Petto di tacchino","Blanc de dinde","Carne","Viande",157,29.0,0.0,3.0,0.0,0.1,213,242,"animal",T(0,0,1,1,1)],
+["Manzo magro","Bœuf maigre","Carne","Viande",187,26.0,0.0,9.0,0.0,0.1,200,318,"animal",T(0,0,1,1,0)],
+["Vitello","Veau","Carne","Viande",172,25.0,0.0,7.0,0.0,0.1,195,320,"animal",T(0,0,1,1,0)],
+["Lonza di maiale","Filet de porc","Carne","Viande",143,22.0,0.0,5.7,0.0,0.1,226,362,"animal",T(0,0,1,1,0)],
+["Agnello","Agneau","Carne","Viande",294,25.0,0.0,21.0,0.0,0.1,188,310,"animal",T(0,0,1,1,0)],
+["Prosciutto crudo","Jambon cru","Carne","Viande",268,28.0,0.0,17.0,0.0,4.7,340,400,"animal",T(0,0,1,0,0)],
+["Prosciutto cotto","Jambon cuit","Carne","Viande",145,20.0,1.0,7.0,0.0,2.5,230,350,"animal",T(0,0,1,0,0)],
+["Bresaola","Bresaola","Carne","Viande",151,32.0,0.0,2.6,0.0,3.0,250,400,"animal",T(0,0,1,1,0)],
+["Salame","Saucisson","Carne","Viande",380,25.0,1.0,31.0,0.0,3.6,220,350,"animal",T(0,0,1,0,0)],
+["Coniglio","Lapin","Carne","Viande",173,21.0,0.0,9.0,0.0,0.1,220,350,"animal",T(0,0,1,1,1)],
+["Salmone","Saumon","Pesce","Poisson",208,20.0,0.0,13.0,0.0,0.1,240,384,"animal",T(0,0,1,1,1)],
+["Tonno fresco","Thon frais","Pesce","Poisson",144,23.3,0.0,4.9,0.0,0.1,254,441,"animal",T(0,0,1,1,1)],
+["Tonno in scatola sott\'olio (sgocc.)","Thon en conserve à l\'huile (égoutté)","Pesce","Poisson",189,25.0,0.0,10.0,0.0,0.6,200,270,"animal",T(0,0,1,1,0)],
+["Merluzzo / Nasello","Cabillaud / Merlu","Pesce","Poisson",82,17.8,0.0,0.7,0.0,0.2,203,413,"animal",T(0,0,1,1,1)],
+["Orata","Dorade","Pesce","Poisson",121,20.0,0.0,4.5,0.0,0.1,235,400,"animal",T(0,0,1,1,1)],
+["Branzino","Bar (loup de mer)","Pesce","Poisson",97,18.4,0.0,2.5,0.0,0.1,220,380,"animal",T(0,0,1,1,1)],
+["Sgombro","Maquereau","Pesce","Poisson",205,19.0,0.0,14.0,0.0,0.15,217,314,"animal",T(0,0,1,1,1)],
+["Sardine","Sardines","Pesce","Poisson",135,20.0,0.0,5.8,0.0,0.4,280,397,"animal",T(0,0,1,1,1)],
+["Gamberi","Crevettes","Pesce","Poisson",71,17.6,0.9,0.5,0.0,0.4,214,259,"animal",T(0,0,1,1,1)],
+["Polpo","Poulpe","Pesce","Poisson",82,14.9,2.2,1.0,0.0,0.3,186,350,"animal",T(0,0,1,1,1)],
+["Cozze","Moules","Pesce","Poisson",86,11.9,3.7,2.2,0.0,0.6,197,320,"animal",T(0,0,1,1,1)],
+["Uovo intero","Œuf entier","Uova","Œufs",143,12.6,0.7,9.5,0.0,0.35,198,138,"animal",T(0,1,1,1,1)],
+["Albume d\'uovo","Blanc d\'œuf","Uova","Œufs",48,10.9,0.7,0.2,0.0,0.3,15,163,"animal",T(0,1,1,1,1)],
+["Latte intero","Lait entier","Latticini","Produits laitiers",64,3.3,4.9,3.6,0.0,0.1,92,150,"animal",T(0,1,1,0,0)],
+["Latte scremato","Lait écrémé","Latticini","Produits laitiers",36,3.4,5.0,0.2,0.0,0.1,101,156,"animal",T(0,1,1,0,0)],
+["Yogurt bianco intero","Yaourt nature entier","Latticini","Produits laitiers",66,3.5,4.7,3.6,0.0,0.1,135,155,"animal",T(0,1,1,0,1)],
+["Yogurt greco 0%","Yaourt grec 0%","Latticini","Produits laitiers",59,10.0,3.6,0.4,0.0,0.1,135,141,"animal",T(0,1,1,0,1)],
+["Mozzarella","Mozzarella","Latticini","Produits laitiers",253,18.7,0.7,19.5,0.0,0.6,354,76,"animal",T(0,1,1,0,0)],
+["Parmigiano Reggiano","Parmesan","Latticini","Produits laitiers",392,33.0,0.0,28.0,0.0,1.4,694,92,"animal",T(0,1,1,0,0)],
+["Ricotta","Ricotta","Latticini","Produits laitiers",146,8.8,3.5,10.9,0.0,0.15,158,105,"animal",T(0,1,1,0,0)],
+["Feta","Feta","Latticini","Produits laitiers",264,14.2,4.1,21.3,0.0,3.0,337,62,"animal",T(0,1,1,0,0)],
+["Mela","Pomme","Frutta","Fruits",52,0.3,13.8,0.2,2.4,0.0,11,107,"none",T(1,1,1,1,1)],
+["Banana","Banane","Frutta","Fruits",89,1.1,22.8,0.3,2.6,0.0,22,358,"none",T(1,1,1,0,1)],
+["Arancia","Orange","Frutta","Fruits",47,0.9,11.8,0.1,2.4,0.0,14,181,"none",T(1,1,1,1,1)],
+["Pera","Poire","Frutta","Fruits",57,0.4,15.2,0.1,3.1,0.0,12,116,"none",T(1,1,1,1,1)],
+["Fragole","Fraises","Frutta","Fruits",32,0.7,7.7,0.3,2.0,0.0,24,153,"none",T(1,1,1,1,1)],
+["Mirtilli","Myrtilles","Frutta","Fruits",57,0.7,14.5,0.3,2.4,0.0,12,77,"none",T(1,1,1,1,1)],
+["Kiwi","Kiwi","Frutta","Fruits",61,1.1,14.7,0.5,3.0,0.0,34,312,"none",T(1,1,1,1,1)],
+["Uva","Raisin","Frutta","Fruits",69,0.7,18.1,0.2,0.9,0.0,20,191,"none",T(1,1,1,1,1)],
+["Ananas","Ananas","Frutta","Fruits",50,0.5,13.1,0.1,1.4,0.0,8,109,"none",T(1,1,1,1,1)],
+["Avocado","Avocat","Frutta","Fruits",160,2.0,8.5,14.7,6.7,0.01,52,485,"veg",T(1,1,1,1,1)],
+["Limone","Citron","Frutta","Fruits",29,1.1,9.3,0.3,2.8,0.0,16,138,"none",T(1,1,1,1,1)],
+["Pesca","Pêche","Frutta","Fruits",39,0.9,9.5,0.3,1.5,0.0,20,190,"none",T(1,1,1,1,1)],
+["Anguria","Pastèque","Frutta","Fruits",30,0.6,7.6,0.2,0.4,0.0,11,112,"none",T(1,1,1,1,1)],
+["Melone","Melon","Frutta","Fruits",34,0.8,8.2,0.2,0.9,0.0,15,267,"none",T(1,1,1,1,1)],
+["Fichi","Figues","Frutta","Fruits",74,0.8,19.2,0.3,2.9,0.0,14,232,"none",T(1,1,1,1,1)],
+["Albicocche fresche","Abricots frais","Frutta","Fruits",48,1.4,11.1,0.4,2.0,0.001,23,259,"none",T(1,1,1,1,1)],
+["Fichi d'India","Figues de Barbarie","Frutta","Fruits",41,0.7,9.6,0.5,3.7,0.001,24,220,"none",T(1,1,1,1,1)],
+["Spinaci","Épinards","Verdura","Légumes",23,2.9,3.6,0.4,2.2,0.1,49,558,"veg",T(1,1,1,1,1)],
+["Broccoli","Brocolis","Verdura","Légumes",34,2.8,6.6,0.4,2.6,0.03,66,316,"veg",T(1,1,1,1,1)],
+["Zucchine","Courgettes","Verdura","Légumes",17,1.2,3.1,0.3,1.0,0.01,38,261,"veg",T(1,1,1,1,1)],
+["Carote","Carottes","Verdura","Légumes",41,0.9,9.6,0.2,2.8,0.07,35,320,"veg",T(1,1,1,1,1)],
+["Pomodori","Tomates","Verdura","Légumes",18,0.9,3.9,0.2,1.2,0.005,24,237,"veg",T(1,1,1,1,1)],
+["Insalata / lattuga","Salade / laitue","Verdura","Légumes",15,1.4,2.9,0.2,1.3,0.03,29,194,"veg",T(1,1,1,1,1)],
+["Peperoni","Poivrons","Verdura","Légumes",31,1.0,6.0,0.3,2.1,0.0,26,211,"veg",T(1,1,1,1,1)],
+["Melanzane","Aubergines","Verdura","Légumes",25,1.0,5.9,0.2,3.0,0.0,24,229,"veg",T(1,1,1,1,1)],
+["Cavolfiore","Chou-fleur","Verdura","Légumes",25,1.9,5.0,0.3,2.0,0.03,44,299,"veg",T(1,1,1,1,1)],
+["Cavolo verza","Chou frisé","Verdura","Légumes",27,1.8,5.8,0.2,2.5,0.03,42,300,"veg",T(1,1,1,1,1)],
+["Cetrioli","Concombres","Verdura","Légumes",15,0.7,3.6,0.1,0.5,0.0,24,147,"veg",T(1,1,1,1,1)],
+["Patate","Pommes de terre","Verdura","Légumes",77,2.0,17.5,0.1,2.1,0.007,57,425,"veg",T(1,1,1,0,0)],
+["Patate dolci","Patates douces","Verdura","Légumes",86,1.6,20.1,0.1,3.0,0.05,47,337,"veg",T(1,1,1,1,1)],
+["Cipolla","Oignon","Verdura","Légumes",40,1.1,9.3,0.1,1.7,0.004,29,146,"veg",T(1,1,1,1,1)],
+["Aglio","Ail","Verdura","Légumes",149,6.4,33.1,0.5,2.1,0.017,153,401,"veg",T(1,1,1,1,1)],
+["Zucca","Courge / potiron","Verdura","Légumes",26,1.0,6.5,0.1,0.5,0.0,44,340,"veg",T(1,1,1,1,1)],
+["Finocchio","Fenouil","Verdura","Légumes",31,1.2,7.3,0.2,3.1,0.06,50,414,"veg",T(1,1,1,1,1)],
+["Asparagi","Asperges","Verdura","Légumes",20,2.2,3.9,0.1,2.1,0.002,52,202,"veg",T(1,1,1,1,1)],
+["Funghi champignon","Champignons de Paris","Verdura","Légumes",22,3.1,3.3,0.3,1.0,0.005,86,318,"veg",T(1,1,1,1,1)],
+["Rucola","Roquette","Verdura","Légumes",25,2.6,3.7,0.7,1.6,0.02,52,369,"veg",T(1,1,1,1,1)],
+["Piselli congelati","Petits pois surgelés","Verdura","Légumes",65,5.4,9.0,0.5,5.1,0.003,108,244,"veg",T(1,1,1,0,1)],
+["Mandorle","Amandes","Frutta secca","Fruits à coque",579,21.2,21.6,49.9,12.5,0.001,481,733,"veg",T(1,1,1,1,1)],
+["Noci","Noix","Frutta secca","Fruits à coque",654,15.2,13.7,65.2,6.7,0.002,346,441,"veg",T(1,1,1,1,1)],
+["Nocciole","Noisettes","Frutta secca","Fruits à coque",628,15.0,16.7,60.8,9.7,0.0,290,680,"veg",T(1,1,1,1,1)],
+["Pistacchi","Pistaches","Frutta secca","Fruits à coque",560,20.2,27.2,45.3,10.3,0.001,490,1025,"veg",T(1,1,1,1,1)],
+["Anacardi","Noix de cajou","Frutta secca","Fruits à coque",553,18.2,30.2,43.9,3.3,0.012,593,660,"veg",T(1,1,1,1,1)],
+["Semi di chia","Graines de chia","Frutta secca","Fruits à coque",486,16.5,42.1,30.7,34.4,0.0,860,407,"veg",T(1,1,1,1,1)],
+["Semi di lino","Graines de lin","Frutta secca","Fruits à coque",534,18.3,28.9,42.2,27.3,0.0,642,813,"veg",T(1,1,1,1,1)],
+["Semi di zucca","Graines de courge","Frutta secca","Fruits à coque",559,30.2,10.7,49.0,6.0,0.018,1174,809,"veg",T(1,1,1,1,1)],
+["Arachidi (crude)","Cacahuètes (crues)","Frutta secca","Fruits à coque",567,25.8,16.1,49.2,8.5,0.001,376,705,"veg",T(1,1,1,0,1)],
+["Noci di macadamia","Noix de macadamia","Frutta secca","Fruits à coque",718,7.9,13.8,75.8,8.6,0.005,188,368,"veg",T(1,1,1,1,1)],
+["Noci pecan","Noix de pécan","Frutta secca","Fruits à coque",691,9.2,13.9,72.0,9.6,0.0,277,410,"veg",T(1,1,1,1,1)],
+["Uvetta (uva sultanina)","Raisins secs","Frutta secca","Fruits à coque",299,3.1,79.2,0.5,3.7,0.01,101,749,"none",T(1,1,1,1,1)],
+["Fichi secchi","Figues séchées","Frutta secca","Fruits à coque",249,3.3,63.9,0.9,9.8,0.02,67,680,"veg",T(1,1,1,1,1)],
+["Albicocche secche","Abricots secs","Frutta secca","Fruits à coque",241,3.4,62.6,0.5,7.3,0.01,71,1160,"veg",T(1,1,1,1,1)],
+["Castagne fresche (crude)","Châtaignes fraîches (crues)","Frutta secca","Fruits à coque",199,2.0,42.0,1.7,8.1,0.01,93,518,"veg",T(1,1,1,1,1)],
+["Castagne lessate","Châtaignes bouillies","Frutta secca","Fruits à coque",131,2.0,27.8,1.4,4.6,0.01,61,340,"veg",T(1,1,1,1,1)],
+["Castagne secche","Châtaignes séchées","Frutta secca","Fruits à coque",349,5.9,74.3,3.2,12.0,0.02,153,847,"veg",T(1,1,1,1,1)],
+["Castagne arrosto","Châtaignes rôties","Frutta secca","Fruits à coque",196,3.2,41.1,1.6,6.2,0.01,79,447,"veg",T(1,1,1,1,1)],
+["Olio extravergine d\'oliva","Huile d\'olive extra vierge","Grassi","Matières grasses",899,0.0,0.0,99.9,0.0,0.0,0,1,"none",T(1,1,1,1,1)],
+["Olio di semi di girasole","Huile de tournesol","Grassi","Matières grasses",899,0.0,0.0,99.9,0.0,0.0,0,0,"none",T(1,1,1,1,0)],
+["Olio di cocco","Huile de coco","Grassi","Matières grasses",862,0.0,0.0,99.1,0.0,0.0,0,0,"none",T(1,1,1,1,1)],
+["Burro","Beurre","Grassi","Matières grasses",717,0.9,0.1,81.1,0.0,0.02,24,24,"animal",T(0,1,1,0,0)],
+["Ghee (burro chiarificato)","Ghee (beurre clarifié)","Grassi","Matières grasses",900,0.0,0.0,99.8,0.0,0.0,0,5,"none",T(0,1,1,1,0)],
+["Zucchero bianco","Sucre blanc","Dolcificanti","Édulcorants",400,0.0,100.0,0.0,0.0,0.0,0,2,"none",T(1,1,1,0,0)],
+["Miele","Miel","Dolcificanti","Édulcorants",304,0.3,82.4,0.0,0.2,0.01,4,52,"none",T(0,1,1,1,0)],
+["Sciroppo d\'acero","Sirop d\'érable","Dolcificanti","Édulcorants",260,0.0,67.0,0.0,0.0,0.01,2,212,"none",T(1,1,1,0,0)],
+["Cioccolato fondente 70%","Chocolat noir 70%","Dolcificanti","Édulcorants",598,7.8,45.9,42.6,10.9,0.02,308,715,"veg",T(1,1,1,0,1)],
+["Bevanda di soia","Boisson au soja","Bevande","Boissons",33,3.3,0.9,1.8,0.4,0.05,49,140,"veg",T(1,1,1,0,1)],
+["Bevanda di mandorla","Boisson à l\'amande","Bevande","Boissons",24,0.4,3.0,1.1,0.4,0.1,20,60,"veg",T(1,1,1,0,1)],
+["Bevanda di avena","Boisson à l\'avoine","Bevande","Boissons",47,1.0,7.0,1.5,0.8,0.1,34,100,"veg",T(1,1,1,0,1)],
+["Caffè (tazzina)","Café (tasse)","Bevande","Boissons",2,0.1,0.0,0.0,0.0,0.0,3,49,"none",T(1,1,1,1,1)],
+["Tè verde","Thé vert","Bevande","Boissons",1,0.0,0.2,0.0,0.0,0.0,1,8,"none",T(1,1,1,1,1)],
+["Curcuma in polvere","Curcuma en poudre","Spezie","Épices",354,7.8,64.9,9.9,21.1,0.038,268,2525,"veg",T(1,1,1,1,1)],
+["Zenzero fresco","Gingembre frais","Spezie","Épices",80,1.8,17.8,0.8,2.0,0.013,34,415,"veg",T(1,1,1,1,1)],
+["Cannella in polvere","Cannelle en poudre","Spezie","Épices",247,4.0,80.6,1.2,53.1,0.01,64,431,"veg",T(1,1,1,1,1)],
+["Pepe nero","Poivre noir","Spezie","Épices",251,10.4,63.9,3.3,25.3,0.02,158,1329,"veg",T(1,1,1,1,1)],
+["Sale marino","Sel marin","Spezie","Épices",0,0,0,0,0,97,0,8,"none",T(1,1,1,1,0)],
 ];
 RAW_FOODS.forEach(f=>addFood(...f));
 
@@ -849,6 +859,11 @@ function dietBadges(tags){
   const map = {vegan:t('badgeVegan'),veg:t('badgeVeg'),omni:t('badgeOmni'),paleo:t('badgePaleo'),ai:t('badgeAI')};
   return Object.entries(map).filter(([k])=>tags[k]).map(([k,l])=>`<span class="badge ${k==='vegan'||k==='ai'?'green':'gray'}">${l}</span>`).join(' ');
 }
+function protTypeBadge(protType){
+  const map = {animal:['protTypeAnimal','gray'], veg:['protTypeVeg','green'], none:['protTypeNone','gray']};
+  const entry = map[protType]||map.animal;
+  return `<span class="badge ${entry[1]}">${t(entry[0])}</span>`;
+}
 function renderFoodTable(){
   refreshCatFilter();
   const q = document.getElementById('food-search-input').value.toLowerCase();
@@ -863,6 +878,8 @@ function renderFoodTable(){
       <td>${FNAME(f)}</td><td>${FCAT(f)}</td>
       <td class="num">${f.kcal}</td><td class="num">${f.prot}</td><td class="num">${f.carb}</td>
       <td class="num">${f.fat}</td><td class="num">${f.fiber}</td><td class="num">${f.salt}</td>
+      <td class="num">${f.phos!==undefined?f.phos:'—'}</td><td class="num">${f.pot!==undefined?f.pot:'—'}</td>
+      <td>${protTypeBadge(f.protType)}</td>
       <td>${dietBadges(f.tags)}</td>
       <td class="no-print"><button class="btn btn-ghost btn-sm" onclick="editFood(${f.id})">✎</button> <button class="btn btn-danger btn-sm" onclick="deleteFood(${f.id})">✕</button></td>
     </tr>`).join('');
@@ -871,9 +888,10 @@ renderFoodTable();
 
 function openFoodModal(){
   document.getElementById('food-modal-title').textContent=t('modalNewFoodTitle');
-  ['fm-id','fm-name','fm-cat','fm-kcal','fm-prot','fm-carb','fm-fat','fm-fiber','fm-salt'].forEach(id=>document.getElementById(id).value='');
+  ['fm-id','fm-name','fm-cat','fm-kcal','fm-prot','fm-carb','fm-fat','fm-fiber','fm-salt','fm-phos','fm-pot'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('fm-vegan').checked=false; document.getElementById('fm-veg').checked=false;
   document.getElementById('fm-omni').checked=true; document.getElementById('fm-paleo').checked=false; document.getElementById('fm-ai').checked=false;
+  document.getElementById('fm-prottype').value='animal';
   document.getElementById('food-modal-bg').classList.add('active');
 }
 function editFood(id){
@@ -888,6 +906,9 @@ function editFood(id){
   document.getElementById('fm-fat').value=f.fat;
   document.getElementById('fm-fiber').value=f.fiber;
   document.getElementById('fm-salt').value=f.salt;
+  document.getElementById('fm-phos').value=f.phos||0;
+  document.getElementById('fm-pot').value=f.pot||0;
+  document.getElementById('fm-prottype').value=f.protType||'animal';
   document.getElementById('fm-vegan').checked=f.tags.vegan;
   document.getElementById('fm-veg').checked=f.tags.veg;
   document.getElementById('fm-omni').checked=f.tags.omni;
@@ -911,6 +932,9 @@ function saveFoodModal(){
     fat: parseFloat(document.getElementById('fm-fat').value)||0,
     fiber: parseFloat(document.getElementById('fm-fiber').value)||0,
     salt: parseFloat(document.getElementById('fm-salt').value)||0,
+    phos: parseFloat(document.getElementById('fm-phos').value)||0,
+    pot: parseFloat(document.getElementById('fm-pot').value)||0,
+    protType: document.getElementById('fm-prottype').value,
     tags: {
       vegan: document.getElementById('fm-vegan').checked,
       veg: document.getElementById('fm-veg').checked,
@@ -1005,12 +1029,15 @@ function saveRecipeModal(){
   renderRecipes();
 }
 function computeRecipeTotals(recipe){
-  const tot = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0};
+  const tot = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,phos:0,pot:0,protAnimal:0,protVeg:0};
   recipe.items.forEach(it=>{
     const f = FOODS.find(x=>x.id===it.foodId); if(!f) return;
     const factor = it.grams/100;
     tot.kcal += f.kcal*factor; tot.prot += f.prot*factor; tot.carb += f.carb*factor;
     tot.fat += f.fat*factor; tot.fiber += f.fiber*factor; tot.salt += f.salt*factor;
+    tot.phos += (f.phos||0)*factor; tot.pot += (f.pot||0)*factor;
+    if(f.protType==='animal') tot.protAnimal += f.prot*factor;
+    else if(f.protType==='veg') tot.protVeg += f.prot*factor;
   });
   return tot;
 }
@@ -1062,11 +1089,12 @@ function renderRecipes(){
       </div>
       ${stepsHtml}
       <h5 class="prep-title" style="margin-top:14px;">${t('nutriValuesTitle')}</h5>
-      <table><thead><tr><th></th><th class="num">${t('colKcal')}</th><th class="num">${t('colProt')}</th><th class="num">${t('colCarb')}</th><th class="num">${t('colFat')}</th><th class="num">${t('colFiber')}</th><th class="num">${t('colSalt')}</th></tr></thead>
+      <table><thead><tr><th></th><th class="num">${t('colKcal')}</th><th class="num">${t('colProt')}</th><th class="num">${t('colCarb')}</th><th class="num">${t('colFat')}</th><th class="num">${t('colFiber')}</th><th class="num">${t('colSalt')}</th><th class="num">${t('colPhos')}</th><th class="num">${t('colPot')}</th></tr></thead>
       <tbody>
-        <tr><td>${t('totalRecipeLabel')}</td><td class="num">${tot.kcal.toFixed(0)}</td><td class="num">${tot.prot.toFixed(1)}</td><td class="num">${tot.carb.toFixed(1)}</td><td class="num">${tot.fat.toFixed(1)}</td><td class="num">${tot.fiber.toFixed(1)}</td><td class="num">${tot.salt.toFixed(2)}</td></tr>
-        <tr><td>${t('perServingLabel')}</td><td class="num">${per.kcal.toFixed(0)}</td><td class="num">${per.prot.toFixed(1)}</td><td class="num">${per.carb.toFixed(1)}</td><td class="num">${per.fat.toFixed(1)}</td><td class="num">${per.fiber.toFixed(1)}</td><td class="num">${per.salt.toFixed(2)}</td></tr>
+        <tr><td>${t('totalRecipeLabel')}</td><td class="num">${tot.kcal.toFixed(0)}</td><td class="num">${tot.prot.toFixed(1)}</td><td class="num">${tot.carb.toFixed(1)}</td><td class="num">${tot.fat.toFixed(1)}</td><td class="num">${tot.fiber.toFixed(1)}</td><td class="num">${tot.salt.toFixed(2)}</td><td class="num">${tot.phos.toFixed(0)}</td><td class="num">${tot.pot.toFixed(0)}</td></tr>
+        <tr><td>${t('perServingLabel')}</td><td class="num">${per.kcal.toFixed(0)}</td><td class="num">${per.prot.toFixed(1)}</td><td class="num">${per.carb.toFixed(1)}</td><td class="num">${per.fat.toFixed(1)}</td><td class="num">${per.fiber.toFixed(1)}</td><td class="num">${per.salt.toFixed(2)}</td><td class="num">${per.phos.toFixed(0)}</td><td class="num">${per.pot.toFixed(0)}</td></tr>
       </tbody></table>
+      <p class="small" style="margin-top:6px;">${proteinTypeSplitHTML(tot.protAnimal,tot.protVeg)}</p>
       ${balanceHtml}
       <div class="btn-row no-print"><button class="btn btn-danger btn-sm" onclick="deleteRecipe('${r.id}')">${t('btnDeleteRecipe')}</button></div>
     </div>`;
@@ -1244,14 +1272,19 @@ const MEAL_KEY_I18N = {colazione:'mealColazione',pranzo:'mealPranzo',cena:'mealC
 
 function computeMealItemTotals(item){
   if(item.type==='food'){
-    const f = FOODS.find(x=>x.id===item.foodId); if(!f) return {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,label:'?'};
+    const f = FOODS.find(x=>x.id===item.foodId); if(!f) return {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,phos:0,pot:0,protAnimal:0,protVeg:0,label:'?'};
     const fac = item.grams/100;
-    return {kcal:f.kcal*fac,prot:f.prot*fac,carb:f.carb*fac,fat:f.fat*fac,fiber:f.fiber*fac,salt:f.salt*fac,label:`${FNAME(f)} — ${item.grams} g`};
+    return {kcal:f.kcal*fac,prot:f.prot*fac,carb:f.carb*fac,fat:f.fat*fac,fiber:f.fiber*fac,salt:f.salt*fac,
+      phos:(f.phos||0)*fac,pot:(f.pot||0)*fac,
+      protAnimal:f.protType==='animal'?f.prot*fac:0, protVeg:f.protType==='veg'?f.prot*fac:0,
+      label:`${FNAME(f)} — ${item.grams} g`};
   } else {
-    const r = RECIPES.find(x=>x.id===item.recipeId); if(!r) return {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,label:'?'};
+    const r = RECIPES.find(x=>x.id===item.recipeId); if(!r) return {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,phos:0,pot:0,protAnimal:0,protVeg:0,label:'?'};
     const tot = computeRecipeTotals(r);
     const fac = item.servings/r.servings;
-    return {kcal:tot.kcal*fac,prot:tot.prot*fac,carb:tot.carb*fac,fat:tot.fat*fac,fiber:tot.fiber*fac,salt:tot.salt*fac,label:`${r.name} — ${item.servings} ${t('servingsSuffix')}`};
+    return {kcal:tot.kcal*fac,prot:tot.prot*fac,carb:tot.carb*fac,fat:tot.fat*fac,fiber:tot.fiber*fac,salt:tot.salt*fac,
+      phos:tot.phos*fac,pot:tot.pot*fac,protAnimal:tot.protAnimal*fac,protVeg:tot.protVeg*fac,
+      label:`${r.name} — ${item.servings} ${t('servingsSuffix')}`};
   }
 }
 function updateDiaryDateLabel(){
@@ -1306,6 +1339,8 @@ const FRUIT_VEG_PORTION_G = 80; // porzione di riferimento indicativa (CREA/LARN
 const VEG_TARGET_PORTIONS = 3; // riferimento indicativo: almeno 3 porzioni di verdura al giorno
 const FRUIT_TARGET_PORTIONS = 2; // riferimento indicativo: almeno 2 porzioni di frutta al giorno
 const SALT_MAX_G = 5; // riferimento OMS, non un valore di popolazione EFSA
+const PHOSPHORUS_AI_MG = 550; // EFSA AI adulti ≥18 anni (tabella caricata)
+const POTASSIUM_AI_MG = 3500; // EFSA AI adulti ≥18 anni (tabella caricata)
 function itemCategoryGrams(item, categoryIT){
   if(item.type==='food'){
     const f = FOODS.find(x=>x.id===item.foodId);
@@ -1324,10 +1359,11 @@ function itemCategoryGrams(item, categoryIT){
 }
 function computeDayTotalsForKey(dateKey){
   const day = DIARY_DATA[dateKey] || {colazione:[],pranzo:[],cena:[],spuntino:[]};
-  const tot = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,fruit:0,veg:0};
+  const tot = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,phos:0,pot:0,protAnimal:0,protVeg:0,fruit:0,veg:0};
   Object.values(day).forEach(items=>items.forEach(it=>{
     const it2 = computeMealItemTotals(it);
     tot.kcal+=it2.kcal; tot.prot+=it2.prot; tot.carb+=it2.carb; tot.fat+=it2.fat; tot.fiber+=it2.fiber; tot.salt+=it2.salt;
+    tot.phos+=it2.phos; tot.pot+=it2.pot; tot.protAnimal+=it2.protAnimal; tot.protVeg+=it2.protVeg;
     tot.fruit += itemCategoryGrams(it,'Frutta');
     tot.veg += itemCategoryGrams(it,'Verdura');
   }));
@@ -1359,6 +1395,8 @@ function renderDiaryWeekSummary(){
   rows += `<tr><th>${t('nutriSale')} (g, ${t('maxLabel')})</th>${days.map(d=>cell(d.salt.toFixed(2), SALT_MAX_G)).join('')}</tr>`;
   rows += `<tr><th>${t('rowVeg')}</th>${days.map(d=>cell((d.veg/FRUIT_VEG_PORTION_G).toFixed(1), VEG_TARGET_PORTIONS, true)).join('')}</tr>`;
   rows += `<tr><th>${t('rowFruit')}</th>${days.map(d=>cell((d.fruit/FRUIT_VEG_PORTION_G).toFixed(1), FRUIT_TARGET_PORTIONS, true)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriPhos')} (${t('efsaAIRef')})</th>${days.map(d=>cell(d.phos.toFixed(0), PHOSPHORUS_AI_MG)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriPot')} (${t('efsaAIRef')})</th>${days.map(d=>cell(d.pot.toFixed(0), POTASSIUM_AI_MG)).join('')}</tr>`;
   holder.innerHTML = `<table class="plan-summary-table"><thead><tr><th></th>${dayLabels.map((l,i)=>`<th class="${i===diaryCurrentDay?'plan-cell-ok':''}">${l.charAt(0).toUpperCase()+l.slice(1)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;
 }
 
@@ -1449,9 +1487,10 @@ function renderDiarySummary(){
   const actualPct = macroPctFromGrams(tot.prot,tot.carb,tot.fat);
   if(!currentTargets){
     holder.innerHTML = `<p class="empty-hint">${t('diaryNoTargetHint')}</p>
-      <table><thead><tr><th></th><th class="num">${t('colKcal')}</th><th class="num">${t('colProt')}</th><th class="num">${t('colCarb')}</th><th class="num">${t('colFat')}</th><th class="num">${t('colFiber')}</th><th class="num">${t('colSalt')}</th></tr></thead>
-      <tbody><tr><td>${t('rowTotalDay')}</td><td class="num">${tot.kcal.toFixed(0)}</td><td class="num">${tot.prot.toFixed(1)}</td><td class="num">${tot.carb.toFixed(1)}</td><td class="num">${tot.fat.toFixed(1)}</td><td class="num">${tot.fiber.toFixed(1)}</td><td class="num">${tot.salt.toFixed(2)}</td></tr></tbody></table>
+      <table><thead><tr><th></th><th class="num">${t('colKcal')}</th><th class="num">${t('colProt')}</th><th class="num">${t('colCarb')}</th><th class="num">${t('colFat')}</th><th class="num">${t('colFiber')}</th><th class="num">${t('colSalt')}</th><th class="num">${t('colPhos')}</th><th class="num">${t('colPot')}</th></tr></thead>
+      <tbody><tr><td>${t('rowTotalDay')}</td><td class="num">${tot.kcal.toFixed(0)}</td><td class="num">${tot.prot.toFixed(1)}</td><td class="num">${tot.carb.toFixed(1)}</td><td class="num">${tot.fat.toFixed(1)}</td><td class="num">${tot.fiber.toFixed(1)}</td><td class="num">${tot.salt.toFixed(2)}</td><td class="num">${tot.phos.toFixed(0)}</td><td class="num">${tot.pot.toFixed(0)}</td></tr></tbody></table>
       <p class="small" style="margin-top:8px;">${t('rowVeg')}: <b>${vegPortions.toFixed(1)}</b> (${t('vegTargetNote')})<br>${t('rowFruit')}: <b>${fruitPortions.toFixed(1)}</b> (${t('fruitTargetNote')})</p>
+      <p class="small">${proteinTypeSplitHTML(tot.protAnimal,tot.protVeg)}</p>
       <div class="balance-block"><h5>${t('compositionTitle')}</h5>
         <div class="donut-row"><div class="donut-col">${donutSVG(macroSegments(actualPct))}</div>${donutLegendHTML(macroSegments(actualPct))}</div>
       </div>
@@ -1491,7 +1530,21 @@ function renderDiarySummary(){
       <div class="balance-block">
         <h5>${t('barChartTitle')}</h5>
         <div class="donut-row">${barChartSVG(barItems)}${barChartLegendHTML()}</div>
+      </div>
+      <div class="balance-block">
+        <h5>${t('mineralsProtTypeTitle')}</h5>
+        ${row(t('nutriPhos')+' ('+t('efsaAIRef')+')',tot.phos,PHOSPHORUS_AI_MG,' mg',false)}
+        ${row(t('nutriPot')+' ('+t('efsaAIRef')+')',tot.pot,POTASSIUM_AI_MG,' mg',false)}
+        <p class="small" style="margin-top:6px;">${proteinTypeSplitHTML(tot.protAnimal,tot.protVeg)}</p>
+        <p class="small" style="margin-top:6px;font-style:italic;">${t('mineralsGeneralNote')}</p>
       </div>`;
+}
+
+function proteinTypeSplitHTML(animalG,vegG){
+  const total = animalG+vegG;
+  if(total<=0.05) return t('noProteinData');
+  const pctAnimal = (animalG/total*100).toFixed(0), pctVeg = (vegG/total*100).toFixed(0);
+  return `${t('protSplitLabel')}: <b>${t('protTypeAnimal')} ${animalG.toFixed(1)} g (${pctAnimal}%)</b> · <b>${t('protTypeVeg')} ${vegG.toFixed(1)} g (${pctVeg}%)</b>`;
 }
 
 function openAddFoodToMeal(){
@@ -1596,13 +1649,14 @@ function weekDayDate(dayIdx){
 }
 
 function dayPlanTotals(dayIdx){
-  const tot = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,fruit:0,veg:0};
+  const tot = {kcal:0,prot:0,carb:0,fat:0,fiber:0,salt:0,phos:0,pot:0,protAnimal:0,protVeg:0,fruit:0,veg:0};
   PLAN_MEALS.forEach(meal=>{
     if(meal==='pranzo'||meal==='cena'){
       COURSES.forEach(course=>{
         getPlanSlot(dayIdx,meal,course).forEach(it=>{
           const it2 = computeMealItemTotals(it);
           tot.kcal+=it2.kcal; tot.prot+=it2.prot; tot.carb+=it2.carb; tot.fat+=it2.fat; tot.fiber+=it2.fiber; tot.salt+=it2.salt;
+          tot.phos+=it2.phos; tot.pot+=it2.pot; tot.protAnimal+=it2.protAnimal; tot.protVeg+=it2.protVeg;
           tot.fruit += itemCategoryGrams(it,'Frutta');
           tot.veg += itemCategoryGrams(it,'Verdura');
         });
@@ -1611,6 +1665,7 @@ function dayPlanTotals(dayIdx){
       getPlanSlot(dayIdx,meal,null).forEach(it=>{
         const it2 = computeMealItemTotals(it);
         tot.kcal+=it2.kcal; tot.prot+=it2.prot; tot.carb+=it2.carb; tot.fat+=it2.fat; tot.fiber+=it2.fiber; tot.salt+=it2.salt;
+        tot.phos+=it2.phos; tot.pot+=it2.pot; tot.protAnimal+=it2.protAnimal; tot.protVeg+=it2.protVeg;
         tot.fruit += itemCategoryGrams(it,'Frutta');
         tot.veg += itemCategoryGrams(it,'Verdura');
       });
@@ -1701,6 +1756,8 @@ function renderPlanSummary(){
   rows += `<tr><th>${t('nutriSale')} (g, ${t('maxLabel')})</th>${days.map(d=>cell(d.salt.toFixed(2), SALT_MAX_G)).join('')}</tr>`;
   rows += `<tr><th>${t('rowVeg')}</th>${days.map(d=>cell((d.veg/FRUIT_VEG_PORTION_G).toFixed(1), VEG_TARGET_PORTIONS, '', true)).join('')}</tr>`;
   rows += `<tr><th>${t('rowFruit')}</th>${days.map(d=>cell((d.fruit/FRUIT_VEG_PORTION_G).toFixed(1), FRUIT_TARGET_PORTIONS, '', true)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriPhos')} (${t('efsaAIRef')})</th>${days.map(d=>cell(d.phos.toFixed(0), PHOSPHORUS_AI_MG)).join('')}</tr>`;
+  rows += `<tr><th>${t('nutriPot')} (${t('efsaAIRef')})</th>${days.map(d=>cell(d.pot.toFixed(0), POTASSIUM_AI_MG)).join('')}</tr>`;
 
   holder.innerHTML = `
     <h5 style="margin-top:0;">${t('planSummaryTitle')}</h5>

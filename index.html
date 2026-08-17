@@ -170,7 +170,7 @@
       <p class="small"><span data-i18n="importHintPre">Formato riga per import TXT:</span> <code>nome;categoria;kcal;proteine;carboidrati;lipidi;fibre;sale</code> <span data-i18n="importHintPost">(valori per 100 g).</span></p>
       <div id="food-table-wrap" style="overflow:auto;max-height:560px;">
         <table>
-          <thead><tr><th data-i18n="colFood">Alimento</th><th data-i18n="colCat">Categoria</th><th class="num" data-i18n="colKcal">Kcal</th><th class="num" data-i18n="colProt">Prot g</th><th class="num" data-i18n="colCarb">Carb g</th><th class="num" data-i18n="colFat">Lip g</th><th class="num" data-i18n="colFiber">Fibre g</th><th class="num" data-i18n="colSalt">Sale g</th><th data-i18n="colDiets">Diete</th><th class="no-print"></th></tr></thead>
+          <thead><tr><th data-i18n="colFood">Alimento</th><th data-i18n="colCat">Categoria</th><th class="num" data-i18n="colKcal">Kcal</th><th class="num" data-i18n="colProt">Prot g</th><th class="num" data-i18n="colCarb">Carb g</th><th class="num" data-i18n="colFat">Lip g</th><th class="num" data-i18n="colFiber">Fibre g</th><th class="num" data-i18n="colSalt">Sale g</th><th class="num" data-i18n="colPhos">Fosforo mg</th><th class="num" data-i18n="colPot">Potassio mg</th><th data-i18n="colProtType">Proteina</th><th data-i18n="colDiets">Diete</th><th class="no-print"></th></tr></thead>
           <tbody id="food-tbody"></tbody>
         </table>
       </div>
@@ -284,6 +284,17 @@
       <div class="field"><label data-i18n="fmLabelFat">Lipidi g</label><input type="number" id="fm-fat"></div>
       <div class="field"><label data-i18n="fmLabelFiber">Fibre g</label><input type="number" id="fm-fiber"></div>
       <div class="field"><label data-i18n="fmLabelSalt">Sale g</label><input type="number" id="fm-salt"></div>
+    </div>
+    <div class="grid grid-3">
+      <div class="field"><label data-i18n="fmLabelPhos">Fosforo mg</label><input type="number" id="fm-phos"></div>
+      <div class="field"><label data-i18n="fmLabelPot">Potassio mg</label><input type="number" id="fm-pot"></div>
+      <div class="field"><label data-i18n="fmLabelProtType">Tipo proteina</label>
+        <select id="fm-prottype">
+          <option value="animal" data-i18n="protTypeAnimal">Animale</option>
+          <option value="veg" data-i18n="protTypeVeg">Vegetale</option>
+          <option value="none" data-i18n="protTypeNone">Non significativa</option>
+        </select>
+      </div>
     </div>
     <div class="field"><label data-i18n="fmLabelCompat">Compatibile con</label>
       <div style="display:flex;gap:14px;flex-wrap:wrap;">
